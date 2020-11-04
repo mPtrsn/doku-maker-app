@@ -14,8 +14,8 @@ class ProjectsGridElement extends StatelessWidget {
       child: GridTile(
         child: GestureDetector(
           onTap: () {
-            Navigator.of(context)
-                .pushNamed(ProjectDetailScreen.routeName, arguments: project);
+            Navigator.of(context).pushNamed(ProjectDetailScreen.routeName,
+                arguments: project.id);
           },
           child: Image.network(
             'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg',

@@ -1,6 +1,9 @@
+import 'package:doku_maker/provider/projects_provider.dart';
+import 'package:doku_maker/screens/new_image_entry_modal.dart';
 import 'package:doku_maker/screens/new_text_entry_modal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/project.dart';
 
@@ -22,10 +25,11 @@ class ProjectDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Project project = ModalRoute.of(context).settings.arguments as Project;
+    String id = ModalRoute.of(context).settings.arguments as String;
+    Project project = Provider.of<ProjectsProvider>(context).findById(id);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Project Name'),
+        title: Text(project.title),
         actions: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
@@ -46,9 +50,18 @@ class ProjectDetailScreen extends StatelessWidget {
               children: [
                 _buildEntryButton(context, Icons.title, () {
                   showModalBottomSheet(
-                      context: context, builder: (ctx) => NewTextEntryModal());
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (ctx) => NewTextEntryModal(project.id));
                 }),
-                _buildEntryButton(context, Icons.image, () {}),
+                _buildEntryButton(context, Icons.image, () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (ctx) => NewImageEntryModal(project.id));
+                }),
                 _buildEntryButton(context, Icons.play_arrow, () {}),
                 _buildEntryButton(context, Icons.mic, () {}),
                 _buildEntryButton(context, Icons.gesture, () {}),
@@ -56,16 +69,29 @@ class ProjectDetailScreen extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            height: 300,
-            child: ListView.builder(
-              itemBuilder: (ctx, idx) => ExpansionTile(
-                title: Text(project.entries[idx].title),
-                children: [project.entries[idx].displayWidget],
-              ),
-              itemCount: project.entries.length,
-            ),
-          )
+          Divider(
+            thickness: 3,
+          ),
+          (project.entries == null || project.entries.isEmpty)
+              ? Container(
+                  child: Text(
+                    'No Entries',
+                    style: TextStyle(fontSize: 26),
+                  ),
+                )
+              : Container(
+                  height: 300,
+                  child: ListView.builder(
+                    itemBuilder: (ctx, idx) {
+                      return ExpansionTile(
+                        title: Text(
+                            '${project.entries[idx].title}  -  ${project.entries[idx].creationDate}'),
+                        children: [project.entries[idx].displayWidget],
+                      );
+                    },
+                    itemCount: project.entries.length,
+                  ),
+                )
         ],
       ),
     );

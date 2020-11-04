@@ -1,23 +1,39 @@
-import 'package:doku_maker/models/entries/project_text_entry.dart';
+import 'dart:io';
+
 import 'package:doku_maker/provider/projects_provider.dart';
+import 'package:doku_maker/provider/upload_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class NewTextEntryModal extends StatefulWidget {
+class NewImageEntryModal extends StatefulWidget {
   final String projectId;
 
-  const NewTextEntryModal(this.projectId);
+  const NewImageEntryModal(this.projectId);
 
   @override
-  _NewTextEntryModalState createState() => _NewTextEntryModalState();
+  _NewImageEntryModalState createState() => _NewImageEntryModalState();
 }
 
-class _NewTextEntryModalState extends State<NewTextEntryModal> {
+class _NewImageEntryModalState extends State<NewImageEntryModal> {
   final _form = GlobalKey<FormState>();
 
   var _data = {'title': '', 'text': ''};
+  File _newImage;
+  final _picker = ImagePicker();
   var _isLoading = false;
+
+  Future<void> _takePicture(ImageSource source) async {
+    PickedFile _imageFile = await _picker.getImage(
+      source: source,
+      maxWidth: 600,
+    );
+    setState(() {
+      _newImage = File(_imageFile.path);
+    });
+  }
+
   Future _saveForm() async {
     if (_form.currentState.validate()) {
       _form.currentState.save();
@@ -25,8 +41,10 @@ class _NewTextEntryModalState extends State<NewTextEntryModal> {
         _isLoading = true;
       });
       try {
+        String imageUrl =
+            await UploadService.uploadImage(_data['title'], _newImage.path);
         await Provider.of<ProjectsProvider>(context, listen: false)
-            .addEntry(widget.projectId, _data['title'], 'TEXT', _data['text']);
+            .addEntry(widget.projectId, _data['title'], 'IMAGE', imageUrl);
       } catch (error) {
         print(error.toString());
       }
@@ -57,7 +75,7 @@ class _NewTextEntryModalState extends State<NewTextEntryModal> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'New Text Entry',
+                              'New Image Entry',
                               style: TextStyle(fontSize: 26),
                               textAlign: TextAlign.center,
                             ),
@@ -79,18 +97,39 @@ class _NewTextEntryModalState extends State<NewTextEntryModal> {
                           _data['title'] = newValue;
                         },
                       ),
-                      TextFormField(
-                        decoration: InputDecoration(labelText: 'Text'),
-                        maxLines: 2,
-                        keyboardType: TextInputType.multiline,
-                        validator: (value) {
-                          return null;
-                        },
-                        onSaved: (newValue) {
-                          _data['text'] = newValue;
-                        },
-                        onFieldSubmitted: (value) => _saveForm(),
+                      Container(
+                        margin: EdgeInsets.only(top: 15),
+                        width: double.infinity,
+                        height: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            RaisedButton(
+                              onPressed: () =>
+                                  _takePicture(ImageSource.gallery),
+                              child: Text(
+                                'Select a Picture',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            ),
+                            RaisedButton(
+                              onPressed: () => _takePicture(ImageSource.camera),
+                              child: Text(
+                                'Take a Picture',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
+                      if (_newImage != null)
+                        Container(
+                          child: Image.file(
+                            _newImage,
+                            width: 250,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                     ],
                   ),
                 ),
