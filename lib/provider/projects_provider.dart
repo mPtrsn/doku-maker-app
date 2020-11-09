@@ -38,15 +38,20 @@ class ProjectsProvider with ChangeNotifier {
   }
 
   Future getAllProjects() async {
-    http.Response response = await http.get('http://10.0.2.2:3000/project');
-    var extractedData = json.decode(response.body) as List<dynamic>;
-    if (extractedData == null) {
-      return;
-    }
+    try {
+      http.Response response = await http.get('http://10.0.2.2:3000/project');
+      var extractedData = json.decode(response.body) as List<dynamic>;
+      if (extractedData == null) {
+        notifyListeners();
+        return;
+      }
 
-    List<Project> loadedProjects = [];
-    extractedData.forEach((e) => {loadedProjects.add(_mapToProject(e))});
-    _projects = loadedProjects;
+      List<Project> loadedProjects = [];
+      extractedData.forEach((e) => {loadedProjects.add(_mapToProject(e))});
+      _projects = loadedProjects;
+    } catch (error) {
+      throw error;
+    }
     notifyListeners();
   }
 
@@ -56,7 +61,6 @@ class ProjectsProvider with ChangeNotifier {
     String type,
     String content,
   ) async {
-    // http://localhost:3000/project/5fa04b479d6cbb3994202da2/entry
     try {
       String jsonStr = json.encode(
         {

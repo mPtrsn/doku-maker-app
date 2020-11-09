@@ -1,4 +1,3 @@
-import 'package:doku_maker/models/entries/project_text_entry.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

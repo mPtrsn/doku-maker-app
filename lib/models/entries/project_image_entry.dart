@@ -18,6 +18,7 @@ class ProjectImageEntry extends ProjectEntry {
   Widget get displayWidget {
     return Image.network(
       this.imageUrl,
+      headers: {'Authorization': 'Basic cmVhZGVyOnJlYWRlcg=='},
       fit: BoxFit.cover,
     );
   }
