@@ -1,7 +1,6 @@
 import 'package:http/http.dart' as http;
 
 class UploadService {
-  // TODO try catch
   static Future<String> uploadImage(String title, String path) async {
     const url = 'http://10.0.2.2:3000/files/uploadFile';
     try {
@@ -15,6 +14,7 @@ class UploadService {
       var id = response.body.substring(1, response.body.length - 1);
       return 'http://10.0.2.2:5984/images/$id/i.png';
     } catch (error) {
+      print('Error While Uploading Image with title: $title');
       print(error.toString());
     }
     return 'error';

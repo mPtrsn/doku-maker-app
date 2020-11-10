@@ -1,5 +1,6 @@
 import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
+import 'package:doku_maker/screens/new_project_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
           routes: {
             '/': (ctx) => ProjectsOverviewScreen(),
             ProjectDetailScreen.routeName: (ctx) => ProjectDetailScreen(),
+            NewProjectScreen.routeName: (ctx) => NewProjectScreen(),
           },
         ),
       ),

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../project_tag.dart';
-
 class ProjectEntry {
   final String id;
   final String title;
-  final List<ProjectTag> tags;
+  final List<String> tags;
   final DateTime creationDate;
 
   const ProjectEntry(
@@ -18,4 +16,6 @@ class ProjectEntry {
   Widget get displayWidget {
     return null;
   }
+
+  Map<String, dynamic> toJson() => null;
 }

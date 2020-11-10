@@ -1,18 +1,16 @@
 import 'package:doku_maker/models/entries/project_entry.dart';
-import 'package:doku_maker/models/project_tag.dart';
 import 'package:flutter/material.dart';
 
 class ProjectImageEntry extends ProjectEntry {
-  final String id;
-  final String title;
-  final List<ProjectTag> tags;
-  final DateTime creationDate;
-
   final String imageUrl;
 
-  const ProjectImageEntry(
-      {this.id, this.title, this.tags, this.creationDate, this.imageUrl})
-      : super(id, title, tags, creationDate);
+  const ProjectImageEntry({
+    String id,
+    String title,
+    List<String> tags,
+    DateTime creationDate,
+    this.imageUrl,
+  }) : super(id, title, tags, creationDate);
 
   @override
   Widget get displayWidget {
@@ -22,4 +20,14 @@ class ProjectImageEntry extends ProjectEntry {
       fit: BoxFit.cover,
     );
   }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        '_id': id,
+        'type': 'IMAGE',
+        'title': title,
+        'tags': tags,
+        'content': imageUrl,
+        'creationDate': creationDate.toIso8601String()
+      };
 }

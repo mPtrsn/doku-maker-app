@@ -1,21 +1,35 @@
 import 'package:doku_maker/models/entries/project_entry.dart';
-import 'package:doku_maker/models/project_tag.dart';
 import 'package:flutter/material.dart';
 
 class ProjectTextEntry extends ProjectEntry {
-  final String id;
-  final String title;
-  final List<ProjectTag> tags;
-  final DateTime creationDate;
-
   final String text;
 
-  const ProjectTextEntry(
-      {this.id, this.title, this.tags, this.creationDate, this.text})
-      : super(id, title, tags, creationDate);
+  const ProjectTextEntry({
+    String id,
+    String title,
+    List<String> tags,
+    DateTime creationDate,
+    this.text,
+  }) : super(id, title, tags, creationDate);
 
   @override
   Widget get displayWidget {
-    return Text(this.text);
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        this.text,
+        style: TextStyle(fontSize: 18),
+      ),
+    );
   }
+
+  @override
+  Map<String, dynamic> toJson() => {
+        '_id': id,
+        'type': 'TEXT',
+        'title': title,
+        'tags': tags,
+        'content': text,
+        'creationDate': creationDate.toIso8601String()
+      };
 }

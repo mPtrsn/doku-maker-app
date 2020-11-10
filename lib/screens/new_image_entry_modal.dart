@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:doku_maker/provider/upload_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';

@@ -18,7 +18,8 @@ class ProjectsGridElement extends StatelessWidget {
                 arguments: project.id);
           },
           child: Image.network(
-            'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg',
+            project.imageUrl,
+            headers: {'Authorization': 'Basic cmVhZGVyOnJlYWRlcg=='},
             fit: BoxFit.cover,
           ),
         ),
