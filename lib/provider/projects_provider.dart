@@ -35,14 +35,12 @@ class ProjectsProvider with ChangeNotifier {
       disabled: false,
     );
     var body = projectToJson(newProject);
-    print('Create Project resulted body: ');
-    print(body);
     var response = await http.post(
       'http://10.0.2.2:3000/project/full',
       headers: {"Content-Type": "application/json"},
       body: body,
     );
-    print(response);
+
     _projects.add(
         projectFromJson(json.decode(response.body) as Map<String, dynamic>));
     notifyListeners();
@@ -57,7 +55,8 @@ class ProjectsProvider with ChangeNotifier {
       return;
     }
     List<Project> loadedProjects = [];
-    extractedData.forEach((e) => {loadedProjects.add(projectFromJson(e))});
+    extractedData
+        .forEach((e) => {loadedProjects.insert(0, projectFromJson(e))});
     _projects = loadedProjects;
     // } catch (error) {
     //   throw error;
@@ -77,6 +76,7 @@ class ProjectsProvider with ChangeNotifier {
           'entry': {
             'entry': 'entry',
             'title': title,
+            'tags': [],
             'type': type,
             'content': content,
             'creationDate': DateTime.now().toIso8601String(),
@@ -104,6 +104,24 @@ class ProjectsProvider with ChangeNotifier {
   }
 
   Project findById(String projectId) {
-    return projects.firstWhere((element) => element.id == projectId);
+    return _projects.firstWhere((element) => element.id == projectId);
+  }
+
+  Project findByEntryId(String entryId) {
+    return _projects.firstWhere((element) =>
+        element.entries.where((entry) => entry.id == entryId).isNotEmpty);
+  }
+
+  Future<void> removeEntry(String projectId, String id) async {
+    var url = 'http://10.0.2.2:3000/project/$projectId/entry/$id';
+    var response = await http.delete(url);
+    if (response.statusCode >= 400) {
+      throw Exception();
+    }
+    _projects
+        .firstWhere((element) => element.id == projectId)
+        .entries
+        .removeWhere((e) => e.id == id);
+    notifyListeners();
   }
 }

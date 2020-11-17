@@ -24,7 +24,7 @@ String projectToJson(Project project) {
       'disabled': project.disabled,
     }
   };
-  print(map);
+
   return json.encode(map);
 }
 
@@ -32,11 +32,12 @@ String projectToJson(Project project) {
 ///    FROM JSON
 ///////////////////////////////////////////////////
 Project projectFromJson(Map<String, dynamic> json) {
-  print(json);
   List<ProjectEntry> entries = (json['entries'] as List<dynamic>) == null
       ? []
       : (json['entries'] as List<dynamic>)
           .map((e) => entryFromJson(e))
+          .toList()
+          .reversed
           .toList();
   return Project(
     id: json['ID'],

@@ -46,8 +46,10 @@ class ProjectDetailScreen extends StatelessWidget {
                 : Container(
                     height: constraints.maxHeight * 0.85,
                     child: ListView.builder(
-                      itemBuilder: (ctx, idx) =>
-                          EntryElement(entry: project.entries[idx]),
+                      itemBuilder: (ctx, idx) => EntryElement(
+                        entry: project.entries[idx],
+                        projectId: project.id,
+                      ),
                       itemCount: project.entries.length,
                     ),
                   )
