@@ -1,4 +1,5 @@
 import 'package:doku_maker/models/entries/project_entry.dart';
+import 'package:doku_maker/screens/modals/new_image_entry_modal.dart';
 import 'package:flutter/material.dart';
 
 class ProjectImageEntry extends ProjectEntry {
@@ -19,6 +20,11 @@ class ProjectImageEntry extends ProjectEntry {
       headers: {'Authorization': 'Basic cmVhZGVyOnJlYWRlcg=='},
       fit: BoxFit.cover,
     );
+  }
+
+  @override
+  Widget bottomSheet(String projectId) {
+    return NewImageEntryModal(projectId, this);
   }
 
   @override

@@ -1,7 +1,8 @@
 import 'dart:convert';
 
+import 'package:doku_maker/models/entries/project_text_entry.dart';
 import 'package:doku_maker/models/project.dart';
-import 'package:doku_maker/provider/json_converter.dart';
+import 'package:doku_maker/services/json_converter.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 
@@ -122,6 +123,16 @@ class ProjectsProvider with ChangeNotifier {
         .firstWhere((element) => element.id == projectId)
         .entries
         .removeWhere((e) => e.id == id);
+    notifyListeners();
+  }
+
+  Future<void> updateEntry(String projectId, ProjectTextEntry entry) async {
+    var url = 'http://10.0.2.2:3000/project/$projectId/entry/${entry.id}';
+    var response = await http.post(url, body: json.encode(entry.toJson()));
+    if (response.statusCode >= 400) {
+      throw Exception();
+    }
+    // TODO rebuild project from response
     notifyListeners();
   }
 }

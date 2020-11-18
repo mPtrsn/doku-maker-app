@@ -17,5 +17,9 @@ class ProjectEntry {
     return null;
   }
 
+  Widget bottomSheet(String projectId) {
+    return null;
+  }
+
   Map<String, dynamic> toJson() => null;
 }

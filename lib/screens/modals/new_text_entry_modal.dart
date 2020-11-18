@@ -1,3 +1,4 @@
+import 'package:doku_maker/models/entries/project_text_entry.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,8 +6,8 @@ import 'package:provider/provider.dart';
 
 class NewTextEntryModal extends StatefulWidget {
   final String projectId;
-
-  const NewTextEntryModal(this.projectId);
+  final ProjectTextEntry entry;
+  const NewTextEntryModal(this.projectId, [this.entry]);
 
   @override
   _NewTextEntryModalState createState() => _NewTextEntryModalState();
@@ -17,6 +18,21 @@ class _NewTextEntryModalState extends State<NewTextEntryModal> {
 
   var _data = {'title': '', 'text': ''};
   var _isLoading = false;
+  bool _isInit = true;
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      if (widget.entry != null) {
+        _data['title'] = widget.entry.title;
+        _data['text'] = widget.entry.text;
+      }
+      setState(() {});
+      _isInit = false;
+    }
+    super.didChangeDependencies();
+  }
+
   Future _saveForm() async {
     if (_form.currentState.validate()) {
       _form.currentState.save();
@@ -24,6 +40,10 @@ class _NewTextEntryModalState extends State<NewTextEntryModal> {
         _isLoading = true;
       });
       try {
+        if (widget.entry != null) {
+          await Provider.of<ProjectsProvider>(context, listen: false)
+              .updateEntry(widget.projectId, widget.entry);
+        }
         await Provider.of<ProjectsProvider>(context, listen: false)
             .addEntry(widget.projectId, _data['title'], 'TEXT', _data['text']);
       } catch (error) {
@@ -71,6 +91,7 @@ class _NewTextEntryModalState extends State<NewTextEntryModal> {
                       TextFormField(
                         decoration: InputDecoration(labelText: 'Title'),
                         textInputAction: TextInputAction.next,
+                        initialValue: _data['title'],
                         validator: (value) {
                           return null;
                         },
@@ -80,6 +101,7 @@ class _NewTextEntryModalState extends State<NewTextEntryModal> {
                       ),
                       TextFormField(
                         decoration: InputDecoration(labelText: 'Text'),
+                        initialValue: _data['text'],
                         maxLines: 2,
                         keyboardType: TextInputType.multiline,
                         validator: (value) {

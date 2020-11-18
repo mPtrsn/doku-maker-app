@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
+import 'package:doku_maker/screens/auth_screen.dart';
 import 'package:doku_maker/screens/new_project_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,8 +10,18 @@ import 'package:provider/provider.dart';
 import './screens/project_detail_screen.dart';
 import './screens/projects_overview_screen.dart';
 
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+
 void main() {
-  runApp(MyApp());
+  HttpOverrides.global = new MyHttpOverrides();
+  runApp(new MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -24,7 +37,7 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: Consumer<AuthProvider>(
-        builder: (context, value, child) => MaterialApp(
+        builder: (context, auth, child) => MaterialApp(
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
@@ -32,9 +45,8 @@ class MyApp extends StatelessWidget {
             accentColor: Colors.amber,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          initialRoute: '/',
+          home: auth.isAuth ? ProjectsOverviewScreen() : AuthScreen(),
           routes: {
-            '/': (ctx) => ProjectsOverviewScreen(),
             ProjectDetailScreen.routeName: (ctx) => ProjectDetailScreen(),
             NewProjectScreen.routeName: (ctx) => NewProjectScreen(),
           },

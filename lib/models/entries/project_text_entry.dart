@@ -1,4 +1,5 @@
 import 'package:doku_maker/models/entries/project_entry.dart';
+import 'package:doku_maker/screens/modals/new_text_entry_modal.dart';
 import 'package:flutter/material.dart';
 
 class ProjectTextEntry extends ProjectEntry {
@@ -21,6 +22,11 @@ class ProjectTextEntry extends ProjectEntry {
         style: TextStyle(fontSize: 18),
       ),
     );
+  }
+
+  @override
+  Widget bottomSheet(String projectId) {
+    return NewTextEntryModal(projectId, this);
   }
 
   @override

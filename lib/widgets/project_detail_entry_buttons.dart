@@ -1,6 +1,6 @@
 import 'package:doku_maker/models/project.dart';
-import 'package:doku_maker/screens/new_image_entry_modal.dart';
-import 'package:doku_maker/screens/new_text_entry_modal.dart';
+import 'package:doku_maker/screens/modals/new_image_entry_modal.dart';
+import 'package:doku_maker/screens/modals/new_text_entry_modal.dart';
 import 'package:flutter/material.dart';
 
 class ProjectDetailEntryButtons extends StatelessWidget {

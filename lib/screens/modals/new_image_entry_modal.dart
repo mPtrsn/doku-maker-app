@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:doku_maker/models/entries/project_image_entry.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:doku_maker/provider/upload_service.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +9,8 @@ import 'package:provider/provider.dart';
 
 class NewImageEntryModal extends StatefulWidget {
   final String projectId;
-
-  const NewImageEntryModal(this.projectId);
+  final ProjectImageEntry entry;
+  const NewImageEntryModal(this.projectId, [this.entry]);
 
   @override
   _NewImageEntryModalState createState() => _NewImageEntryModalState();
@@ -18,10 +19,22 @@ class NewImageEntryModal extends StatefulWidget {
 class _NewImageEntryModalState extends State<NewImageEntryModal> {
   final _form = GlobalKey<FormState>();
 
-  var _data = {'title': '', 'text': ''};
+  var _data = {'title': ''};
   File _newImage;
   final _picker = ImagePicker();
   var _isLoading = false;
+  bool _isInit = true;
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      if (widget.entry != null) {
+        _data['title'] = widget.entry.title;
+      }
+      _isInit = false;
+    }
+    super.didChangeDependencies();
+  }
 
   Future<void> _takePicture(ImageSource source) async {
     PickedFile _imageFile = await _picker.getImage(
@@ -89,6 +102,7 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
                       TextFormField(
                         decoration: InputDecoration(labelText: 'Title'),
                         textInputAction: TextInputAction.next,
+                        initialValue: _data['title'],
                         validator: (value) {
                           return null;
                         },
