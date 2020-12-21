@@ -20,10 +20,10 @@ class ProjectVideoEntry extends ProjectEntry {
   @override
   Map<String, dynamic> toJson() => {
         '_id': id,
-        'type': 'VIDEO',
+        'entryType': 'VIDEO',
         'title': title,
         'tags': tags,
         'content': videoUrl,
-        'creationDate': creationDate.toIso8601String()
+        'creationDate': creationDate.toUtc().toIso8601String()
       };
 }

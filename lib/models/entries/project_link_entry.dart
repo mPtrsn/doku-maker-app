@@ -20,10 +20,10 @@ class ProjectLinkEntry extends ProjectEntry {
   @override
   Map<String, dynamic> toJson() => {
         '_id': id,
-        'type': 'LINK',
+        'entryType': 'LINK',
         'title': title,
         'tags': tags,
         'content': link,
-        'creationDate': creationDate.toIso8601String()
+        'creationDate': creationDate.toUtc().toIso8601String()
       };
 }

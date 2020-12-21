@@ -41,11 +41,17 @@ class _NewTextEntryModalState extends State<NewTextEntryModal> {
       });
       try {
         if (widget.entry != null) {
-          await Provider.of<ProjectsProvider>(context, listen: false)
-              .updateEntry(widget.projectId, widget.entry);
+          // await Provider.of<ProjectsProvider>(context, listen: false)
+          //     .updateEntry(widget.projectId, widget.entry);
         }
-        await Provider.of<ProjectsProvider>(context, listen: false)
-            .addEntry(widget.projectId, _data['title'], 'TEXT', _data['text']);
+        await Provider.of<ProjectsProvider>(context, listen: false).addEntry(
+            widget.projectId,
+            ProjectTextEntry(
+                id: null,
+                title: _data['title'],
+                tags: [],
+                creationDate: DateTime.now(),
+                text: _data['text']));
       } catch (error) {
         print(error.toString());
       }

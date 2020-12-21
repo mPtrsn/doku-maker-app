@@ -55,8 +55,14 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
       try {
         String imageUrl =
             await UploadService.uploadImage(_data['title'], _newImage.path);
-        await Provider.of<ProjectsProvider>(context, listen: false)
-            .addEntry(widget.projectId, _data['title'], 'IMAGE', imageUrl);
+        await Provider.of<ProjectsProvider>(context, listen: false).addEntry(
+            widget.projectId,
+            ProjectImageEntry(
+                id: null,
+                title: _data['title'],
+                tags: [],
+                creationDate: DateTime.now(),
+                imageUrl: imageUrl));
       } catch (error) {
         print(error.toString());
       }

@@ -1,7 +1,5 @@
 import 'package:doku_maker/models/entries/project_entry.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
-import 'package:doku_maker/screens/modals/new_text_entry_modal.dart';
-import 'package:doku_maker/services/entry_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';

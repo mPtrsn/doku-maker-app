@@ -20,10 +20,10 @@ class ProjectAudioEntry extends ProjectEntry {
   @override
   Map<String, dynamic> toJson() => {
         '_id': id,
-        'type': 'AUDIO',
+        'entryType': 'AUDIO',
         'title': title,
         'tags': tags,
         'content': audioUrl,
-        'creationDate': creationDate.toIso8601String()
+        'creationDate': creationDate.toUtc().toIso8601String()
       };
 }

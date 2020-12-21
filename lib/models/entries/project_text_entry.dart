@@ -32,10 +32,10 @@ class ProjectTextEntry extends ProjectEntry {
   @override
   Map<String, dynamic> toJson() => {
         '_id': id,
-        'type': 'TEXT',
+        'entryType': 'TEXT',
         'title': title,
         'tags': tags,
         'content': text,
-        'creationDate': creationDate.toIso8601String()
+        'creationDate': creationDate.toUtc().toIso8601String()
       };
 }

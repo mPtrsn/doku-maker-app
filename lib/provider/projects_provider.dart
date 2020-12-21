@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:doku_maker/models/entries/project_text_entry.dart';
+import 'package:doku_maker/models/entries/project_entry.dart';
 import 'package:doku_maker/models/project.dart';
 import 'package:doku_maker/services/json_converter.dart';
 import 'package:http/http.dart' as http;
@@ -15,6 +15,23 @@ class ProjectsProvider with ChangeNotifier {
 
   List<Project> get projects {
     return [..._projects];
+  }
+
+  String get baseUrl {
+    return 'http://10.0.2.2:3000/v1/projects';
+  }
+
+  String getUrl(String id) {
+    return baseUrl + '/$id';
+  }
+
+  Project findById(String projectId) {
+    return _projects.firstWhere((element) => element.id == projectId);
+  }
+
+  Project findByEntryId(String entryId) {
+    return _projects.firstWhere((element) =>
+        element.entries.where((entry) => entry.id == entryId).isNotEmpty);
   }
 
   Future createProject(
@@ -36,8 +53,8 @@ class ProjectsProvider with ChangeNotifier {
       disabled: false,
     );
     var body = projectToJson(newProject);
-    var response = await http.post(
-      'http://10.0.2.2:3000/project/full',
+    var response = await http.put(
+      baseUrl + '/full',
       headers: {"Content-Type": "application/json"},
       body: body,
     );
@@ -49,7 +66,7 @@ class ProjectsProvider with ChangeNotifier {
 
   Future getAllProjects() async {
     // try {
-    http.Response response = await http.get('http://10.0.2.2:3000/project');
+    http.Response response = await http.get(baseUrl + '/$userId');
     var extractedData = json.decode(response.body) as List<dynamic>;
     if (extractedData == null) {
       notifyListeners();
@@ -65,6 +82,35 @@ class ProjectsProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future addEntry(String projectId, ProjectEntry entry) async {
+    Project old = findById(projectId);
+    old.entries.add(entry);
+    await performUpdate(old);
+    notifyListeners();
+  }
+
+  Future<void> removeEntry(String projectId, String id) async {
+    Project p = findById(projectId);
+    p.entries.removeWhere((e) => e.id == id);
+    await performUpdate(p);
+    notifyListeners();
+  }
+
+  Future performUpdate(Project project) async {
+    String jsonStr = projectToJson(project);
+    http.Response response = await http.post('$baseUrl/${project.id}',
+        headers: {"Content-Type": "application/json"}, body: jsonStr);
+    if (response.statusCode >= 400) {
+      print('Perform Update Failed: ' + response.body);
+      return null;
+    }
+    int idx = _projects.indexWhere((element) => element.id == project.id);
+    _projects[idx] =
+        projectFromJson(json.decode(response.body) as Map<String, dynamic>);
+    notifyListeners();
+  }
+
+/*
   Future addEntry(
     String projectId,
     String title,
@@ -104,14 +150,7 @@ class ProjectsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Project findById(String projectId) {
-    return _projects.firstWhere((element) => element.id == projectId);
-  }
-
-  Project findByEntryId(String entryId) {
-    return _projects.firstWhere((element) =>
-        element.entries.where((entry) => entry.id == entryId).isNotEmpty);
-  }
+  
 
   Future<void> removeEntry(String projectId, String id) async {
     var url = 'http://10.0.2.2:3000/project/$projectId/entry/$id';
@@ -135,4 +174,5 @@ class ProjectsProvider with ChangeNotifier {
     // TODO rebuild project from response
     notifyListeners();
   }
+*/
 }

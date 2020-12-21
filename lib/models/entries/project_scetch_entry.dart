@@ -20,10 +20,10 @@ class ProjectScetchEntry extends ProjectEntry {
   @override
   Map<String, dynamic> toJson() => {
         '_id': id,
-        'type': 'SCETCH',
+        'entryType': 'SCETCH',
         'title': title,
         'tags': tags,
         'content': todo,
-        'creationDate': creationDate.toIso8601String()
+        'creationDate': creationDate.toUtc().toIso8601String()
       };
 }

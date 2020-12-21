@@ -62,45 +62,59 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Username'),
-                keyboardType: TextInputType.emailAddress,
-                onSaved: (value) {
-                  _authData['username'] = value;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Password'),
-                obscureText: true,
-                controller: _passwordController,
-                onSaved: (value) {
-                  _authData['password'] = value;
-                },
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              if (_isLoading)
-                CircularProgressIndicator()
-              else
-                RaisedButton(
-                  child: Text('LOGIN'),
-                  onPressed: _submit,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+      body: Padding(
+        padding: EdgeInsets.all(15),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Todo Logo and Name'),
+            Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      TextFormField(
+                        decoration:
+                            InputDecoration(labelText: 'Matrikelnummer'),
+                        keyboardType: TextInputType.emailAddress,
+                        onSaved: (value) {
+                          _authData['username'] = value;
+                        },
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(labelText: 'Password'),
+                        obscureText: true,
+                        controller: _passwordController,
+                        onSaved: (value) {
+                          _authData['password'] = value;
+                        },
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      if (_isLoading)
+                        CircularProgressIndicator()
+                      else
+                        RaisedButton(
+                          child: Text('LOGIN'),
+                          onPressed: _submit,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 30.0, vertical: 8.0),
+                          color: Theme.of(context).primaryColor,
+                          textColor:
+                              Theme.of(context).primaryTextTheme.button.color,
+                        ),
+                    ],
                   ),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
-                  color: Theme.of(context).primaryColor,
-                  textColor: Theme.of(context).primaryTextTheme.button.color,
                 ),
-            ],
-          ),
+              ),
+            ),
+          ],
         ),
       ),
     );

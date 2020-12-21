@@ -10,19 +10,17 @@ import 'package:doku_maker/models/project.dart';
 ///////////////////////////////////////////////////
 String projectToJson(Project project) {
   Map<String, dynamic> map = {
-    'project': {
-      'ID': project.id != null ? project.id : '',
-      'title': project.title,
-      'description': project.description,
-      'imageUrl': project.imageUrl,
-      'entries': project.entries.map((e) => e.toJson()).toList(),
-      'tags': project.tags,
-      'customTags': project.customTags,
-      'owner': project.owner,
-      'collaborators': project.collaborators,
-      'creationDate': project.creationDate.toIso8601String(),
-      'disabled': project.disabled,
-    }
+    'id': project.id != null ? project.id : '',
+    'title': project.title,
+    'description': project.description,
+    'imageUrl': project.imageUrl,
+    'entries': project.entries.map((e) => e.toJson()).toList(),
+    'tags': project.tags,
+    'customTags': project.customTags,
+    'owner': project.owner,
+    'collaborators': project.collaborators,
+    'creationDate': project.creationDate.toUtc().toIso8601String(),
+    'disabled': project.disabled,
   };
 
   return json.encode(map);
@@ -40,7 +38,7 @@ Project projectFromJson(Map<String, dynamic> json) {
           .reversed
           .toList();
   return Project(
-    id: json['ID'],
+    id: json['id'],
     title: json['title'],
     description: json['description'],
     imageUrl: json['imageUrl'],
@@ -58,11 +56,11 @@ Project projectFromJson(Map<String, dynamic> json) {
 
 // TODO:  'VIDEO', 'AUDIO', 'SKETCH', 'LINK'
 ProjectEntry entryFromJson(dynamic entry) {
-  var type = entry['type'];
+  var type = entry['entryType'];
   switch (type) {
     case 'TEXT':
       return ProjectTextEntry(
-        id: entry['_id'],
+        id: entry['id'],
         title: entry['title'],
         tags: new List<String>.from(entry['tags'] == null ? [] : entry['tags']),
         text: entry['content'],
@@ -70,7 +68,7 @@ ProjectEntry entryFromJson(dynamic entry) {
       );
     case 'IMAGE':
       return ProjectImageEntry(
-        id: entry['_id'],
+        id: entry['id'],
         title: entry['title'],
         tags: new List<String>.from(entry['tags'] == null ? [] : entry['tags']),
         imageUrl: entry['content'],
@@ -78,7 +76,7 @@ ProjectEntry entryFromJson(dynamic entry) {
       );
     case 'VIDEO':
       return ProjectImageEntry(
-        id: entry['_id'],
+        id: entry['id'],
         title: entry['title'],
         tags: new List<String>.from(entry['tags'] == null ? [] : entry['tags']),
         imageUrl: entry['content'],
@@ -86,7 +84,7 @@ ProjectEntry entryFromJson(dynamic entry) {
       );
     case 'AUDIO':
       return ProjectImageEntry(
-        id: entry['_id'],
+        id: entry['id'],
         title: entry['title'],
         tags: new List<String>.from(entry['tags'] == null ? [] : entry['tags']),
         imageUrl: entry['content'],
@@ -94,7 +92,7 @@ ProjectEntry entryFromJson(dynamic entry) {
       );
     case 'SKETCH':
       return ProjectImageEntry(
-        id: entry['_id'],
+        id: entry['id'],
         title: entry['title'],
         tags: new List<String>.from(entry['tags'] == null ? [] : entry['tags']),
         imageUrl: entry['content'],
@@ -102,13 +100,14 @@ ProjectEntry entryFromJson(dynamic entry) {
       );
     case 'LINK':
       return ProjectImageEntry(
-        id: entry['_id'],
+        id: entry['id'],
         title: entry['title'],
         tags: new List<String>.from(entry['tags'] == null ? [] : entry['tags']),
         imageUrl: entry['content'],
         creationDate: DateTime.parse(entry['creationDate']),
       );
     default:
+      print('Error trying to parse Entry');
       return null;
   }
 }

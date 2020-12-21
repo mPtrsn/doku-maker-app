@@ -4,6 +4,8 @@ import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:doku_maker/screens/auth_screen.dart';
 import 'package:doku_maker/screens/new_project_screen.dart';
+import 'package:doku_maker/screens/project_settings_screen.dart';
+import 'package:doku_maker/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -45,10 +47,19 @@ class MyApp extends StatelessWidget {
             accentColor: Colors.amber,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          home: auth.isAuth ? ProjectsOverviewScreen() : AuthScreen(),
+          home: auth.isAuth
+              ? ProjectsOverviewScreen()
+              : FutureBuilder(
+                  future: auth.tryLogin(),
+                  builder: (context, snapshot) =>
+                      snapshot.connectionState == ConnectionState.waiting
+                          ? SplashScreen()
+                          : AuthScreen(),
+                ),
           routes: {
             ProjectDetailScreen.routeName: (ctx) => ProjectDetailScreen(),
             NewProjectScreen.routeName: (ctx) => NewProjectScreen(),
+            ProjectSettingsScreen.routeName: (ctx) => ProjectSettingsScreen(),
           },
         ),
       ),

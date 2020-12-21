@@ -30,10 +30,10 @@ class ProjectImageEntry extends ProjectEntry {
   @override
   Map<String, dynamic> toJson() => {
         '_id': id,
-        'type': 'IMAGE',
+        'entryType': 'IMAGE',
         'title': title,
         'tags': tags,
         'content': imageUrl,
-        'creationDate': creationDate.toIso8601String()
+        'creationDate': creationDate.toUtc().toIso8601String()
       };
 }

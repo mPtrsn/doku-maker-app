@@ -1,4 +1,5 @@
 import 'package:doku_maker/provider/projects_provider.dart';
+import 'package:doku_maker/screens/project_settings_screen.dart';
 import 'package:doku_maker/widgets/entry_element.dart';
 import 'package:doku_maker/widgets/project_detail_entry_buttons.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,7 +23,13 @@ class ProjectDetailScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
             child: GestureDetector(
               child: Icon(Icons.settings),
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  ProjectSettingsScreen.routeName,
+                  arguments: project,
+                );
+              },
             ),
           )
         ],
