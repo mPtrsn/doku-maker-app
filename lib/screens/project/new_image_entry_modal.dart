@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:doku_maker/models/entries/project_image_entry.dart';
+import 'package:doku_maker/models/project/entries/project_image_entry.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:doku_maker/provider/upload_service.dart';
 import 'package:flutter/material.dart';
@@ -55,14 +55,26 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
       try {
         String imageUrl =
             await UploadService.uploadImage(_data['title'], _newImage.path);
-        await Provider.of<ProjectsProvider>(context, listen: false).addEntry(
-            widget.projectId,
-            ProjectImageEntry(
-                id: null,
-                title: _data['title'],
-                tags: [],
-                creationDate: DateTime.now(),
-                imageUrl: imageUrl));
+        if (widget.entry != null) {
+          await Provider.of<ProjectsProvider>(context, listen: false)
+              .updateEntry(
+                  widget.projectId,
+                  ProjectImageEntry(
+                      id: widget.entry.id,
+                      title: _data['title'],
+                      tags: widget.entry.tags,
+                      creationDate: widget.entry.creationDate,
+                      imageUrl: imageUrl));
+        } else {
+          await Provider.of<ProjectsProvider>(context, listen: false).addEntry(
+              widget.projectId,
+              ProjectImageEntry(
+                  id: null,
+                  title: _data['title'],
+                  tags: [],
+                  creationDate: DateTime.now(),
+                  imageUrl: imageUrl));
+        }
       } catch (error) {
         print(error.toString());
       }

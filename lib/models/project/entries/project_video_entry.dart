@@ -1,29 +1,29 @@
-import 'package:doku_maker/models/entries/project_entry.dart';
+import 'project_entry.dart';
 import 'package:flutter/material.dart';
 
-class ProjectAudioEntry extends ProjectEntry {
-  final String audioUrl;
+class ProjectVideoEntry extends ProjectEntry {
+  final String videoUrl;
 
-  const ProjectAudioEntry({
+  const ProjectVideoEntry({
     String id,
     String title,
     List<String> tags,
     DateTime creationDate,
-    this.audioUrl,
+    this.videoUrl,
   }) : super(id, title, tags, creationDate);
 
   @override
   Widget get displayWidget {
-    return Text('Hier kommt ein Audio Entry hin');
+    return Text('hier kommt ein Video hin');
   }
 
   @override
   Map<String, dynamic> toJson() => {
         '_id': id,
-        'entryType': 'AUDIO',
+        'entryType': 'VIDEO',
         'title': title,
         'tags': tags,
-        'content': audioUrl,
+        'content': videoUrl,
         'creationDate': creationDate.toUtc().toIso8601String()
       };
 }

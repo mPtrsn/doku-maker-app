@@ -1,4 +1,4 @@
-import 'package:doku_maker/models/entries/project_text_entry.dart';
+import 'package:doku_maker/models/project/entries/project_text_entry.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,17 +41,25 @@ class _NewTextEntryModalState extends State<NewTextEntryModal> {
       });
       try {
         if (widget.entry != null) {
-          // await Provider.of<ProjectsProvider>(context, listen: false)
-          //     .updateEntry(widget.projectId, widget.entry);
+          await Provider.of<ProjectsProvider>(context, listen: false)
+              .updateEntry(
+                  widget.projectId,
+                  ProjectTextEntry(
+                      id: widget.entry.id,
+                      title: _data['title'],
+                      tags: widget.entry.tags,
+                      creationDate: widget.entry.creationDate,
+                      text: _data['text']));
+        } else {
+          await Provider.of<ProjectsProvider>(context, listen: false).addEntry(
+              widget.projectId,
+              ProjectTextEntry(
+                  id: null,
+                  title: _data['title'],
+                  tags: [],
+                  creationDate: DateTime.now(),
+                  text: _data['text']));
         }
-        await Provider.of<ProjectsProvider>(context, listen: false).addEntry(
-            widget.projectId,
-            ProjectTextEntry(
-                id: null,
-                title: _data['title'],
-                tags: [],
-                creationDate: DateTime.now(),
-                text: _data['text']));
       } catch (error) {
         print(error.toString());
       }

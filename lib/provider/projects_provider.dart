@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:doku_maker/models/entries/project_entry.dart';
-import 'package:doku_maker/models/project.dart';
+import 'package:doku_maker/config.dart';
+import 'package:doku_maker/models/project/entries/project_entry.dart';
+import 'package:doku_maker/models/project/project.dart';
 import 'package:doku_maker/services/json_converter.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
@@ -18,7 +19,7 @@ class ProjectsProvider with ChangeNotifier {
   }
 
   String get baseUrl {
-    return 'http://10.0.2.2:3000/v1/projects';
+    return Config.backendURL + '/v1/projects';
   }
 
   String getUrl(String id) {
@@ -47,7 +48,7 @@ class ProjectsProvider with ChangeNotifier {
       entries: [],
       tags: [],
       customTags: [],
-      owner: userId,
+      owners: [userId],
       collaborators: [],
       creationDate: DateTime.now(),
       disabled: false,
@@ -58,7 +59,7 @@ class ProjectsProvider with ChangeNotifier {
       headers: {"Content-Type": "application/json"},
       body: body,
     );
-
+    print(response.body);
     _projects.add(
         projectFromJson(json.decode(response.body) as Map<String, dynamic>));
     notifyListeners();
@@ -89,6 +90,14 @@ class ProjectsProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future updateEntry(String projectId, ProjectEntry entry) async {
+    Project p = findById(projectId);
+    var indexWhere = p.entries.indexWhere((element) => element.id == entry.id);
+    p.entries[indexWhere] = entry;
+    await performUpdate(p);
+    notifyListeners();
+  }
+
   Future<void> removeEntry(String projectId, String id) async {
     Project p = findById(projectId);
     p.entries.removeWhere((e) => e.id == id);
@@ -110,69 +119,7 @@ class ProjectsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-/*
-  Future addEntry(
-    String projectId,
-    String title,
-    String type,
-    String content,
-  ) async {
-    try {
-      String jsonStr = json.encode(
-        {
-          'entry': {
-            'entry': 'entry',
-            'title': title,
-            'tags': [],
-            'type': type,
-            'content': content,
-            'creationDate': DateTime.now().toIso8601String(),
-          }
-        },
-      );
-
-      http.Response response = await http.put(
-          'http://10.0.2.2:3000/project/$projectId/entry',
-          headers: {"Content-Type": "application/json"},
-          body: jsonStr);
-      if (response.statusCode >= 400) {
-        print(response.body);
-        return null;
-      }
-
-      int idx = _projects.indexWhere((element) => element.id == projectId);
-      _projects[idx] =
-          projectFromJson(json.decode(response.body) as Map<String, dynamic>);
-    } catch (error) {
-      print(error.toString());
-    }
-
-    notifyListeners();
+  Future deleteProject(String id) async {
+    print("TODO");
   }
-
-  
-
-  Future<void> removeEntry(String projectId, String id) async {
-    var url = 'http://10.0.2.2:3000/project/$projectId/entry/$id';
-    var response = await http.delete(url);
-    if (response.statusCode >= 400) {
-      throw Exception();
-    }
-    _projects
-        .firstWhere((element) => element.id == projectId)
-        .entries
-        .removeWhere((e) => e.id == id);
-    notifyListeners();
-  }
-
-  Future<void> updateEntry(String projectId, ProjectTextEntry entry) async {
-    var url = 'http://10.0.2.2:3000/project/$projectId/entry/${entry.id}';
-    var response = await http.post(url, body: json.encode(entry.toJson()));
-    if (response.statusCode >= 400) {
-      throw Exception();
-    }
-    // TODO rebuild project from response
-    notifyListeners();
-  }
-*/
 }

@@ -1,4 +1,4 @@
-import 'package:doku_maker/models/entries/project_entry.dart';
+import 'package:doku_maker/models/project/entries/project_entry.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

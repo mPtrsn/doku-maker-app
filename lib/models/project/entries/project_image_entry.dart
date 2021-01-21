@@ -1,6 +1,8 @@
-import 'package:doku_maker/models/entries/project_entry.dart';
-import 'package:doku_maker/screens/modals/new_image_entry_modal.dart';
+import 'package:doku_maker/screens/project/new_image_entry_modal.dart';
 import 'package:flutter/material.dart';
+
+import '../../../config.dart';
+import 'project_entry.dart';
 
 class ProjectImageEntry extends ProjectEntry {
   final String imageUrl;
@@ -16,7 +18,7 @@ class ProjectImageEntry extends ProjectEntry {
   @override
   Widget get displayWidget {
     return Image.network(
-      this.imageUrl,
+      Config.couchdbURL + this.imageUrl,
       headers: {'Authorization': 'Basic cmVhZGVyOnJlYWRlcg=='},
       fit: BoxFit.cover,
     );

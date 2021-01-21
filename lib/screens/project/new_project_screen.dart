@@ -42,7 +42,7 @@ class _NewProjectScreenState extends State<NewProjectScreen> {
         print(error.toString());
         return;
       }
-      if (imageUrl.isNotEmpty && imageUrl.contains('http')) {
+      if (imageUrl.isNotEmpty) {
         try {
           await Provider.of<ProjectsProvider>(context, listen: false)
               .createProject(
@@ -53,6 +53,8 @@ class _NewProjectScreenState extends State<NewProjectScreen> {
           print(error.toString());
           return;
         }
+      } else {
+        print("ImageURL from server is empty");
       }
     }
   }

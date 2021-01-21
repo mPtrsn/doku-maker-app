@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:doku_maker/models/entries/project_entry.dart';
-import 'package:doku_maker/models/entries/project_image_entry.dart';
-import 'package:doku_maker/models/entries/project_text_entry.dart';
-import 'package:doku_maker/models/project.dart';
+import 'package:doku_maker/models/project/entries/project_entry.dart';
+import 'package:doku_maker/models/project/entries/project_image_entry.dart';
+import 'package:doku_maker/models/project/entries/project_text_entry.dart';
+import 'package:doku_maker/models/project/project.dart';
 
 ///////////////////////////////////////////////////
 ///    TO JSON
@@ -17,7 +17,7 @@ String projectToJson(Project project) {
     'entries': project.entries.map((e) => e.toJson()).toList(),
     'tags': project.tags,
     'customTags': project.customTags,
-    'owner': project.owner,
+    'owners': project.owners,
     'collaborators': project.collaborators,
     'creationDate': project.creationDate.toUtc().toIso8601String(),
     'disabled': project.disabled,
@@ -46,7 +46,7 @@ Project projectFromJson(Map<String, dynamic> json) {
     tags: new List<String>.from(json['tags'] == null ? [] : json['tags']),
     customTags: new List<String>.from(
         json['customTags'] == null ? [] : json['customTags']),
-    owner: json['owner'],
+    owners: new List<String>.from(json['owners'] == null ? [] : json['owners']),
     collaborators: new List<String>.from(
         json['collaborators'] == null ? [] : json['collaborators']),
     creationDate: DateTime.parse(json['creationDate']),
@@ -54,7 +54,6 @@ Project projectFromJson(Map<String, dynamic> json) {
   );
 }
 
-// TODO:  'VIDEO', 'AUDIO', 'SKETCH', 'LINK'
 ProjectEntry entryFromJson(dynamic entry) {
   var type = entry['entryType'];
   switch (type) {

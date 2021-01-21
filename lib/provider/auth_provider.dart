@@ -10,7 +10,7 @@ class AuthProvider with ChangeNotifier {
   String _username = '';
 
   String get userId {
-    return 'stec102359';
+    return _username;
   }
 
   bool get isAuth {
@@ -28,6 +28,7 @@ class AuthProvider with ChangeNotifier {
     if (response.statusCode == 200) {
       var content = json.decode(response.body);
       _token = content['sessionToken'];
+      _username = username;
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('SESSION_TOKEN', _token);
       prefs.setString('USERNAME', username);
@@ -39,18 +40,21 @@ class AuthProvider with ChangeNotifier {
 
   Future tryLogin() async {
     final prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('SESSION_TOKEN')) {
+    if (prefs.containsKey('SESSION_TOKEN') &&
+        prefs.getString('SESSION_TOKEN').isNotEmpty) {
       _token = prefs.getString('SESSION_TOKEN');
       _username = prefs.getString('USERNAME');
+      notifyListeners();
     }
-    notifyListeners();
+    return;
   }
 
   Future logout() async {
     final prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('SESSION_TOKEN')) {
-      _token = prefs.getString('SESSION_TOKEN');
-    }
+    _token = '';
+    _username = '';
+    prefs.setString('SESSION_TOKEN', '');
+    prefs.setString('USERNAME', '');
     notifyListeners();
   }
 }

@@ -1,12 +1,11 @@
+import 'package:doku_maker/models/project/project.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
-import 'package:doku_maker/screens/project_settings_screen.dart';
-import 'package:doku_maker/widgets/entry_element.dart';
-import 'package:doku_maker/widgets/project_detail_entry_buttons.dart';
+import 'package:doku_maker/screens/project/project_settings_screen.dart';
+import 'package:doku_maker/widgets/project/entry_element.dart';
+import 'package:doku_maker/widgets/project/project_detail_entry_buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../models/project.dart';
 
 class ProjectDetailScreen extends StatelessWidget {
   static const String routeName = '/project-detail';
@@ -16,6 +15,7 @@ class ProjectDetailScreen extends StatelessWidget {
     String id = ModalRoute.of(context).settings.arguments as String;
     Project project = Provider.of<ProjectsProvider>(context).findById(id);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(project.title),
         actions: [

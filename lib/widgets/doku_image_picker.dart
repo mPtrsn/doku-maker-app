@@ -15,7 +15,6 @@ class DokuImagePicker extends StatefulWidget {
 class _DokuImagePickerState extends State<DokuImagePicker> {
   File _newImage;
   final _picker = ImagePicker();
-  var _isLoading = false;
 
   Future<void> _takePicture(ImageSource source) async {
     PickedFile _imageFile = await _picker.getImage(

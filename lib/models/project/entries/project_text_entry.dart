@@ -1,5 +1,5 @@
-import 'package:doku_maker/models/entries/project_entry.dart';
-import 'package:doku_maker/screens/modals/new_text_entry_modal.dart';
+import 'project_entry.dart';
+import 'package:doku_maker/screens/project/new_text_entry_modal.dart';
 import 'package:flutter/material.dart';
 
 class ProjectTextEntry extends ProjectEntry {

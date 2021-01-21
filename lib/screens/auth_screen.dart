@@ -62,59 +62,69 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(15),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Todo Logo and Name'),
-            Form(
-              key: _formKey,
-              child: SingleChildScrollView(
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      TextFormField(
-                        decoration:
-                            InputDecoration(labelText: 'Matrikelnummer'),
-                        keyboardType: TextInputType.emailAddress,
-                        onSaved: (value) {
-                          _authData['username'] = value;
-                        },
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(labelText: 'Password'),
-                        obscureText: true,
-                        controller: _passwordController,
-                        onSaved: (value) {
-                          _authData['password'] = value;
-                        },
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      if (_isLoading)
-                        CircularProgressIndicator()
-                      else
-                        RaisedButton(
-                          child: Text('LOGIN'),
-                          onPressed: _submit,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 30.0, vertical: 8.0),
-                          color: Theme.of(context).primaryColor,
-                          textColor:
-                              Theme.of(context).primaryTextTheme.button.color,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(left: 15, right: 15, top: 50, bottom: 15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'DOKU MAKER',
+                style: TextStyle(fontSize: 28),
+              ),
+              Image.asset('assets/img/logg_er-logo.png'),
+              Text(
+                'Melde dich mit deinem FH-Wedel Account an!',
+                style: TextStyle(fontSize: 18),
+              ),
+              Form(
+                key: _formKey,
+                child: SingleChildScrollView(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        TextFormField(
+                          decoration:
+                              InputDecoration(labelText: 'Matrikelnummer'),
+                          keyboardType: TextInputType.emailAddress,
+                          onSaved: (value) {
+                            _authData['username'] = value;
+                          },
                         ),
-                    ],
+                        TextFormField(
+                          decoration: InputDecoration(labelText: 'Password'),
+                          obscureText: true,
+                          controller: _passwordController,
+                          onSaved: (value) {
+                            _authData['password'] = value;
+                          },
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        if (_isLoading)
+                          CircularProgressIndicator()
+                        else
+                          RaisedButton(
+                            child: Text('LOGIN'),
+                            onPressed: _submit,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 30.0, vertical: 8.0),
+                            color: Theme.of(context).primaryColor,
+                            textColor:
+                                Theme.of(context).primaryTextTheme.button.color,
+                          ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

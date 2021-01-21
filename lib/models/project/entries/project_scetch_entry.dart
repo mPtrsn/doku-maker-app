@@ -1,4 +1,4 @@
-import 'package:doku_maker/models/entries/project_entry.dart';
+import 'project_entry.dart';
 import 'package:flutter/material.dart';
 
 class ProjectScetchEntry extends ProjectEntry {

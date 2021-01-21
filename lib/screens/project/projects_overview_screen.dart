@@ -1,6 +1,6 @@
-import 'package:doku_maker/screens/new_project_screen.dart';
+import 'package:doku_maker/screens/project/new_project_screen.dart';
 import 'package:doku_maker/widgets/main_drawer.dart';
-import 'package:doku_maker/widgets/projects_grid.dart';
+import 'package:doku_maker/widgets/project/projects_grid.dart';
 import 'package:flutter/material.dart';
 
 class ProjectsOverviewScreen extends StatelessWidget {

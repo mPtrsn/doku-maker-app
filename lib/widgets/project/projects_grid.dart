@@ -2,7 +2,7 @@ import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/projects_grid_element.dart';
+import 'projects_grid_element.dart';
 
 class ProjectsGrid extends StatelessWidget {
   Future<void> _getAllProjects(BuildContext context) async {

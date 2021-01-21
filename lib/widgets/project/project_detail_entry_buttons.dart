@@ -1,6 +1,6 @@
-import 'package:doku_maker/models/project.dart';
-import 'package:doku_maker/screens/modals/new_image_entry_modal.dart';
-import 'package:doku_maker/screens/modals/new_text_entry_modal.dart';
+import 'package:doku_maker/models/project/project.dart';
+import 'package:doku_maker/screens/project/new_image_entry_modal.dart';
+import 'package:doku_maker/screens/project/new_text_entry_modal.dart';
 import 'package:flutter/material.dart';
 
 class ProjectDetailEntryButtons extends StatelessWidget {
@@ -49,7 +49,16 @@ class ProjectDetailEntryButtons extends StatelessWidget {
           _buildEntryButton(context, Icons.play_arrow, () {}),
           _buildEntryButton(context, Icons.mic, () {}),
           _buildEntryButton(context, Icons.gesture, () {}),
-          _buildEntryButton(context, Icons.link, () {}),
+          Ink(
+            decoration: ShapeDecoration(
+              shape: CircleBorder(),
+              color: Theme.of(context).buttonColor,
+            ),
+            child: IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {},
+            ),
+          ),
         ],
       ),
     );

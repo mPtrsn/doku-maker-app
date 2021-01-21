@@ -1,8 +1,10 @@
 import 'package:http/http.dart' as http;
 
+import '../config.dart';
+
 class UploadService {
   static Future<String> uploadImage(String title, String path) async {
-    const url = 'http://10.0.2.2:3000/v1/images';
+    var url = Config.backendURL + '/v1/images';
     try {
       var request = http.MultipartRequest('PUT', Uri.parse(url));
       request.files.add(
@@ -12,7 +14,7 @@ class UploadService {
       var response = await http.Response.fromStream(res);
       print(response.body);
       var id = response.body.substring(1, response.body.length - 2);
-      return 'http://10.0.2.2:5984/images/$id/i.png';
+      return '/images/$id/i.png';
     } catch (error) {
       print('Error While Uploading Image with title: $title');
       print(error.toString());

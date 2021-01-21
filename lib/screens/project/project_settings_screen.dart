@@ -1,6 +1,9 @@
-import 'package:doku_maker/models/project.dart';
+import 'package:doku_maker/models/project/project.dart';
+import 'package:doku_maker/provider/projects_provider.dart';
+import 'package:doku_maker/widgets/chip_list.dart';
 import 'package:doku_maker/widgets/editable_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProjectSettingsScreen extends StatefulWidget {
   static const String routeName = '/project-settings';
@@ -10,33 +13,30 @@ class ProjectSettingsScreen extends StatefulWidget {
 
 class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
   Project _project;
-
-  String _newTitle = '';
-  String _newDescription = '';
-  List<String> _newCollabList = [];
-  List<String> _newTagList = [];
-  List<String> _newCustomTagList = [];
+  Project _newProject;
 
   bool get _changesMade {
-    return _newTitle != _project.title ||
-        _newDescription != _project.description ||
-        _newCollabList != _project.collaborators ||
-        _newTagList != _project.tags ||
-        _newCustomTagList != _project.customTags;
+    return !_project.equals(_newProject);
   }
 
   void _init() {
-    if (_newTitle == '') {
-      _newTitle = _project.title;
-      _newDescription = _project.description;
-      _newCollabList = _project.collaborators;
-      _newTagList = _project.tags;
-      _newCustomTagList = _project.customTags;
+    if (_newProject == null) {
+      _newProject = Project.clone(_project);
     }
   }
 
   void _onSave() {
     setState(() {});
+  }
+
+  Future _onSaveProject() async {
+    print(_newProject.tags);
+
+    await Provider.of<ProjectsProvider>(context, listen: false)
+        .performUpdate(_newProject);
+    setState(() {
+      _newProject = null;
+    });
   }
 
   @override
@@ -51,7 +51,7 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
             actions: [
               IconButton(
                 icon: Icon(Icons.save),
-                onPressed: () {}, // TODO SAVE SETTINGS
+                onPressed: _onSaveProject,
               )
             ],
           ),
@@ -70,39 +70,63 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
                                 TextStyle(decoration: TextDecoration.underline),
                           ),
                           EditAbleText(
-                            _newTitle,
-                            onChange: (text) => _newTitle = text,
+                            _newProject.title,
+                            onChange: (text) => _newProject.title = text,
                             onSave: _onSave,
                             style: TextStyle(fontSize: 26),
                           ),
-                          Divider(),
+                          Divider(thickness: 2),
                           Text(
                             'description',
                             style:
                                 TextStyle(decoration: TextDecoration.underline),
                           ),
                           EditAbleText(
-                            _newDescription,
-                            onChange: (text) => _newDescription = text,
+                            _newProject.description,
+                            onChange: (text) => _newProject.description = text,
                             onSave: _onSave,
                           ),
 
-                          Text('Owner: ${_project.owner}'),
-                          Text(' a, b, c, d, e'),
-                          OutlineButton(
-                            onPressed: () {}, // TODO collab bottom modal
-                            child: Text('Collaborators'),
+                          Divider(thickness: 2),
+                          // OWNERS
+                          EditableChipList(
+                            chips: _newProject.owners,
+                            onDone: (newChips) => _newProject.owners = newChips,
+                            title: 'Owners',
                           ),
 
-                          OutlineButton(
-                            onPressed: () {}, // TODO label bottom modal
-                            child: Text('project labels'),
+                          Divider(thickness: 2),
+                          EditableChipList(
+                            chips: _newProject.collaborators,
+                            onDone: (newChips) =>
+                                _newProject.collaborators = newChips,
+                            title: 'Collaborators',
                           ),
-                          // tags
-                          OutlineButton(
-                            onPressed: () {}, // TODO custom label bottom modal
-                            child: Text('entity labels'),
+
+                          Divider(thickness: 2),
+
+                          // Project Tags
+                          EditableChipList(
+                            chips: _newProject.tags,
+                            onDone: (newChips) => _newProject.tags = newChips,
+                            title: 'Project Tags',
                           ),
+
+                          // custom tags
+                          Divider(thickness: 2),
+                          EditableChipList(
+                            chips: _newProject.customTags,
+                            onDone: (newChips) =>
+                                _newProject.customTags = newChips,
+                            title: 'Custom Tags',
+                          ),
+
+                          Divider(thickness: 2),
+                          OutlineButton(
+                            borderSide: BorderSide(color: Colors.red, width: 2),
+                            onPressed: () {}, // TODO Delete Dialog
+                            child: Text('Delete Project'),
+                          )
                         ],
                       ),
                     ),
@@ -127,8 +151,9 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
                   ),
                   RaisedButton(
                     child: Text('save Changes'),
-                    onPressed: () {
+                    onPressed: () async {
                       // save Changes
+                      await _onSaveProject();
                       Navigator.of(context).pop(true);
                     },
                   ),
