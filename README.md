@@ -21,7 +21,7 @@ Die Entwicklung fokusiert sich grade auf das Logbuch.
 
 
 ## Feedback
-Wenn ihr Feedback habt und mit Github vertraut seid, dann geb es gerne hier als Issue. Ansonsten schickt uns eine Mail. 
+Wenn ihr Feedback habt und mit Github vertraut seid, dann geb es gerne hier als [Issue](https://github.com/mPtrsn/doku-maker-app/issues). Ansonsten schickt uns eine Mail. 
 stec102359 || stec103344
 
 
