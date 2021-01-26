@@ -47,7 +47,8 @@ class MainDrawer extends StatelessWidget {
               'Logout',
               style: TextStyle(fontSize: 26),
             ),
-            onTap: () => Provider.of<AuthProvider>(context).logout(),
+            onTap: () =>
+                Provider.of<AuthProvider>(context, listen: false).logout(),
           )
         ],
       ),

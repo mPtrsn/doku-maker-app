@@ -87,7 +87,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         TextFormField(
                           decoration:
                               InputDecoration(labelText: 'Matrikelnummer'),
-                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
                           onSaved: (value) {
                             _authData['username'] = value;
                           },
@@ -95,10 +95,12 @@ class _AuthScreenState extends State<AuthScreen> {
                         TextFormField(
                           decoration: InputDecoration(labelText: 'Password'),
                           obscureText: true,
+                          textInputAction: TextInputAction.done,
                           controller: _passwordController,
                           onSaved: (value) {
                             _authData['password'] = value;
                           },
+                          onEditingComplete: _submit,
                         ),
                         SizedBox(
                           height: 20,
@@ -114,7 +116,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                             padding: EdgeInsets.symmetric(
                                 horizontal: 30.0, vertical: 8.0),
-                            color: Theme.of(context).primaryColor,
+                            color: Theme.of(context).accentColor,
                             textColor:
                                 Theme.of(context).primaryTextTheme.button.color,
                           ),
