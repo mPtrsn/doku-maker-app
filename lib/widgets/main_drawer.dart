@@ -43,13 +43,14 @@ class MainDrawer extends StatelessWidget {
                   .pushReplacementNamed(RoomDetailScreen.routeName)),
           Spacer(),
           ListTile(
-            title: Text(
-              'Logout',
-              style: TextStyle(fontSize: 26),
-            ),
-            onTap: () =>
-                Provider.of<AuthProvider>(context, listen: false).logout(),
-          )
+              title: Text(
+                'Logout',
+                style: TextStyle(fontSize: 26),
+              ),
+              onTap: () {
+                Provider.of<AuthProvider>(context, listen: false).logout();
+                Navigator.of(context).pushReplacementNamed("/");
+              })
         ],
       ),
     );
