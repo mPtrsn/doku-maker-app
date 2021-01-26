@@ -3,5 +3,5 @@
 A new Flutter project.
 
 ## Getting Started
-download the latest release
+download the latest release and tag
 
