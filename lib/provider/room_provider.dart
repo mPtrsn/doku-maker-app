@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:doku_maker/config.dart';
 import 'package:doku_maker/models/room/Room.dart';
 import 'package:doku_maker/models/room/RoomEntry.dart';
+import 'package:doku_maker/models/room/RoomWarning.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 
@@ -25,6 +26,11 @@ class RoomProvider with ChangeNotifier {
 
   String get smartRoomUrl {
     return baseUrl + '/id/' + Config.smartareaID;
+  }
+
+  bool isOwner(String roomId, String username) {
+    // ROOM UPDATE: use roomId
+    return smartarea.owners.contains(username);
   }
 
   Future getSmartarea() async {
@@ -67,7 +73,29 @@ class RoomProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future deleteProject(String id) async {
+  Future deleteRoom(String id) async {
     print("TODO");
+  }
+
+  Future addWarning(String roomId, RoomWarning warning) async {
+    // ROOM UPDATE: use roomId
+    smartarea.warnings.add(warning);
+    await performUpdate(smartarea);
+    notifyListeners();
+  }
+
+  Future removeWarning(String roomId, String warningId) async {
+    smartarea.warnings.removeWhere((e) => e.id == warningId);
+    await performUpdate(smartarea);
+    notifyListeners();
+  }
+
+  updateWarning(String roomId, RoomWarning roomWarning) async {
+    // ROOM UPDATE: use roomId
+    var indexWhere = smartarea.warnings
+        .indexWhere((element) => element.id == roomWarning.id);
+    smartarea.warnings[indexWhere] = roomWarning;
+    await performUpdate(smartarea);
+    notifyListeners();
   }
 }

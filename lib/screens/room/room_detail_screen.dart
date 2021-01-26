@@ -1,5 +1,3 @@
-import 'package:doku_maker/models/room/RoomEntry.dart';
-import 'package:doku_maker/models/room/RoomWarning.dart';
 import 'package:doku_maker/provider/room_provider.dart';
 import 'package:doku_maker/widgets/main_drawer.dart';
 import 'package:doku_maker/widgets/room/room_entries_view.dart';
@@ -13,48 +11,6 @@ class RoomDetailScreen extends StatelessWidget {
 
   Future<void> _getSmartarea(BuildContext context) async {
     await Provider.of<RoomProvider>(context, listen: false).getSmartarea();
-  }
-
-  void test(BuildContext ctx) {
-    var room = Provider.of<RoomProvider>(ctx, listen: false).smartarea;
-    room.warnings = new List<RoomWarning>();
-    room.warnings.add(RoomWarning(level: "WARN", text: "Test Warnung"));
-    room.warnings.add(RoomWarning(level: "INFO", text: "Test Info"));
-    room.warnings.add(RoomWarning(level: "IMPORTANT", text: "Test Important"));
-
-    room.entries = new List<RoomEntry>();
-    room.entries.add(RoomEntry(
-      title: 'First Entry',
-      text: 'First Test',
-      tags: ['Moin', 'Meister'],
-      creationDate: DateTime.now().toUtc(),
-    ));
-    room.entries.add(RoomEntry(
-      title: 'Second Entry',
-      text: 'Second Test',
-      tags: ['Moin', 'Meister'],
-      creationDate: DateTime.now().toUtc(),
-    ));
-    room.entries.add(RoomEntry(
-      title: 'Third Entry',
-      text: 'Third Test',
-      tags: ['Moin', 'Meister'],
-      creationDate: DateTime.now().toUtc(),
-    ));
-    room.entries.add(RoomEntry(
-      title: 'Fourth Entry',
-      text: 'Fourth Test',
-      tags: ['Moin', 'Meister'],
-      creationDate: DateTime.now().toUtc(),
-    ));
-    room.entries.add(RoomEntry(
-      title: 'Fifth Entry',
-      text: 'Fifth Test',
-      tags: ['Moin', 'Meister'],
-      creationDate: DateTime.now().toUtc(),
-    ));
-
-    Provider.of<RoomProvider>(ctx, listen: false).performUpdate(room);
   }
 
   @override

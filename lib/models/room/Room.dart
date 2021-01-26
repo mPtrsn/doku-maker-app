@@ -13,7 +13,7 @@ class Room {
   String imageURL;
   List<RoomEntry> entries;
   List<RoomWarning> warnings;
-  String owner;
+  List<String> owners;
   List<String> collaborators;
   DateTime creationDate;
   bool disabled;
@@ -25,7 +25,7 @@ class Room {
     this.imageURL,
     this.entries,
     this.warnings,
-    this.owner,
+    this.owners,
     this.collaborators,
     this.creationDate,
     this.disabled,

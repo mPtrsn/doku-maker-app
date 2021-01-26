@@ -7,11 +7,15 @@ class RoomWarning {
   String id;
   String level;
   String text;
+  String author;
+  DateTime creationDate;
 
   RoomWarning({
     this.id,
     this.level,
     this.text,
+    this.author,
+    this.creationDate,
   });
 
   factory RoomWarning.fromJson(Map<String, dynamic> json) =>

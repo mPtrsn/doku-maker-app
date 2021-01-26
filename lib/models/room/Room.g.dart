@@ -20,7 +20,7 @@ Room _$RoomFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : RoomWarning.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    owner: json['owner'] as String,
+    owners: (json['owners'] as List)?.map((e) => e as String)?.toList(),
     collaborators:
         (json['collaborators'] as List)?.map((e) => e as String)?.toList(),
     creationDate: json['creationDate'] == null
@@ -37,7 +37,7 @@ Map<String, dynamic> _$RoomToJson(Room instance) => <String, dynamic>{
       'imageURL': instance.imageURL,
       'entries': instance.entries?.map((e) => e?.toJson())?.toList(),
       'warnings': instance.warnings?.map((e) => e?.toJson())?.toList(),
-      'owner': instance.owner,
+      'owners': instance.owners,
       'collaborators': instance.collaborators,
       'creationDate': instance.creationDate?.toIso8601String(),
       'disabled': instance.disabled,

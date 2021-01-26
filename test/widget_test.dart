@@ -5,4 +5,14 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-void main() {}
+import 'package:doku_maker/config.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+void main() {
+  test("Fake test to ensure we are in production config", () {
+    expect(
+      Config.backendURL.contains("twistways"),
+      true,
+    );
+  });
+}
