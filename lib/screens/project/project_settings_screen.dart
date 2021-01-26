@@ -163,7 +163,7 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
                     },
                   ),
                   RaisedButton(
-                    child: Text('save Changes'),
+                    child: Text('Save Changes'),
                     onPressed: () async {
                       // save Changes
                       await _onSaveProject();
@@ -171,7 +171,7 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
                     },
                   ),
                   RaisedButton(
-                    child: Text('Cancle'),
+                    child: Text('Cancel'),
                     onPressed: () {
                       Navigator.of(context).pop(false);
                     },
