@@ -1,6 +1,6 @@
 # doku_maker
 
-Eine App von Malte Petersen und Tom Nüske während des Smart Technology Projektes an der FH Wedel
+Eine App von [Malte Petersen](https://github.com/mPtrsn) und [Tom Nüske](https://github.com/tomnueske) während des Smart Technology Projektes an der FH Wedel
 
 
 Diese App ist zum Erfassen eines Projektfortschrittes und zum Dokumentieren von Laborarbeit.
@@ -15,12 +15,13 @@ Dort befindet sich das Logbuch für den Arbeitsbereich des Studiengangs Smart Te
 
 
 ## Aktueller Stand
-Momentan gibt es die App nur als .apk datei zum [Download](https://github.com/mPtrsn/doku-maker-app/releases/download/v1.0.11/app.apk) in diesem Repository.
+Momentan gibt es die App nur für Android und nur als .apk datei zum [Download](https://github.com/mPtrsn/doku-maker-app/releases/download/v1.0.11/app.apk) in diesem Repository.
 
 Die Entwicklung fokusiert sich grade auf das Logbuch.
 
 
 ## Feedback
-Wenn ihr Feedback habt und mit Github vertraut seid, dann geb es gerne hier als Issue. Ansonsten schickt uns eine Mail. stec102359 || stec103344
+Wenn ihr Feedback habt und mit Github vertraut seid, dann geb es gerne hier als Issue. Ansonsten schickt uns eine Mail. 
+stec102359 || stec103344
 
 
