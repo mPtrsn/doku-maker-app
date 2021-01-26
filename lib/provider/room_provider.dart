@@ -12,6 +12,8 @@ class RoomProvider with ChangeNotifier {
   RoomProvider(this._smartarea);
 
   Room get smartarea {
+    _smartarea.entries.sort(
+        (RoomEntry a, RoomEntry b) => a.creationDate.compareTo(b.creationDate));
     return _smartarea;
   }
 

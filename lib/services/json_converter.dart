@@ -32,11 +32,9 @@ String projectToJson(Project project) {
 Project projectFromJson(Map<String, dynamic> json) {
   List<ProjectEntry> entries = (json['entries'] as List<dynamic>) == null
       ? []
-      : (json['entries'] as List<dynamic>)
-          .map((e) => entryFromJson(e))
-          .toList()
-          .reversed
-          .toList();
+      : (json['entries'] as List<dynamic>).map((e) => entryFromJson(e)).toList()
+    ..sort((ProjectEntry a, ProjectEntry b) =>
+        a.creationDate.compareTo(b.creationDate));
   return Project(
     id: json['id'],
     title: json['title'],

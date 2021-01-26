@@ -60,7 +60,7 @@ class ProjectsProvider with ChangeNotifier {
       headers: {"Content-Type": "application/json"},
       body: body,
     );
-    print(response.body);
+    //print(response.body);
     _projects.add(
         projectFromJson(json.decode(response.body) as Map<String, dynamic>));
     notifyListeners();
