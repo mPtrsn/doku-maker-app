@@ -1,5 +1,7 @@
 import 'package:doku_maker/widgets/new_chip_modal.dart';
 import 'package:flutter/material.dart';
+import 'package:multi_select_flutter/bottom_sheet/multi_select_bottom_sheet.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
 
 class EditableChipList extends StatefulWidget {
   final String title;
@@ -27,41 +29,47 @@ class _EditableChipListState extends State<EditableChipList> {
   }
 
   Future<bool> addChipModal() async {
-    if (widget.inputs != null) {
-      return showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (ctx) => NewChipModal(
-            title: widget.title,
-            onSave: (String newValue) {
-              setState(() {
-                newChips.add(newValue);
-              });
-            }),
-      );
-    } else {
-      return showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (ctx) => NewChipModal(
-            title: widget.title,
-            onSave: (String newValue) {
-              setState(() {
-                newChips.add(newValue);
-              });
-            }),
-      );
-    }
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => NewChipModal(
+          title: widget.title,
+          onSave: (String newValue) {
+            setState(() {
+              newChips.add(newValue);
+            });
+          }),
+    );
   }
 
   void _toggleEdit() {
-    setState(() {
-      isEditMode = !isEditMode;
-    });
-    if (!isEditMode) {
-      widget.onDone(newChips);
+    if (widget.inputs == null) {
+      setState(() {
+        isEditMode = !isEditMode;
+      });
+      if (!isEditMode) {
+        widget.onDone(newChips);
+      }
+    } else {
+      var selectIn =
+          widget.inputs.map((e) => MultiSelectItem<String>(e, e)).toList();
+
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        //backgroundColor: Colors.transparent,
+        builder: (ctx) => MultiSelectBottomSheet(
+            items: selectIn,
+            title: Text("Tags"),
+            initialValue: widget.chips,
+            onConfirm: (values) {
+              setState(() {
+                newChips = values.map((e) => e.toString()).toList();
+              });
+              widget.onDone(newChips);
+            }),
+      );
     }
   }
 

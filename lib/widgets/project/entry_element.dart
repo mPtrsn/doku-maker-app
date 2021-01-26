@@ -1,5 +1,4 @@
 import 'package:doku_maker/models/project/entries/project_entry.dart';
-import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:doku_maker/widgets/chip_list.dart';
 import 'package:flutter/material.dart';
@@ -37,9 +36,9 @@ class _EntryElementState extends State<EntryElement> {
         builder: (ctx) => widget.entry.bottomSheet(widget.projectId));
   }
 
-  Future onTagsChanged(List<String> newChips) {
+  Future onTagsChanged(List<String> newChips) async {
     widget.entry.tags = newChips;
-    Provider.of<ProjectsProvider>(context, listen: false)
+    await Provider.of<ProjectsProvider>(context, listen: false)
         .updateEntry(widget.projectId, widget.entry);
   }
 
@@ -100,6 +99,9 @@ class _EntryElementState extends State<EntryElement> {
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
             child: EditableChipList(
               chips: widget.entry.tags,
+              inputs: Provider.of<ProjectsProvider>(context, listen: false)
+                  .findById(widget.projectId)
+                  .customTags,
               title: "Tags",
               onDone: onTagsChanged,
             ),
