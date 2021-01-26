@@ -19,7 +19,7 @@ class _DeleteProjectModalState extends State<DeleteProjectModal> {
     if (_form.currentState.validate()) {
       await Provider.of<ProjectsProvider>(context, listen: false)
           .deleteProject(widget.id);
-      Navigator.of(context).pop();
+      Navigator.of(context).pushReplacementNamed("/");
     }
   }
 
@@ -33,16 +33,39 @@ class _DeleteProjectModalState extends State<DeleteProjectModal> {
           child: Form(
             key: _form,
             child: Column(children: [
+              SizedBox(
+                height: 20,
+              ),
+              RichText(
+                text: TextSpan(
+                  text:
+                      "Enter the project title and confirm to delete the project.\n\nThe project title is: ",
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                  children: [
+                    TextSpan(
+                        text: '${widget.projectName}',
+                        style: TextStyle(color: Colors.red)),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Project Name'),
+                decoration: InputDecoration(labelText: 'Project Title'),
                 textInputAction: TextInputAction.done,
                 validator: (value) {
                   return widget.projectName == value
                       ? null
-                      : 'Enter the Project Name';
+                      : 'Enter the Project Title';
                 },
                 onSaved: (newValue) {},
               ),
+              RaisedButton(
+                onPressed: _saveForm,
+                child: Text("Confirm"),
+                color: Theme.of(context).accentColor,
+              )
             ]),
           ),
         ),

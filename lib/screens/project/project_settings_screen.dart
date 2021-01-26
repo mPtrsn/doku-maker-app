@@ -1,5 +1,6 @@
 import 'package:doku_maker/models/project/project.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
+import 'package:doku_maker/screens/project/delete_project_modal.dart';
 import 'package:doku_maker/widgets/chip_list.dart';
 import 'package:doku_maker/widgets/editable_text.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,18 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
     setState(() {
       _newProject = null;
     });
+  }
+
+  Future openDeleteModal() {
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => DeleteProjectModal(
+        id: _project.id,
+        projectName: _project.title,
+      ),
+    );
   }
 
   @override
@@ -124,7 +137,7 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
                           Divider(thickness: 2),
                           OutlineButton(
                             borderSide: BorderSide(color: Colors.red, width: 2),
-                            onPressed: () {}, // TODO Delete Dialog
+                            onPressed: openDeleteModal,
                             child: Text('Delete Project'),
                           )
                         ],

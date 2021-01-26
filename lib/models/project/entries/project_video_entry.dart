@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class ProjectVideoEntry extends ProjectEntry {
   final String videoUrl;
 
-  const ProjectVideoEntry({
+  ProjectVideoEntry({
     String id,
     String title,
     List<String> tags,

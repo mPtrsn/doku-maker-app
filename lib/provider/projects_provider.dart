@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:doku_maker/config.dart';
+import 'package:doku_maker/exceptions/html_exception.dart';
 import 'package:doku_maker/models/project/entries/project_entry.dart';
 import 'package:doku_maker/models/project/project.dart';
 import 'package:doku_maker/services/json_converter.dart';
@@ -44,7 +45,7 @@ class ProjectsProvider with ChangeNotifier {
       id: null,
       title: title,
       description: description,
-      imageUrl: imageUrl,
+      imageUrl: imageUrl.isNotEmpty ? imageUrl : Config.defaultImagePath,
       entries: [],
       tags: [],
       customTags: [],
@@ -86,7 +87,12 @@ class ProjectsProvider with ChangeNotifier {
   Future addEntry(String projectId, ProjectEntry entry) async {
     Project old = findById(projectId);
     old.entries.add(entry);
-    await performUpdate(old);
+    try {
+      await performUpdate(old);
+    } catch (error) {
+      old.entries.remove(entry);
+    }
+
     notifyListeners();
   }
 
@@ -109,9 +115,9 @@ class ProjectsProvider with ChangeNotifier {
     String jsonStr = projectToJson(project);
     http.Response response = await http.post('$baseUrl/${project.id}',
         headers: {"Content-Type": "application/json"}, body: jsonStr);
-    if (response.statusCode >= 400) {
+    if (response.statusCode != 200) {
       print('Perform Update Failed: ' + response.body);
-      return null;
+      throw HtmlException(response.statusCode.toString(), response.body);
     }
     int idx = _projects.indexWhere((element) => element.id == project.id);
     _projects[idx] =
@@ -120,6 +126,13 @@ class ProjectsProvider with ChangeNotifier {
   }
 
   Future deleteProject(String id) async {
-    print("TODO");
+    http.Response response = await http.delete('$baseUrl/$id');
+    if (response.statusCode != 200) {
+      print('Perform Update Failed: ' + response.body);
+      throw HtmlException(response.statusCode.toString(), response.body);
+    } else {
+      _projects.removeWhere((element) => element.id == id);
+      notifyListeners();
+    }
   }
 }

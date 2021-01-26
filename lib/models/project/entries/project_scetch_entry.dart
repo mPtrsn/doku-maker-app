@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class ProjectScetchEntry extends ProjectEntry {
   final String todo;
 
-  const ProjectScetchEntry({
+  ProjectScetchEntry({
     String id,
     String title,
     List<String> tags,

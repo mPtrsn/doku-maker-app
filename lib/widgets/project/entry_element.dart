@@ -1,5 +1,7 @@
 import 'package:doku_maker/models/project/entries/project_entry.dart';
+import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
+import 'package:doku_maker/widgets/chip_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -33,6 +35,12 @@ class _EntryElementState extends State<EntryElement> {
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
         builder: (ctx) => widget.entry.bottomSheet(widget.projectId));
+  }
+
+  Future onTagsChanged(List<String> newChips) {
+    widget.entry.tags = newChips;
+    Provider.of<ProjectsProvider>(context, listen: false)
+        .updateEntry(widget.projectId, widget.entry);
   }
 
   @override
@@ -87,7 +95,17 @@ class _EntryElementState extends State<EntryElement> {
             Text(date),
           ],
         ),
-        children: [widget.entry.displayWidget],
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            child: EditableChipList(
+              chips: widget.entry.tags,
+              title: "Tags",
+              onDone: onTagsChanged,
+            ),
+          ),
+          ListTile(leading: widget.entry.displayWidget),
+        ],
       ),
     );
   }

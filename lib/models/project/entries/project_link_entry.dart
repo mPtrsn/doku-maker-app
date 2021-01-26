@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class ProjectLinkEntry extends ProjectEntry {
   final String link;
 
-  const ProjectLinkEntry({
+  ProjectLinkEntry({
     String id,
     String title,
     List<String> tags,

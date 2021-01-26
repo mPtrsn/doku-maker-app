@@ -19,6 +19,6 @@ class UploadService {
       print('Error While Uploading Image with title: $title');
       print(error.toString());
     }
-    return 'error';
+    return '';
   }
 }

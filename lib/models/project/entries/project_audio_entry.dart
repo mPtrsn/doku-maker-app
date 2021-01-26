@@ -5,7 +5,7 @@ import 'project_entry.dart';
 class ProjectAudioEntry extends ProjectEntry {
   final String audioUrl;
 
-  const ProjectAudioEntry({
+  ProjectAudioEntry({
     String id,
     String title,
     List<String> tags,

@@ -5,8 +5,9 @@ class EditableChipList extends StatefulWidget {
   final String title;
   final Function(List<String> newChips) onDone;
   final List<String> chips;
+  final List<String> inputs;
 
-  const EditableChipList({this.chips, this.onDone, this.title});
+  const EditableChipList({this.chips, this.onDone, this.title, this.inputs});
 
   @override
   _EditableChipListState createState() => _EditableChipListState();
@@ -26,18 +27,33 @@ class _EditableChipListState extends State<EditableChipList> {
   }
 
   Future<bool> addChipModal() async {
-    return showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (ctx) => NewChipModal(
-          title: widget.title,
-          onSave: (String newValue) {
-            setState(() {
-              newChips.add(newValue);
-            });
-          }),
-    );
+    if (widget.inputs != null) {
+      return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (ctx) => NewChipModal(
+            title: widget.title,
+            onSave: (String newValue) {
+              setState(() {
+                newChips.add(newValue);
+              });
+            }),
+      );
+    } else {
+      return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (ctx) => NewChipModal(
+            title: widget.title,
+            onSave: (String newValue) {
+              setState(() {
+                newChips.add(newValue);
+              });
+            }),
+      );
+    }
   }
 
   void _toggleEdit() {

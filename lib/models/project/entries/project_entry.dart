@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class ProjectEntry {
   final String id;
   final String title;
-  final List<String> tags;
+  List<String> tags;
   final DateTime creationDate;
 
-  const ProjectEntry(
+  ProjectEntry(
     this.id,
     this.title,
     this.tags,

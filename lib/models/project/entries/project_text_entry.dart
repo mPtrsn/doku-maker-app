@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class ProjectTextEntry extends ProjectEntry {
   final String text;
 
-  const ProjectTextEntry({
+  ProjectTextEntry({
     String id,
     String title,
     List<String> tags,

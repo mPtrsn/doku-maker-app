@@ -7,7 +7,7 @@ import 'project_entry.dart';
 class ProjectImageEntry extends ProjectEntry {
   final String imageUrl;
 
-  const ProjectImageEntry({
+  ProjectImageEntry({
     String id,
     String title,
     List<String> tags,
