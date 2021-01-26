@@ -9,8 +9,9 @@ class ProjectLinkEntry extends ProjectEntry {
     String title,
     List<String> tags,
     DateTime creationDate,
+    String author,
     this.link,
-  }) : super(id, title, tags, creationDate);
+  }) : super(id, title, tags, creationDate, author);
 
   @override
   Widget get displayWidget {

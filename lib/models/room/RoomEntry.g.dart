@@ -20,6 +20,7 @@ RoomEntry _$RoomEntryFromJson(Map<String, dynamic> json) {
             ? null
             : RoomEntryAttachment.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    author: json['author'] as String,
   );
 }
 
@@ -30,4 +31,5 @@ Map<String, dynamic> _$RoomEntryToJson(RoomEntry instance) => <String, dynamic>{
       'tags': instance.tags,
       'creationDate': instance.creationDate?.toIso8601String(),
       'attachments': instance.attachments?.map((e) => e?.toJson())?.toList(),
+      'author': instance.author,
     };

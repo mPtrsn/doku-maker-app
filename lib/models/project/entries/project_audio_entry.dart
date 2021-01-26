@@ -10,8 +10,9 @@ class ProjectAudioEntry extends ProjectEntry {
     String title,
     List<String> tags,
     DateTime creationDate,
+    String author,
     this.audioUrl,
-  }) : super(id, title, tags, creationDate);
+  }) : super(id, title, tags, creationDate, author);
 
   @override
   Widget get displayWidget {

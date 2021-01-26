@@ -12,8 +12,10 @@ class RoomProvider with ChangeNotifier {
   RoomProvider(this._smartarea);
 
   Room get smartarea {
-    _smartarea.entries.sort(
-        (RoomEntry a, RoomEntry b) => a.creationDate.compareTo(b.creationDate));
+    if (_smartarea != null) {
+      _smartarea.entries.sort((RoomEntry a, RoomEntry b) =>
+          a.creationDate.compareTo(b.creationDate));
+    }
     return _smartarea;
   }
 
@@ -36,13 +38,15 @@ class RoomProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future addEntry(String projectId, RoomEntry entry) async {
+  Future addEntry(String roomId, RoomEntry entry) async {
+    // ROOM UPDATE: use roomId
     smartarea.entries.add(entry);
     await performUpdate(smartarea);
     notifyListeners();
   }
 
   Future<void> removeEntry(String projectId, String id) async {
+    // ROOM UPDATE: use roomId
     smartarea.entries.removeWhere((e) => e.id == id);
     await performUpdate(smartarea);
     notifyListeners();
@@ -50,6 +54,7 @@ class RoomProvider with ChangeNotifier {
 
   Future performUpdate(Room room) async {
     String jsonStr = jsonEncode(room);
+    print(jsonStr);
     http.Response response = await http.post('$baseUrl/${room.id}',
         headers: {"Content-Type": "application/json"}, body: jsonStr);
     if (response.statusCode >= 400) {

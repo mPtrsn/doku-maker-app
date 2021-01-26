@@ -9,8 +9,9 @@ class ProjectScetchEntry extends ProjectEntry {
     String title,
     List<String> tags,
     DateTime creationDate,
+    String author,
     this.todo,
-  }) : super(id, title, tags, creationDate);
+  }) : super(id, title, tags, creationDate, author);
 
   @override
   Widget get displayWidget {

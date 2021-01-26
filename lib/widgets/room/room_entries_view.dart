@@ -2,16 +2,33 @@ import 'package:doku_maker/models/room/RoomEntry.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../screens/room/new_room_entry_modal.dart';
+
 class RoomEntriesView extends StatelessWidget {
   final List<RoomEntry> entries;
 
   const RoomEntriesView(this.entries);
+
+  void _openAddEntryModal(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (ctx) => NewRoomEntryModal());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: ListView.builder(
-        itemBuilder: (ctx, idx) => RoomEntriesEntry(entries[idx]),
-        itemCount: entries.length,
+        itemBuilder: (ctx, idx) => idx == 0
+            ? RaisedButton(
+                onPressed: () => _openAddEntryModal(context),
+                child: Text("Add Entry"),
+                color: Theme.of(context).accentColor,
+              )
+            : RoomEntriesEntry(entries[idx - 1]),
+        itemCount: entries.length + 1,
       ),
     );
   }
@@ -35,7 +52,7 @@ class RoomEntriesEntry extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "stec102359 TODO",
+                entry.author,
                 style: TextStyle(fontSize: 12),
               ),
               Text(entry.title),

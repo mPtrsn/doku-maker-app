@@ -11,6 +11,7 @@ class RoomEntry {
   List<String> tags;
   DateTime creationDate;
   List<RoomEntryAttachment> attachments;
+  String author;
 
   RoomEntry({
     this.id,
@@ -19,6 +20,7 @@ class RoomEntry {
     this.tags,
     this.creationDate,
     this.attachments,
+    this.author,
   });
 
   factory RoomEntry.fromJson(Map<String, dynamic> json) =>

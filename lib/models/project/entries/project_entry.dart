@@ -5,12 +5,14 @@ class ProjectEntry {
   final String title;
   List<String> tags;
   final DateTime creationDate;
+  final String author;
 
   ProjectEntry(
     this.id,
     this.title,
     this.tags,
     this.creationDate,
+    this.author,
   );
 
   Widget get displayWidget {

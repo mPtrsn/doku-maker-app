@@ -89,7 +89,7 @@ class RoomDetailScreen extends StatelessWidget {
                               );
                             },
                           ),
-                        )
+                        ),
                       ],
                     ),
                     drawer: MainDrawer(),
