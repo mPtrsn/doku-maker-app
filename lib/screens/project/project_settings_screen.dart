@@ -31,8 +31,6 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
   }
 
   Future _onSaveProject() async {
-    print(_newProject.tags);
-
     await Provider.of<ProjectsProvider>(context, listen: false)
         .performUpdate(_newProject);
     setState(() {

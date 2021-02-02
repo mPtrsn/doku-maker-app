@@ -90,7 +90,12 @@ class _EntryElementState extends State<EntryElement> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(title),
+            Expanded(
+              child: Text(
+                title,
+                softWrap: true,
+              ),
+            ),
             Text(date),
           ],
         ),
@@ -106,7 +111,7 @@ class _EntryElementState extends State<EntryElement> {
               onDone: onTagsChanged,
             ),
           ),
-          ListTile(leading: widget.entry.displayWidget),
+          widget.entry.displayWidget,
         ],
       ),
     );

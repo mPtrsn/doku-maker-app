@@ -18,10 +18,13 @@ class ProjectImageEntry extends ProjectEntry {
 
   @override
   Widget get displayWidget {
-    return Image.network(
-      Config.couchdbURL + this.imageUrl,
-      headers: {'Authorization': 'Basic cmVhZGVyOnJlYWRlcg=='},
-      fit: BoxFit.cover,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Image.network(
+        Config.couchdbURL + this.imageUrl,
+        headers: {'Authorization': 'Basic cmVhZGVyOnJlYWRlcg=='},
+        fit: BoxFit.contain,
+      ),
     );
   }
 

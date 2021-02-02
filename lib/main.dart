@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<AuthProvider>(
         builder: (context, auth, child) => MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Doku Maker',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primarySwatch: Colors.blueGrey,

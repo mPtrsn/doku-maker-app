@@ -28,13 +28,20 @@ class RoomProvider with ChangeNotifier {
     return baseUrl + '/id/' + Config.smartareaID;
   }
 
+  Map<String, String> get jsonUTF8Header {
+    return {"Content-Type": "application/json; charset=utf-8"};
+  }
+
   bool isOwner(String roomId, String username) {
     // ROOM UPDATE: use roomId
     return smartarea.owners.contains(username);
   }
 
   Future getSmartarea() async {
-    http.Response response = await http.get(smartRoomUrl);
+    http.Response response = await http.get(
+      smartRoomUrl,
+      headers: jsonUTF8Header,
+    );
     if (response.statusCode >= 400) {
       print('Getting Smartarea Failed: ' + response.body);
       return null;
@@ -60,9 +67,11 @@ class RoomProvider with ChangeNotifier {
 
   Future performUpdate(Room room) async {
     String jsonStr = jsonEncode(room);
-    print(jsonStr);
-    http.Response response = await http.post('$baseUrl/${room.id}',
-        headers: {"Content-Type": "application/json"}, body: jsonStr);
+    http.Response response = await http.post(
+      '$baseUrl/${room.id}',
+      headers: jsonUTF8Header,
+      body: jsonStr,
+    );
     if (response.statusCode >= 400) {
       print('Perform Update Failed: ' + response.body);
       return null;

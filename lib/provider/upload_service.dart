@@ -12,7 +12,6 @@ class UploadService {
       );
       var res = await request.send();
       var response = await http.Response.fromStream(res);
-      print(response.body);
       var id = response.body.substring(1, response.body.length - 2);
       return '/images/$id/i.png';
     } catch (error) {

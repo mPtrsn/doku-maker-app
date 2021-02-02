@@ -23,6 +23,10 @@ class ProjectsProvider with ChangeNotifier {
     return Config.backendURL + '/v1/projects';
   }
 
+  Map<String, String> get jsonUTF8Header {
+    return {"Content-Type": "application/json; charset=utf-8"};
+  }
+
   String getUrl(String id) {
     return baseUrl + '/$id';
   }
@@ -57,7 +61,7 @@ class ProjectsProvider with ChangeNotifier {
     var body = projectToJson(newProject);
     var response = await http.put(
       baseUrl + '/full',
-      headers: {"Content-Type": "application/json"},
+      headers: jsonUTF8Header,
       body: body,
     );
     //print(response.body);
@@ -68,7 +72,10 @@ class ProjectsProvider with ChangeNotifier {
 
   Future getAllProjects() async {
     // try {
-    http.Response response = await http.get(baseUrl + '/$userId');
+    http.Response response = await http.get(
+      baseUrl + '/$userId',
+      headers: jsonUTF8Header,
+    );
     var extractedData = json.decode(response.body) as List<dynamic>;
     if (extractedData == null) {
       notifyListeners();
@@ -114,7 +121,7 @@ class ProjectsProvider with ChangeNotifier {
   Future performUpdate(Project project) async {
     String jsonStr = projectToJson(project);
     http.Response response = await http.post('$baseUrl/${project.id}',
-        headers: {"Content-Type": "application/json"}, body: jsonStr);
+        headers: jsonUTF8Header, body: jsonStr);
     if (response.statusCode != 200) {
       print('Perform Update Failed: ' + response.body);
       throw HtmlException(response.statusCode.toString(), response.body);

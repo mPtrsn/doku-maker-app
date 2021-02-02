@@ -14,8 +14,6 @@ class _NewChipModalState extends State<NewChipModal> {
   String newChip = '';
 
   Future _saveForm() async {
-    print('save Form');
-    print(newChip);
     _form.currentState.save();
     if (newChip.isNotEmpty) {
       widget.onSave(newChip);
