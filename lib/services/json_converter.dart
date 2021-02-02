@@ -20,6 +20,7 @@ String projectToJson(Project project) {
     'owners': project.owners,
     'collaborators': project.collaborators,
     'creationDate': project.creationDate.toUtc().toIso8601String(),
+    'lastUpdated': project.lastUpdated.toUtc().toIso8601String(),
     'disabled': project.disabled,
   };
 
@@ -34,7 +35,7 @@ Project projectFromJson(Map<String, dynamic> json) {
       ? []
       : (json['entries'] as List<dynamic>).map((e) => entryFromJson(e)).toList()
     ..sort((ProjectEntry a, ProjectEntry b) =>
-        a.creationDate.compareTo(b.creationDate));
+        b.creationDate.compareTo(a.creationDate));
   return Project(
     id: json['id'],
     title: json['title'],
@@ -48,6 +49,7 @@ Project projectFromJson(Map<String, dynamic> json) {
     collaborators: new List<String>.from(
         json['collaborators'] == null ? [] : json['collaborators']),
     creationDate: DateTime.parse(json['creationDate']),
+    lastUpdated: DateTime.parse(json['lastUpdated']),
     disabled: json['disabled'],
   );
 }
@@ -62,6 +64,7 @@ ProjectEntry entryFromJson(dynamic entry) {
         tags: new List<String>.from(entry['tags'] == null ? [] : entry['tags']),
         text: entry['content'],
         creationDate: DateTime.parse(entry['creationDate']),
+        author: entry['author'],
       );
     case 'IMAGE':
       return ProjectImageEntry(
@@ -70,6 +73,7 @@ ProjectEntry entryFromJson(dynamic entry) {
         tags: new List<String>.from(entry['tags'] == null ? [] : entry['tags']),
         imageUrl: entry['content'],
         creationDate: DateTime.parse(entry['creationDate']),
+        author: entry['author'],
       );
     case 'VIDEO':
       return ProjectImageEntry(
@@ -78,6 +82,7 @@ ProjectEntry entryFromJson(dynamic entry) {
         tags: new List<String>.from(entry['tags'] == null ? [] : entry['tags']),
         imageUrl: entry['content'],
         creationDate: DateTime.parse(entry['creationDate']),
+        author: entry['author'],
       );
     case 'AUDIO':
       return ProjectImageEntry(
@@ -86,6 +91,7 @@ ProjectEntry entryFromJson(dynamic entry) {
         tags: new List<String>.from(entry['tags'] == null ? [] : entry['tags']),
         imageUrl: entry['content'],
         creationDate: DateTime.parse(entry['creationDate']),
+        author: entry['author'],
       );
     case 'SKETCH':
       return ProjectImageEntry(
@@ -94,6 +100,7 @@ ProjectEntry entryFromJson(dynamic entry) {
         tags: new List<String>.from(entry['tags'] == null ? [] : entry['tags']),
         imageUrl: entry['content'],
         creationDate: DateTime.parse(entry['creationDate']),
+        author: entry['author'],
       );
     case 'LINK':
       return ProjectImageEntry(
@@ -102,6 +109,7 @@ ProjectEntry entryFromJson(dynamic entry) {
         tags: new List<String>.from(entry['tags'] == null ? [] : entry['tags']),
         imageUrl: entry['content'],
         creationDate: DateTime.parse(entry['creationDate']),
+        author: entry['author'],
       );
     default:
       print('Error trying to parse Entry');

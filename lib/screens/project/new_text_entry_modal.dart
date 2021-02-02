@@ -1,4 +1,5 @@
 import 'package:doku_maker/models/project/entries/project_text_entry.dart';
+import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,22 +44,28 @@ class _NewTextEntryModalState extends State<NewTextEntryModal> {
         if (widget.entry != null) {
           await Provider.of<ProjectsProvider>(context, listen: false)
               .updateEntry(
-                  widget.projectId,
-                  ProjectTextEntry(
-                      id: widget.entry.id,
-                      title: _data['title'],
-                      tags: widget.entry.tags,
-                      creationDate: widget.entry.creationDate,
-                      text: _data['text']));
+            widget.projectId,
+            ProjectTextEntry(
+              id: widget.entry.id,
+              title: _data['title'],
+              tags: widget.entry.tags,
+              creationDate: widget.entry.creationDate,
+              text: _data['text'],
+              author: Provider.of<AuthProvider>(context, listen: false).userId,
+            ),
+          );
         } else {
           await Provider.of<ProjectsProvider>(context, listen: false).addEntry(
-              widget.projectId,
-              ProjectTextEntry(
-                  id: null,
-                  title: _data['title'],
-                  tags: [],
-                  creationDate: DateTime.now(),
-                  text: _data['text']));
+            widget.projectId,
+            ProjectTextEntry(
+              id: null,
+              title: _data['title'],
+              tags: [],
+              creationDate: DateTime.now(),
+              text: _data['text'],
+              author: Provider.of<AuthProvider>(context, listen: false).userId,
+            ),
+          );
         }
       } catch (error) {
         print(error.toString());

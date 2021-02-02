@@ -84,7 +84,8 @@ class ProjectsProvider with ChangeNotifier {
     List<Project> loadedProjects = [];
     extractedData
         .forEach((e) => {loadedProjects.insert(0, projectFromJson(e))});
-    _projects = loadedProjects;
+    _projects = loadedProjects
+      ..sort((Project a, Project b) => b.lastUpdated.compareTo(a.lastUpdated));
     // } catch (error) {
     //   throw error;
     // }
@@ -119,6 +120,7 @@ class ProjectsProvider with ChangeNotifier {
   }
 
   Future performUpdate(Project project) async {
+    project.lastUpdated = DateTime.now();
     String jsonStr = projectToJson(project);
     http.Response response = await http.post('$baseUrl/${project.id}',
         headers: jsonUTF8Header, body: jsonStr);

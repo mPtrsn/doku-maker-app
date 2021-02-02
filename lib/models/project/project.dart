@@ -11,6 +11,7 @@ class Project {
   List<String> collaborators;
   List<String> owners;
   final DateTime creationDate;
+  DateTime lastUpdated;
   bool disabled;
 
   Project(
@@ -24,6 +25,7 @@ class Project {
       this.owners,
       this.collaborators,
       this.creationDate,
+      this.lastUpdated,
       this.disabled});
 
   Project.clone(Project oldProject)
@@ -38,6 +40,7 @@ class Project {
           owners: oldProject.owners,
           collaborators: oldProject.collaborators,
           creationDate: oldProject.creationDate,
+          lastUpdated: oldProject.lastUpdated,
           disabled: oldProject.disabled,
         );
 
@@ -52,6 +55,7 @@ class Project {
         this.owners == other.owners &&
         this.collaborators == other.collaborators &&
         this.creationDate == other.creationDate &&
+        this.lastUpdated == other.lastUpdated &&
         this.disabled == other.disabled;
   }
 }

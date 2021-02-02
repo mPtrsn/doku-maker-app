@@ -100,6 +100,14 @@ class _EntryElementState extends State<EntryElement> {
           ],
         ),
         children: [
+          ListTile(
+            leading: Icon(Icons.person),
+            title: Text(
+              (widget.entry.author != null && widget.entry.author.isNotEmpty)
+                  ? widget.entry.author
+                  : 'author not found',
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
             child: EditableChipList(

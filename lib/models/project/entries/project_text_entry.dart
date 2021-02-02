@@ -39,6 +39,7 @@ class ProjectTextEntry extends ProjectEntry {
         'title': title,
         'tags': tags,
         'content': text,
-        'creationDate': creationDate.toUtc().toIso8601String()
+        'creationDate': creationDate.toUtc().toIso8601String(),
+        'author': author,
       };
 }

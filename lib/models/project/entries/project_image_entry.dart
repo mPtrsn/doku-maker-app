@@ -40,6 +40,7 @@ class ProjectImageEntry extends ProjectEntry {
         'title': title,
         'tags': tags,
         'content': imageUrl,
-        'creationDate': creationDate.toUtc().toIso8601String()
+        'creationDate': creationDate.toUtc().toIso8601String(),
+        'author': author,
       };
 }

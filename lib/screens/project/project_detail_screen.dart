@@ -1,4 +1,5 @@
 import 'package:doku_maker/models/project/project.dart';
+import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:doku_maker/screens/project/project_settings_screen.dart';
 import 'package:doku_maker/widgets/project/entry_element.dart';
@@ -12,26 +13,29 @@ class ProjectDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ProjectsProvider projectProvider = Provider.of<ProjectsProvider>(context);
     String id = ModalRoute.of(context).settings.arguments as String;
-    Project project = Provider.of<ProjectsProvider>(context).findById(id);
+    Project project = projectProvider.findById(id);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(project.title),
         actions: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-            child: GestureDetector(
-              child: Icon(Icons.settings),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  ProjectSettingsScreen.routeName,
-                  arguments: project,
-                );
-              },
-            ),
-          )
+          if (project.owners.contains(
+              Provider.of<AuthProvider>(context, listen: false).userId))
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+              child: GestureDetector(
+                child: Icon(Icons.settings),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    ProjectSettingsScreen.routeName,
+                    arguments: project,
+                  );
+                },
+              ),
+            )
         ],
       ),
       body: LayoutBuilder(builder: (context, constraints) {

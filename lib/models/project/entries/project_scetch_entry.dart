@@ -25,6 +25,7 @@ class ProjectScetchEntry extends ProjectEntry {
         'title': title,
         'tags': tags,
         'content': todo,
-        'creationDate': creationDate.toUtc().toIso8601String()
+        'creationDate': creationDate.toUtc().toIso8601String(),
+        'author': author,
       };
 }

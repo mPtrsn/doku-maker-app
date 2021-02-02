@@ -26,6 +26,7 @@ class ProjectAudioEntry extends ProjectEntry {
         'title': title,
         'tags': tags,
         'content': audioUrl,
-        'creationDate': creationDate.toUtc().toIso8601String()
+        'creationDate': creationDate.toUtc().toIso8601String(),
+        'author': author,
       };
 }

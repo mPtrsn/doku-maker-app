@@ -25,6 +25,7 @@ class ProjectLinkEntry extends ProjectEntry {
         'title': title,
         'tags': tags,
         'content': link,
-        'creationDate': creationDate.toUtc().toIso8601String()
+        'creationDate': creationDate.toUtc().toIso8601String(),
+        'author': author,
       };
 }
