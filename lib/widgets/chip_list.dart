@@ -74,13 +74,13 @@ class _EditableChipListState extends State<EditableChipList> {
   }
 
   List<Widget> get chipList {
-    List res = newChips
+    List<Widget> res = newChips
         .map(
           (e) => isEditMode
-              ? Chip(
+              ? ActionChip(
                   label: Text(e),
-                  deleteIcon: Icon(Icons.delete),
-                  onDeleted: () {
+                  avatar: Icon(Icons.delete),
+                  onPressed: () {
                     setState(() {
                       newChips.remove(e);
                     });
@@ -89,16 +89,17 @@ class _EditableChipListState extends State<EditableChipList> {
               : Chip(label: Text(e)),
         )
         .toList();
+
     if (isEditMode) {
-      res.add(Chip(
+      print("hi");
+      res.add(ActionChip(
         label: Text("Add"),
         backgroundColor: Theme.of(context).accentColor,
-        deleteIcon: Icon(Icons.add),
-        onDeleted: () {
-          return addChipModal();
-        },
+        avatar: Icon(Icons.add),
+        onPressed: addChipModal,
       ));
     }
+    print("hi again");
     return res;
   }
 
@@ -108,15 +109,17 @@ class _EditableChipListState extends State<EditableChipList> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.title,
-                style: TextStyle(decoration: TextDecoration.underline),
-              ),
-              Wrap(spacing: 4, children: chipList),
-            ],
+          child: Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.title,
+                  style: TextStyle(decoration: TextDecoration.underline),
+                ),
+                Wrap(spacing: 4, children: chipList),
+              ],
+            ),
           ),
         ),
         IconButton(
