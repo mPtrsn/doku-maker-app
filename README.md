@@ -15,7 +15,7 @@ Dort befindet sich das Logbuch für den Arbeitsbereich des Studiengangs Smart Te
 
 
 ## Aktueller Stand
-Momentan gibt es die App nur für Android und nur als .apk datei zum [Download](https://github.com/mPtrsn/doku-maker-app/releases/download/v1.0.11/app.apk) in diesem Repository.
+Momentan gibt es die App nur für Android und nur als .apk datei zum [Download](https://github.com/mPtrsn/doku-maker-app/releases/latest) in diesem Repository.
 
 Die Entwicklung fokusiert sich grade auf das Logbuch.
 
