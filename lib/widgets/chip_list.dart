@@ -91,7 +91,6 @@ class _EditableChipListState extends State<EditableChipList> {
         .toList();
 
     if (isEditMode) {
-      print("hi");
       res.add(ActionChip(
         label: Text("Add"),
         backgroundColor: Theme.of(context).accentColor,
@@ -99,7 +98,6 @@ class _EditableChipListState extends State<EditableChipList> {
         onPressed: addChipModal,
       ));
     }
-    print("hi again");
     return res;
   }
 

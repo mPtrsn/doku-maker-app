@@ -98,60 +98,65 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
                 child: Form(
                   key: _form,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'New Image Entry',
-                              style: TextStyle(fontSize: 26),
-                              textAlign: TextAlign.center,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'New Image Entry',
+                                  style: TextStyle(fontSize: 26),
+                                  textAlign: TextAlign.center,
+                                ),
+                                RaisedButton(
+                                  onPressed: () => _saveForm(),
+                                  child: Text('Save'),
+                                  color: Theme.of(context).accentColor,
+                                ),
+                              ],
                             ),
-                            RaisedButton(
-                              onPressed: () => _saveForm(),
-                              child: Text('Save'),
-                              color: Theme.of(context).accentColor,
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(labelText: 'Title'),
+                            textInputAction: TextInputAction.next,
+                            initialValue: _data['title'],
+                            validator: (value) {
+                              return null;
+                            },
+                            onSaved: (newValue) {
+                              _data['title'] = newValue;
+                            },
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 15),
+                            width: double.infinity,
+                            height: 50,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                RaisedButton(
+                                  onPressed: () =>
+                                      _takePicture(ImageSource.gallery),
+                                  child: Text(
+                                    'Select a Picture',
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                ),
+                                RaisedButton(
+                                  onPressed: () =>
+                                      _takePicture(ImageSource.camera),
+                                  child: Text(
+                                    'Take a Picture',
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(labelText: 'Title'),
-                        textInputAction: TextInputAction.next,
-                        initialValue: _data['title'],
-                        validator: (value) {
-                          return null;
-                        },
-                        onSaved: (newValue) {
-                          _data['title'] = newValue;
-                        },
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 15),
-                        width: double.infinity,
-                        height: 50,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            RaisedButton(
-                              onPressed: () =>
-                                  _takePicture(ImageSource.gallery),
-                              child: Text(
-                                'Select a Picture',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                            ),
-                            RaisedButton(
-                              onPressed: () => _takePicture(ImageSource.camera),
-                              child: Text(
-                                'Take a Picture',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                       if (_newImage != null)
                         Container(
