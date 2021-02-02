@@ -15,6 +15,12 @@ RoomWarning _$RoomWarningFromJson(Map<String, dynamic> json) {
     creationDate: json['creationDate'] == null
         ? null
         : DateTime.parse(json['creationDate'] as String),
+    validFrom: json['validFrom'] == null
+        ? null
+        : DateTime.parse(json['validFrom'] as String),
+    validTo: json['validTo'] == null
+        ? null
+        : DateTime.parse(json['validTo'] as String),
   );
 }
 
@@ -25,4 +31,6 @@ Map<String, dynamic> _$RoomWarningToJson(RoomWarning instance) =>
       'text': instance.text,
       'author': instance.author,
       'creationDate': instance.creationDate?.toIso8601String(),
+      'validFrom': instance.validFrom?.toIso8601String(),
+      'validTo': instance.validTo?.toIso8601String(),
     };

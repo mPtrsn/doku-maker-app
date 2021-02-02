@@ -3,6 +3,7 @@ import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/room_provider.dart';
 import 'package:doku_maker/screens/room/new_room_warning_modal.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class RoomWarningsView extends StatelessWidget {
@@ -58,7 +59,7 @@ class RoomWarningEntry extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Icon(Icons.warning),
+          child: const Icon(Icons.warning),
         ),
       );
     }
@@ -70,7 +71,7 @@ class RoomWarningEntry extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Icon(Icons.warning),
+          child: const Icon(Icons.warning),
         ),
       );
     }
@@ -82,7 +83,7 @@ class RoomWarningEntry extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Icon(Icons.warning),
+          child: const Icon(Icons.warning),
         ),
       );
     }
@@ -90,6 +91,30 @@ class RoomWarningEntry extends StatelessWidget {
   }
 
   const RoomWarningEntry(this.warning);
+
+  String get dateString {
+    String from = "";
+    String to = "";
+    String seperator = " - ";
+    if (warning.validFrom == null) {
+      from = "";
+      seperator = "-> ";
+    } else {
+      from = DateFormat.MMMd().format(warning.validFrom);
+    }
+    if (warning.validTo == null) {
+      to = "";
+      seperator = "-> ";
+    } else {
+      to = DateFormat.MMMd().format(warning.validTo);
+    }
+    if (warning.validFrom == null && warning.validTo == null) {
+      from = "";
+      seperator = "";
+      to = "valid";
+    }
+    return "$from$seperator$to";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,11 +127,16 @@ class RoomWarningEntry extends StatelessWidget {
             levelIcon,
             SizedBox(width: 7),
             Flexible(
-              child: Text(
-                warning.text,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
+              child: Column(
+                children: [
+                  Text(dateString),
+                  Text(
+                    warning.text,
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -181,11 +211,17 @@ class AdminRoomWarningEntry extends RoomWarningEntry {
               levelIcon,
               SizedBox(width: 7),
               Flexible(
-                child: Text(
-                  warning.text,
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(dateString),
+                    Text(
+                      warning.text,
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

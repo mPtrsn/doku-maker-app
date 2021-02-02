@@ -3,6 +3,7 @@ import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/room_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../config.dart';
@@ -19,7 +20,12 @@ class NewRoomWarningModal extends StatefulWidget {
 class _NewRoomWarningModalState extends State<NewRoomWarningModal> {
   final _form = GlobalKey<FormState>();
 
-  var _data = {'level': 'INFO', 'text': ''};
+  var _data = {
+    'level': 'INFO',
+    'text': '',
+    "validFrom": DateTime.now(),
+    "validTo": DateTime.now(),
+  };
   var _isLoading = false;
   bool _isInit = true;
 
@@ -29,6 +35,8 @@ class _NewRoomWarningModalState extends State<NewRoomWarningModal> {
       if (widget.warning != null) {
         _data['level'] = widget.warning.level;
         _data['text'] = widget.warning.text;
+        _data['validFrom'] = widget.warning.validFrom;
+        _data['validTo'] = widget.warning.validTo;
       }
       setState(() {});
       _isInit = false;
@@ -51,6 +59,8 @@ class _NewRoomWarningModalState extends State<NewRoomWarningModal> {
                   level: _data['level'],
                   author: widget.warning.author,
                   creationDate: widget.warning.creationDate,
+                  validFrom: (_data["validFrom"] as DateTime).toUtc(),
+                  validTo: (_data["validTo"] as DateTime).toUtc(),
                   text: _data['text']));
         } else {
           await Provider.of<RoomProvider>(context, listen: false).addWarning(
@@ -59,6 +69,8 @@ class _NewRoomWarningModalState extends State<NewRoomWarningModal> {
                 id: null,
                 level: _data['level'],
                 creationDate: DateTime.now().toUtc(),
+                validFrom: (_data["validFrom"] as DateTime).toUtc(),
+                validTo: (_data["validTo"] as DateTime).toUtc(),
                 text: _data['text'],
                 author:
                     Provider.of<AuthProvider>(context, listen: false).userId,
@@ -75,6 +87,18 @@ class _NewRoomWarningModalState extends State<NewRoomWarningModal> {
     }
   }
 
+  Future _selectDate(BuildContext context, String dateField) async {
+    final DateTime selected = await showDatePicker(
+      context: context,
+      initialDate: _data[dateField],
+      firstDate: DateTime(DateTime.now().year - 1),
+      lastDate: DateTime(DateTime.now().year + 1),
+    );
+    setState(() {
+      _data[dateField] = selected;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -87,24 +111,28 @@ class _NewRoomWarningModalState extends State<NewRoomWarningModal> {
                 child: Form(
                   key: _form,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'New Warning',
-                              style: TextStyle(fontSize: 26),
-                              textAlign: TextAlign.center,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'New Warning',
+                                  style: TextStyle(fontSize: 26),
+                                  textAlign: TextAlign.center,
+                                ),
+                                RaisedButton(
+                                  onPressed: () => _saveForm(),
+                                  child: Text('Save'),
+                                  color: Theme.of(context).accentColor,
+                                ),
+                              ],
                             ),
-                            RaisedButton(
-                              onPressed: () => _saveForm(),
-                              child: Text('Save'),
-                              color: Theme.of(context).accentColor,
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -158,6 +186,34 @@ class _NewRoomWarningModalState extends State<NewRoomWarningModal> {
                           _data['text'] = newValue;
                         },
                         onFieldSubmitted: (value) => _saveForm(),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            DateFormat.MMMd().format(_data["validFrom"]),
+                          ),
+                          RaisedButton(
+                            onPressed: () {
+                              _selectDate(context, "validFrom");
+                            },
+                            child: Text("Valid From"),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            DateFormat.MMMd().format(_data["validTo"]),
+                          ),
+                          RaisedButton(
+                            onPressed: () {
+                              _selectDate(context, "validTo");
+                            },
+                            child: Text("Valid To"),
+                          ),
+                        ],
                       ),
                     ],
                   ),

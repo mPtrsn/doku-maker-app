@@ -9,6 +9,8 @@ class RoomWarning {
   String text;
   String author;
   DateTime creationDate;
+  DateTime validFrom;
+  DateTime validTo;
 
   RoomWarning({
     this.id,
@@ -16,6 +18,8 @@ class RoomWarning {
     this.text,
     this.author,
     this.creationDate,
+    this.validFrom,
+    this.validTo,
   });
 
   factory RoomWarning.fromJson(Map<String, dynamic> json) =>

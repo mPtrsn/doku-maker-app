@@ -1,7 +1,7 @@
 import 'package:doku_maker/provider/room_provider.dart';
 import 'package:doku_maker/widgets/main_drawer.dart';
 import 'package:doku_maker/widgets/room/room_entries_view.dart';
-import 'package:doku_maker/widgets/room/room_warnings.dart';
+import 'package:doku_maker/widgets/room/room_warnings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
