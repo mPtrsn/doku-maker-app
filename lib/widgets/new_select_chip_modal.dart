@@ -42,10 +42,11 @@ class _NewSelectChipModalState extends State<NewSelectChipModal> {
                         style: TextStyle(fontSize: 26),
                         textAlign: TextAlign.center,
                       ),
-                      RaisedButton(
+                      ElevatedButton(
                         onPressed: _saveForm,
                         child: Text('Add'),
-                        color: Theme.of(context).accentColor,
+                        style: TextButton.styleFrom(
+                            primary: Theme.of(context).accentColor),
                       ),
                     ],
                   ),

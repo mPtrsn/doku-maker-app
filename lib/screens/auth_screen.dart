@@ -28,7 +28,7 @@ class _AuthScreenState extends State<AuthScreen> {
           ],
         ),
         actions: [
-          FlatButton(
+          TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
             child: Text('OK'),
           )
@@ -108,18 +108,14 @@ class _AuthScreenState extends State<AuthScreen> {
                         if (_isLoading)
                           CircularProgressIndicator()
                         else
-                          RaisedButton(
-                            child: Text('LOGIN'),
-                            onPressed: _submit,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 30.0, vertical: 8.0),
-                            color: Theme.of(context).accentColor,
-                            textColor:
-                                Theme.of(context).primaryTextTheme.button.color,
-                          ),
+                          ElevatedButton(
+                              child: Text('LOGIN'),
+                              onPressed: _submit,
+                              style: ElevatedButton.styleFrom(
+                                primary: Theme.of(context).accentColor,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 30.0, vertical: 8.0),
+                              )),
                       ],
                     ),
                   ),

@@ -74,10 +74,11 @@ class _NewRoomEntryModalState extends State<NewRoomEntryModal> {
                               style: TextStyle(fontSize: 26),
                               textAlign: TextAlign.center,
                             ),
-                            RaisedButton(
+                            ElevatedButton(
                               onPressed: () => _saveForm(),
                               child: Text('Save'),
-                              color: Theme.of(context).accentColor,
+                              style: TextButton.styleFrom(
+                                  primary: Theme.of(context).accentColor),
                             ),
                           ],
                         ),

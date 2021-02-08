@@ -56,6 +56,7 @@ class ProjectsProvider with ChangeNotifier {
       owners: [userId],
       collaborators: [],
       creationDate: DateTime.now(),
+      lastUpdated: DateTime.now(),
       disabled: false,
     );
     var body = projectToJson(newProject);

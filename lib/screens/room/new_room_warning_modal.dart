@@ -124,10 +124,11 @@ class _NewRoomWarningModalState extends State<NewRoomWarningModal> {
                                   style: TextStyle(fontSize: 26),
                                   textAlign: TextAlign.center,
                                 ),
-                                RaisedButton(
+                                ElevatedButton(
                                   onPressed: () => _saveForm(),
                                   child: Text('Save'),
-                                  color: Theme.of(context).accentColor,
+                                  style: TextButton.styleFrom(
+                                      primary: Theme.of(context).accentColor),
                                 ),
                               ],
                             ),
@@ -137,38 +138,44 @@ class _NewRoomWarningModalState extends State<NewRoomWarningModal> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          FlatButton(
+                          TextButton(
                             onPressed: () {
                               setState(() {
                                 _data["level"] = "INFO";
                               });
                             },
                             child: Text("INFO"),
-                            color: _data["level"] == "INFO"
-                                ? Colors.blue
-                                : Colors.white,
+                            style: _data["level"] == "INFO"
+                                ? TextButton.styleFrom(
+                                    backgroundColor: Colors.blue)
+                                : TextButton.styleFrom(
+                                    backgroundColor: Colors.white),
                           ),
-                          FlatButton(
+                          TextButton(
                             onPressed: () {
                               setState(() {
                                 _data["level"] = "WARN";
                               });
                             },
                             child: Text("WARN"),
-                            color: _data["level"] == "WARN"
-                                ? Colors.yellow
-                                : Colors.white,
+                            style: _data["level"] == "WARN"
+                                ? TextButton.styleFrom(
+                                    backgroundColor: Colors.yellow)
+                                : TextButton.styleFrom(
+                                    backgroundColor: Colors.white),
                           ),
-                          FlatButton(
+                          TextButton(
                             onPressed: () {
                               setState(() {
                                 _data["level"] = "IMPORTANT";
                               });
                             },
                             child: Text("IMPORTANT"),
-                            color: _data["level"] == "IMPORTANT"
-                                ? Colors.red
-                                : Colors.white,
+                            style: _data["level"] == "IMPORTANT"
+                                ? TextButton.styleFrom(
+                                    backgroundColor: Colors.red)
+                                : TextButton.styleFrom(
+                                    backgroundColor: Colors.white),
                           ),
                         ],
                       ),
@@ -193,7 +200,7 @@ class _NewRoomWarningModalState extends State<NewRoomWarningModal> {
                           Text(
                             DateFormat.MMMd().format(_data["validFrom"]),
                           ),
-                          RaisedButton(
+                          ElevatedButton(
                             onPressed: () {
                               _selectDate(context, "validFrom");
                             },
@@ -207,7 +214,7 @@ class _NewRoomWarningModalState extends State<NewRoomWarningModal> {
                           Text(
                             DateFormat.MMMd().format(_data["validTo"]),
                           ),
-                          RaisedButton(
+                          ElevatedButton(
                             onPressed: () {
                               _selectDate(context, "validTo");
                             },

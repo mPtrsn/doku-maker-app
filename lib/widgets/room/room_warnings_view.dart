@@ -32,10 +32,11 @@ class RoomWarningsView extends StatelessWidget {
         itemBuilder: (ctx, idx) => (idx == 0 && isOwner(context))
             ? Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
-                child: RaisedButton(
+                child: ElevatedButton(
                   onPressed: () => _openNewWarningModal(context),
                   child: Text("Create Warning"),
-                  color: Theme.of(context).accentColor,
+                  style: TextButton.styleFrom(
+                      primary: Theme.of(context).accentColor),
                 ),
               )
             : isOwner(context)
@@ -184,14 +185,14 @@ class AdminRoomWarningEntry extends RoomWarningEntry {
               title: Text('Remove this Warning?'),
               content: Text('Do you want to remove this warning?'),
               actions: [
-                FlatButton(
+                TextButton(
                     child: Text('Yes'),
                     onPressed: () async {
                       await Provider.of<RoomProvider>(context, listen: false)
                           .removeWarning("roomId", warning.id);
                       Navigator.of(context).pop(true);
                     }),
-                FlatButton(
+                TextButton(
                     child: Text('No'),
                     onPressed: () => Navigator.of(context).pop(false)),
               ],

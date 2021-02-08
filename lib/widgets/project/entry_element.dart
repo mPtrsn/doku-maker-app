@@ -67,7 +67,7 @@ class _EntryElementState extends State<EntryElement> {
               content:
                   Text('Do you want to remove this entry from your project?'),
               actions: [
-                FlatButton(
+                TextButton(
                     child: Text('Yes'),
                     onPressed: () async {
                       await Provider.of<ProjectsProvider>(context,
@@ -75,7 +75,7 @@ class _EntryElementState extends State<EntryElement> {
                           .removeEntry(widget.projectId, widget.entry.id);
                       Navigator.of(context).pop(true);
                     }),
-                FlatButton(
+                TextButton(
                     child: Text('No'),
                     onPressed: () => Navigator.of(context).pop(false)),
               ],

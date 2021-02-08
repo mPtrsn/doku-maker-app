@@ -133,8 +133,10 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
                           ),
 
                           Divider(thickness: 2),
-                          OutlineButton(
-                            borderSide: BorderSide(color: Colors.red, width: 2),
+                          OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              primary: Colors.red,
+                            ),
                             onPressed: openDeleteModal,
                             child: Text('Delete Project'),
                           )
@@ -154,13 +156,13 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
                 title: Text("Unsaved Changes"),
                 content: Text("There are unsaved Changes"),
                 actions: [
-                  FlatButton(
+                  TextButton(
                     child: Text('Continiue without saving'),
                     onPressed: () {
                       Navigator.of(context).pop(true);
                     },
                   ),
-                  RaisedButton(
+                  ElevatedButton(
                     child: Text('Save Changes'),
                     onPressed: () async {
                       // save Changes
@@ -168,7 +170,7 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
                       Navigator.of(context).pop(true);
                     },
                   ),
-                  RaisedButton(
+                  ElevatedButton(
                     child: Text('Cancel'),
                     onPressed: () {
                       Navigator.of(context).pop(false);

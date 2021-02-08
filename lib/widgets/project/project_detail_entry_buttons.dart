@@ -11,11 +11,12 @@ class ProjectDetailEntryButtons extends StatelessWidget {
 
   final Project project;
 
-  Widget _buildEntryButton(BuildContext ctx, IconData icon, Function onTab) {
+  Widget _buildEntryButton(BuildContext ctx, IconData icon, Function onTab,
+      [Color color]) {
     return Ink(
       decoration: ShapeDecoration(
         shape: CircleBorder(),
-        color: Theme.of(ctx).accentColor,
+        color: color == null ? Theme.of(ctx).accentColor : color,
       ),
       child: IconButton(
         icon: Icon(icon),
@@ -46,19 +47,11 @@ class ProjectDetailEntryButtons extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 builder: (ctx) => NewImageEntryModal(project.id));
           }),
-          _buildEntryButton(context, Icons.play_arrow, () {}),
-          _buildEntryButton(context, Icons.mic, () {}),
-          _buildEntryButton(context, Icons.gesture, () {}),
-          Ink(
-            decoration: ShapeDecoration(
-              shape: CircleBorder(),
-              color: Theme.of(context).buttonColor,
-            ),
-            child: IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {},
-            ),
-          ),
+          _buildEntryButton(context, Icons.play_arrow, null),
+          _buildEntryButton(context, Icons.mic, null),
+          _buildEntryButton(context, Icons.gesture, null),
+          _buildEntryButton(
+              context, Icons.search, null, Theme.of(context).buttonColor),
         ],
       ),
     );

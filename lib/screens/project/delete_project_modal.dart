@@ -17,9 +17,9 @@ class _DeleteProjectModalState extends State<DeleteProjectModal> {
 
   Future _saveForm() async {
     if (_form.currentState.validate()) {
+      Navigator.of(context).pushReplacementNamed("/");
       await Provider.of<ProjectsProvider>(context, listen: false)
           .deleteProject(widget.id);
-      Navigator.of(context).pushReplacementNamed("/");
     }
   }
 
@@ -61,10 +61,11 @@ class _DeleteProjectModalState extends State<DeleteProjectModal> {
                 },
                 onSaved: (newValue) {},
               ),
-              RaisedButton(
+              ElevatedButton(
                 onPressed: _saveForm,
                 child: Text("Confirm"),
-                color: Theme.of(context).accentColor,
+                style: TextButton.styleFrom(
+                    primary: Theme.of(context).accentColor),
               )
             ]),
           ),

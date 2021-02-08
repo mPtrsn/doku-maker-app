@@ -1,6 +1,14 @@
+import 'dart:io';
+
 import 'package:doku_maker/models/room/RoomEntry.dart';
+import 'package:doku_maker/models/room/RoomEntryAttachment.dart';
+import 'package:doku_maker/provider/room_provider.dart';
+import 'package:doku_maker/provider/upload_service.dart';
+import 'package:doku_maker/widgets/doku_image_picker.dart';
+import 'package:doku_maker/widgets/room/room_attachment_element.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../../screens/room/new_room_entry_modal.dart';
 
@@ -22,10 +30,11 @@ class RoomEntriesView extends StatelessWidget {
     return Container(
       child: ListView.builder(
         itemBuilder: (ctx, idx) => idx == 0
-            ? RaisedButton(
+            ? ElevatedButton(
                 onPressed: () => _openAddEntryModal(context),
                 child: Text("Add Entry"),
-                color: Theme.of(context).accentColor,
+                style: TextButton.styleFrom(
+                    primary: Theme.of(context).accentColor),
               )
             : RoomEntriesEntry(entries[idx - 1]),
         itemCount: entries.length + 1,
@@ -39,6 +48,16 @@ class RoomEntriesEntry extends StatelessWidget {
 
   String get date {
     return DateFormat.MMMd().add_Hm().format(entry.creationDate);
+  }
+
+  void onImageSelected(File image, BuildContext context) async {
+    var imageUrl = await UploadService.uploadImage("", image.path);
+    RoomEntryAttachment attachment = RoomEntryAttachment(
+      type: 'IMAGE',
+      content: imageUrl,
+    );
+    Provider.of<RoomProvider>(context, listen: false)
+        .updateEntry("roomID TODO", entry..attachments.add(attachment));
   }
 
   const RoomEntriesEntry(this.entry);
@@ -63,22 +82,29 @@ class RoomEntriesEntry extends StatelessWidget {
       ),
       children: [
         ListTile(leading: Text(entry.text)),
-        ListTile(
-          leading: RaisedButton(
-            child: Text("COUNT Attachments"),
-            onPressed: () {
-              /*
-            TODO Step One: Carousel for images, carousel_slider 2.3.1
-            */
-            },
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: DokuImagePicker(
+            onSelected: (image) => onImageSelected(image, context),
+            showPreview: false,
           ),
-          trailing: RaisedButton(
-            child: Text("Add Attachment"),
-            onPressed: () {
-              /*
-            TODO Step One: Add image dialog
-            */
-            },
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Container(
+            width: double.infinity,
+            height: (entry.attachments.length / 2).round() * 150.0,
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 3 / 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+              ),
+              itemBuilder: (ctx, idx) =>
+                  RoomAttachmentElement(entry.attachments[idx], entry),
+              itemCount: entry.attachments.length,
+            ),
           ),
         ),
       ],

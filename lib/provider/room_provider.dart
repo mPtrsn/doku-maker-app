@@ -58,6 +58,14 @@ class RoomProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future updateEntry(String roomId, RoomEntry roomEntry) async {
+    var idx =
+        smartarea.entries.indexWhere((element) => element.id == roomEntry.id);
+    smartarea.entries[idx] = roomEntry;
+    await performUpdate(smartarea);
+    notifyListeners();
+  }
+
   Future<void> removeEntry(String projectId, String id) async {
     // ROOM UPDATE: use roomId
     smartarea.entries.removeWhere((e) => e.id == id);

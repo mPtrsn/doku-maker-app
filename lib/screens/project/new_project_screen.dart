@@ -6,6 +6,8 @@ import 'package:doku_maker/widgets/doku_image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../config.dart';
+
 class NewProjectScreen extends StatefulWidget {
   static const String routeName = '/new-project';
   @override
@@ -34,27 +36,26 @@ class _NewProjectScreenState extends State<NewProjectScreen> {
 
       // make rest call
       String imageUrl = '';
-      try {
-        imageUrl =
-            await UploadService.uploadImage(_projectData['title'], _imagePath);
-      } catch (error) {
-        print('Error Uploading Projectimage');
-        print(error.toString());
-        return;
-      }
-      if (imageUrl.isNotEmpty) {
+      if (_imagePath.isNotEmpty) {
         try {
-          await Provider.of<ProjectsProvider>(context, listen: false)
-              .createProject(
-                  _projectData['title'], _projectData['description'], imageUrl);
-          Navigator.of(context).pop();
+          imageUrl = await UploadService.uploadImage(
+              _projectData['title'], _imagePath);
         } catch (error) {
-          print('Error Creating Project');
+          print('Error Uploading Projectimage');
           print(error.toString());
           return;
         }
-      } else {
-        print("ImageURL from server is empty");
+      }
+
+      try {
+        await Provider.of<ProjectsProvider>(context, listen: false)
+            .createProject(_projectData['title'], _projectData['description'],
+                imageUrl.isNotEmpty ? imageUrl : Config.defaultImagePath);
+        Navigator.of(context).pop();
+      } catch (error) {
+        print('Error Creating Project');
+        print(error.toString());
+        return;
       }
     }
   }

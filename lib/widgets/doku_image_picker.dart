@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class DokuImagePicker extends StatefulWidget {
-  const DokuImagePicker({Key key, @required this.onSelected}) : super(key: key);
+  final Function(File image) onSelected;
+  final bool showPreview;
+  const DokuImagePicker(
+      {Key key, @required this.onSelected, this.showPreview: true})
+      : super(key: key);
 
   @override
   _DokuImagePickerState createState() => _DokuImagePickerState();
-
-  final Function onSelected;
 }
 
 class _DokuImagePickerState extends State<DokuImagePicker> {
@@ -34,40 +36,60 @@ class _DokuImagePickerState extends State<DokuImagePicker> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _newImage != null
-              ? Container(
-                  child: Image.file(
-                    _newImage,
+          if (widget.showPreview)
+            _newImage != null
+                ? Container(
+                    child: Image.file(
+                      _newImage,
+                      width: device.width * 0.35,
+                      height: device.width * 0.35,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : Container(
                     width: device.width * 0.35,
                     height: device.width * 0.35,
-                    fit: BoxFit.cover,
+                    color: Colors.green,
                   ),
-                )
-              : Container(
-                  width: device.width * 0.35,
-                  height: device.width * 0.35,
-                  color: Colors.green,
-                ),
           Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                RaisedButton(
-                  onPressed: () => _takePicture(ImageSource.gallery),
-                  child: Text(
-                    'Select a Picture',
-                    style: TextStyle(fontSize: 12),
+            child: PopupMenuButton(
+                child: Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(3)),
+                      border: Border.all(color: Colors.grey)),
+                  child: Row(
+                    children: [
+                      Icon(Icons.add),
+                      Text(
+                        "Add Picture",
+                        style: TextStyle(),
+                      ),
+                    ],
                   ),
                 ),
-                RaisedButton(
-                  onPressed: () => _takePicture(ImageSource.camera),
-                  child: Text(
-                    'Take a Picture',
-                    style: TextStyle(fontSize: 12),
-                  ),
-                ),
-              ],
-            ),
+                //icon: Icon(Icons.add),
+                onSelected: (source) => _takePicture(source),
+                itemBuilder: (ctx) => [
+                      PopupMenuItem<ImageSource>(
+                        child: Row(
+                          children: [
+                            Icon(Icons.camera_alt),
+                            Text('Take a Picture'),
+                          ],
+                        ),
+                        value: ImageSource.camera,
+                      ),
+                      PopupMenuItem<ImageSource>(
+                        child: Row(
+                          children: [
+                            Icon(Icons.image),
+                            Text('Select a Picture'),
+                          ],
+                        ),
+                        value: ImageSource.gallery,
+                      ),
+                    ]),
           ),
         ],
       ),

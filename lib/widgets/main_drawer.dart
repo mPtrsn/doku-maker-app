@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MainDrawer extends StatelessWidget {
-  Widget _buildListTile(String title, IconData icon, Function onTab) {
+  Widget _buildListTile(String title, IconData icon, Function onTab,
+      [TextStyle style]) {
     return ListTile(
       leading: Icon(
         icon,
@@ -12,10 +13,13 @@ class MainDrawer extends StatelessWidget {
       ),
       title: Text(
         title,
-        style: TextStyle(
-            fontFamily: 'RobotoCondensed',
-            fontSize: 24,
-            fontWeight: FontWeight.bold),
+        style: style == null
+            ? TextStyle(
+                fontFamily: 'RobotoCondensed',
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              )
+            : style,
       ),
       onTap: onTab,
     );
@@ -33,7 +37,14 @@ class MainDrawer extends StatelessWidget {
           _buildListTile(
               Provider.of<AuthProvider>(context, listen: false).userId,
               Icons.person,
-              () {}),
+              null,
+              TextStyle(
+                fontFamily: 'RobotoCondensed',
+                fontSize: 16,
+              )),
+          Divider(
+            thickness: 2,
+          ),
           _buildListTile('Projects', Icons.category,
               () => Navigator.of(context).pushReplacementNamed('/')),
           _buildListTile(

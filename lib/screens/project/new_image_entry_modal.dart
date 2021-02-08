@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:doku_maker/models/project/entries/project_image_entry.dart';
+import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:doku_maker/provider/upload_service.dart';
+import 'package:doku_maker/widgets/doku_image_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class NewImageEntryModal extends StatefulWidget {
@@ -21,7 +22,6 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
 
   var _data = {'title': ''};
   File _newImage;
-  final _picker = ImagePicker();
   var _isLoading = false;
   bool _isInit = true;
 
@@ -36,16 +36,6 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
     super.didChangeDependencies();
   }
 
-  Future<void> _takePicture(ImageSource source) async {
-    PickedFile _imageFile = await _picker.getImage(
-      source: source,
-      maxWidth: 600,
-    );
-    setState(() {
-      _newImage = File(_imageFile.path);
-    });
-  }
-
   Future _saveForm() async {
     if (_form.currentState.validate()) {
       _form.currentState.save();
@@ -58,22 +48,28 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
         if (widget.entry != null) {
           await Provider.of<ProjectsProvider>(context, listen: false)
               .updateEntry(
-                  widget.projectId,
-                  ProjectImageEntry(
-                      id: widget.entry.id,
-                      title: _data['title'],
-                      tags: widget.entry.tags,
-                      creationDate: widget.entry.creationDate,
-                      imageUrl: imageUrl));
+            widget.projectId,
+            ProjectImageEntry(
+              id: widget.entry.id,
+              title: _data['title'],
+              tags: widget.entry.tags,
+              creationDate: widget.entry.creationDate,
+              imageUrl: imageUrl,
+              author: Provider.of<AuthProvider>(context, listen: false).userId,
+            ),
+          );
         } else {
           await Provider.of<ProjectsProvider>(context, listen: false).addEntry(
-              widget.projectId,
-              ProjectImageEntry(
-                  id: null,
-                  title: _data['title'],
-                  tags: [],
-                  creationDate: DateTime.now(),
-                  imageUrl: imageUrl));
+            widget.projectId,
+            ProjectImageEntry(
+              id: null,
+              title: _data['title'],
+              tags: [],
+              creationDate: DateTime.now(),
+              imageUrl: imageUrl,
+              author: Provider.of<AuthProvider>(context, listen: false).userId,
+            ),
+          );
         }
       } catch (error) {
         print(error.toString());
@@ -89,7 +85,7 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.75,
+      height: MediaQuery.of(context).size.height * 0.6,
       child: Card(
         child: _isLoading
             ? Center(child: CircularProgressIndicator())
@@ -111,10 +107,11 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
                                   style: TextStyle(fontSize: 26),
                                   textAlign: TextAlign.center,
                                 ),
-                                RaisedButton(
+                                ElevatedButton(
                                   onPressed: () => _saveForm(),
                                   child: Text('Save'),
-                                  color: Theme.of(context).accentColor,
+                                  style: TextButton.styleFrom(
+                                      primary: Theme.of(context).accentColor),
                                 ),
                               ],
                             ),
@@ -131,31 +128,17 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
                             },
                           ),
                           Container(
-                            margin: EdgeInsets.only(top: 15),
-                            width: double.infinity,
-                            height: 50,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                RaisedButton(
-                                  onPressed: () =>
-                                      _takePicture(ImageSource.gallery),
-                                  child: Text(
-                                    'Select a Picture',
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                ),
-                                RaisedButton(
-                                  onPressed: () =>
-                                      _takePicture(ImageSource.camera),
-                                  child: Text(
-                                    'Take a Picture',
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                              margin: EdgeInsets.only(top: 15),
+                              width: double.infinity,
+                              height: 50,
+                              child: DokuImagePicker(
+                                onSelected: (File image) {
+                                  setState(() {
+                                    _newImage = File(image.path);
+                                  });
+                                },
+                                showPreview: false,
+                              )),
                         ],
                       ),
                       if (_newImage != null)

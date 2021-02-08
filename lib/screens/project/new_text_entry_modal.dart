@@ -81,7 +81,7 @@ class _NewTextEntryModalState extends State<NewTextEntryModal> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.75,
+      height: MediaQuery.of(context).size.height * 0.6,
       child: Card(
         child: _isLoading
             ? Center(child: CircularProgressIndicator())
@@ -101,10 +101,11 @@ class _NewTextEntryModalState extends State<NewTextEntryModal> {
                               style: TextStyle(fontSize: 26),
                               textAlign: TextAlign.center,
                             ),
-                            RaisedButton(
+                            ElevatedButton(
                               onPressed: () => _saveForm(),
                               child: Text('Save'),
-                              color: Theme.of(context).accentColor,
+                              style: TextButton.styleFrom(
+                                  primary: Theme.of(context).accentColor),
                             ),
                           ],
                         ),
