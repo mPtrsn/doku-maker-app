@@ -18,7 +18,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> logIn(String username, String password) async {
-    var url = 'https://fhwapp.fh-wedel.de/api/auth'; //:4446
+    var url = 'https://fhwapp.fh-wedel.de:4446/api/auth';
     var body = {"user": username, "pass": password};
     var response = await http.post(
       url,
