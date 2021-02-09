@@ -42,7 +42,7 @@ class ProjectDetailScreen extends StatelessWidget {
         return Column(
           children: <Widget>[
             Container(
-                height: constraints.maxHeight * 0.12,
+                //height: constraints.maxHeight * 0.12,
                 child: ProjectDetailEntryButtons(project: project)),
             Divider(
               thickness: 3,
@@ -54,14 +54,16 @@ class ProjectDetailScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 26),
                     ),
                   )
-                : Container(
-                    height: constraints.maxHeight * 0.85,
-                    child: ListView.builder(
-                      itemBuilder: (ctx, idx) => EntryElement(
-                        entry: project.entries[idx],
-                        projectId: project.id,
+                : Expanded(
+                    child: Container(
+                      height: constraints.maxHeight * 0.85,
+                      child: ListView.builder(
+                        itemBuilder: (ctx, idx) => EntryElement(
+                          entry: project.entries[idx],
+                          projectId: project.id,
+                        ),
+                        itemCount: project.entries.length,
                       ),
-                      itemCount: project.entries.length,
                     ),
                   )
           ],

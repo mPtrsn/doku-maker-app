@@ -1,6 +1,7 @@
 import 'package:doku_maker/models/project/entries/project_text_entry.dart';
 import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
+import 'package:doku_maker/widgets/adaptive/adaptive_progress_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -84,7 +85,7 @@ class _NewTextEntryModalState extends State<NewTextEntryModal> {
       height: MediaQuery.of(context).size.height * 0.6,
       child: Card(
         child: _isLoading
-            ? Center(child: CircularProgressIndicator())
+            ? Center(child: AdaptiveProgressIndicator())
             : Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Form(

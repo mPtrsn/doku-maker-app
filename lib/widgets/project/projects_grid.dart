@@ -1,4 +1,5 @@
 import 'package:doku_maker/provider/projects_provider.dart';
+import 'package:doku_maker/widgets/adaptive/adaptive_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +17,7 @@ class ProjectsGrid extends StatelessWidget {
       future: _getAllProjects(context),
       builder: (context, snapshot) =>
           snapshot.connectionState == ConnectionState.waiting
-              ? Center(child: CircularProgressIndicator())
+              ? Center(child: AdaptiveProgressIndicator())
               : RefreshIndicator(
                   onRefresh: () => _getAllProjects(context),
                   child: Consumer<ProjectsProvider>(

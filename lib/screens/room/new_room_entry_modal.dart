@@ -1,6 +1,7 @@
 import 'package:doku_maker/models/room/RoomEntry.dart';
 import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/room_provider.dart';
+import 'package:doku_maker/widgets/adaptive/adaptive_progress_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +58,7 @@ class _NewRoomEntryModalState extends State<NewRoomEntryModal> {
       height: MediaQuery.of(context).size.height * 0.75,
       child: Card(
         child: _isLoading
-            ? Center(child: CircularProgressIndicator())
+            ? Center(child: AdaptiveProgressIndicator())
             : Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Form(

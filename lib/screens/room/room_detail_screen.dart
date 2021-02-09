@@ -1,4 +1,5 @@
 import 'package:doku_maker/provider/room_provider.dart';
+import 'package:doku_maker/widgets/adaptive/adaptive_progress_indicator.dart';
 import 'package:doku_maker/widgets/main_drawer.dart';
 import 'package:doku_maker/widgets/room/room_entries_view.dart';
 import 'package:doku_maker/widgets/room/room_warnings_view.dart';
@@ -19,7 +20,7 @@ class RoomDetailScreen extends StatelessWidget {
       future: _getSmartarea(context),
       builder: (context, snapshot) =>
           snapshot.connectionState == ConnectionState.waiting
-              ? Center(child: CircularProgressIndicator())
+              ? Center(child: AdaptiveProgressIndicator())
               : DefaultTabController(
                   length: 2,
                   child: Scaffold(

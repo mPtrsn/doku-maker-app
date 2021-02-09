@@ -1,5 +1,6 @@
 import 'package:doku_maker/exceptions/auth_exception.dart';
 import 'package:doku_maker/provider/auth_provider.dart';
+import 'package:doku_maker/widgets/adaptive/adaptive_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -106,7 +107,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           height: 20,
                         ),
                         if (_isLoading)
-                          CircularProgressIndicator()
+                          AdaptiveProgressIndicator()
                         else
                           ElevatedButton(
                               child: Text('LOGIN'),

@@ -4,6 +4,7 @@ import 'package:doku_maker/models/project/entries/project_image_entry.dart';
 import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:doku_maker/provider/upload_service.dart';
+import 'package:doku_maker/widgets/adaptive/adaptive_progress_indicator.dart';
 import 'package:doku_maker/widgets/doku_image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -88,7 +89,7 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
       height: MediaQuery.of(context).size.height * 0.6,
       child: Card(
         child: _isLoading
-            ? Center(child: CircularProgressIndicator())
+            ? Center(child: AdaptiveProgressIndicator())
             : Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Form(

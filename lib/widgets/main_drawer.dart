@@ -39,17 +39,16 @@ class MainDrawer extends StatelessWidget {
               Icons.person,
               null,
               TextStyle(
-                fontFamily: 'RobotoCondensed',
                 fontSize: 16,
               )),
           Divider(
             thickness: 2,
           ),
-          _buildListTile('Projects', Icons.category,
+          _buildListTile('Projects', Icons.dashboard,
               () => Navigator.of(context).pushReplacementNamed('/')),
           _buildListTile(
               'Smartarea Logbook',
-              Icons.handyman,
+              Icons.book,
               () => Navigator.of(context)
                   .pushReplacementNamed(RoomDetailScreen.routeName)),
           Spacer(),
