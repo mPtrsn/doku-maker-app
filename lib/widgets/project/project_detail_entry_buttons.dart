@@ -1,6 +1,7 @@
 import 'package:doku_maker/models/project/project.dart';
 import 'package:doku_maker/screens/project/new_image_entry_modal.dart';
 import 'package:doku_maker/screens/project/new_text_entry_modal.dart';
+import 'package:doku_maker/screens/project/new_video_entry_modal.dart';
 import 'package:flutter/material.dart';
 
 class ProjectDetailEntryButtons extends StatelessWidget {
@@ -47,7 +48,13 @@ class ProjectDetailEntryButtons extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 builder: (ctx) => NewImageEntryModal(project.id));
           }),
-          _buildEntryButton(context, Icons.play_arrow, null),
+          _buildEntryButton(context, Icons.play_arrow, () {
+            showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (ctx) => NewVideoEntryModal(project.id));
+          }),
           _buildEntryButton(context, Icons.mic, null),
           _buildEntryButton(context, Icons.gesture, null),
           _buildEntryButton(

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:doku_maker/models/project/entries/project_entry.dart';
 import 'package:doku_maker/models/project/entries/project_image_entry.dart';
 import 'package:doku_maker/models/project/entries/project_text_entry.dart';
+import 'package:doku_maker/models/project/entries/project_video_entry.dart';
 import 'package:doku_maker/models/project/project.dart';
 
 ///////////////////////////////////////////////////
@@ -76,11 +77,11 @@ ProjectEntry entryFromJson(dynamic entry) {
         author: entry['author'],
       );
     case 'VIDEO':
-      return ProjectImageEntry(
+      return ProjectVideoEntry(
         id: entry['id'],
         title: entry['title'],
         tags: new List<String>.from(entry['tags'] == null ? [] : entry['tags']),
-        imageUrl: entry['content'],
+        videoUrl: entry['content'],
         creationDate: DateTime.parse(entry['creationDate']),
         author: entry['author'],
       );

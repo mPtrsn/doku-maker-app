@@ -20,4 +20,23 @@ class UploadService {
     }
     return '';
   }
+
+  static Future<String> uploadVideo(String title, String path) async {
+    var ending = path.split(".").last;
+    var url = Config.backendURL + '/v1/videos';
+    try {
+      var request = http.MultipartRequest('PUT', Uri.parse(url));
+      request.files.add(
+        await http.MultipartFile.fromPath('videoFile', path),
+      );
+      var res = await request.send();
+      var response = await http.Response.fromStream(res);
+      var id = response.body.substring(1, response.body.length - 2);
+      return '/videos/$id/v.$ending';
+    } catch (error) {
+      print('Error While Uploading Image with title: $title');
+      print(error.toString());
+    }
+    return '';
+  }
 }
