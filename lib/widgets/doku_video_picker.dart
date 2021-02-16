@@ -32,7 +32,7 @@ class _DokuVideoPickerState extends State<DokuVideoPicker> {
   Widget build(BuildContext context) {
     return Container(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
             child: PopupMenuButton(
@@ -75,7 +75,6 @@ class _DokuVideoPickerState extends State<DokuVideoPicker> {
               ],
             ),
           ),
-          if (_newVideo != null) Text("Video taken"),
         ],
       ),
     );

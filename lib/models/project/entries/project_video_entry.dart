@@ -1,4 +1,4 @@
-import 'package:doku_maker/widgets/video_player_preview.dart';
+import 'package:doku_maker/widgets/video_player.dart';
 
 import 'project_entry.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class ProjectVideoEntry extends ProjectEntry {
 
   @override
   Widget get displayWidget {
-    return VideoPlayerPreview.network(videoUrl);
+    return VideoPlayer.network(videoUrl);
   }
 
   @override

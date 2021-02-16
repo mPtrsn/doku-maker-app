@@ -32,6 +32,7 @@ dependencies:
   json_annotation: ^3.1.1
   multi_select_flutter: ^3.1.6
   video_player: ^1.0.1
+  better_player: ^0.0.55
 
 dev_dependencies:
   flutter_test:

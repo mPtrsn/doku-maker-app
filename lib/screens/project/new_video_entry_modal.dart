@@ -6,10 +6,8 @@ import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:doku_maker/provider/upload_service.dart';
 import 'package:doku_maker/widgets/adaptive/adaptive_progress_indicator.dart';
-import 'package:doku_maker/widgets/doku_image_picker.dart';
 import 'package:doku_maker/widgets/doku_video_picker.dart';
-import 'package:doku_maker/widgets/video_player_dialog.dart';
-import 'package:doku_maker/widgets/video_player_preview.dart';
+import 'package:doku_maker/widgets/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -66,12 +64,12 @@ class _NewVideoEntryModalState extends State<NewVideoEntryModal> {
         } else {
           await Provider.of<ProjectsProvider>(context, listen: false).addEntry(
             widget.projectId,
-            ProjectImageEntry(
+            ProjectVideoEntry(
               id: null,
               title: _data['title'],
               tags: [],
               creationDate: DateTime.now(),
-              imageUrl: videoUrl,
+              videoUrl: videoUrl,
               author: Provider.of<AuthProvider>(context, listen: false).userId,
             ),
           );
@@ -148,7 +146,7 @@ class _NewVideoEntryModalState extends State<NewVideoEntryModal> {
                       ),
                       if (_newVideo != null)
                         Container(
-                          child: VideoPlayerPreview.file(
+                          child: VideoPlayer.file(
                             _newVideo,
                           ),
                         ),

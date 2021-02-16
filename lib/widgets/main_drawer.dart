@@ -1,6 +1,5 @@
 import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/screens/room/room_detail_screen.dart';
-import 'package:doku_maker/widgets/video_player_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -55,17 +54,6 @@ class MainDrawer extends StatelessWidget {
             Icons.book,
             () => Navigator.of(context)
                 .pushReplacementNamed(RoomDetailScreen.routeName),
-          ),
-          _buildListTile(
-            'Video',
-            Icons.video_call,
-            () => showDialog(
-              context: context,
-              builder: (context) => VideoPlayerDialog(
-                videoUrl:
-                    'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
-              ),
-            ),
           ),
           Spacer(),
           ListTile(
