@@ -23,16 +23,16 @@ class RoomAttachmentElement extends StatelessWidget {
         return GestureDetector(
           child: Image.network(
             Config.couchdbURL + attachment.content,
-            headers: {'Authorization': 'Basic cmVhZGVyOnJlYWRlcg=='},
             fit: BoxFit.cover,
           ),
           onTap: () async {
             await showDialog(
-                context: context,
-                builder: (_) => ImageDialog(
-                      url: Config.couchdbURL + attachment.content,
-                      onDelete: () => onDelete(context),
-                    ));
+              context: context,
+              builder: (_) => ImageDialog(
+                url: Config.couchdbURL + attachment.content,
+                onDelete: () => onDelete(context),
+              ),
+            );
           },
         );
       case 'LINK':

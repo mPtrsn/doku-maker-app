@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart' as mime;
 
 import '../config.dart';
 
@@ -23,11 +24,16 @@ class UploadService {
 
   static Future<String> uploadVideo(String title, String path) async {
     var ending = path.split(".").last;
+    print('Video Upload with ending: $ending');
     var url = Config.backendURL + '/v1/videos';
     try {
       var request = http.MultipartRequest('PUT', Uri.parse(url));
       request.files.add(
-        await http.MultipartFile.fromPath('videoFile', path),
+        await http.MultipartFile.fromPath(
+          'videoFile',
+          path,
+          contentType: mime.MediaType('video', 'mp4'),
+        ),
       );
       var res = await request.send();
       var response = await http.Response.fromStream(res);

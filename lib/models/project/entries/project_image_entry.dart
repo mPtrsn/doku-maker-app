@@ -22,7 +22,6 @@ class ProjectImageEntry extends ProjectEntry {
       padding: const EdgeInsets.all(8.0),
       child: Image.network(
         Config.couchdbURL + this.imageUrl,
-        headers: {'Authorization': 'Basic cmVhZGVyOnJlYWRlcg=='},
         fit: BoxFit.contain,
       ),
     );

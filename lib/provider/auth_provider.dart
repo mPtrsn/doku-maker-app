@@ -1,3 +1,4 @@
+import 'package:doku_maker/config.dart';
 import 'package:doku_maker/exceptions/auth_exception.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -10,11 +11,11 @@ class AuthProvider with ChangeNotifier {
   String _username = '';
 
   String get userId {
-    return _username;
+    return Config.useAuth ? _username : Config.localAuthName;
   }
 
   bool get isAuth {
-    return _token.isNotEmpty;
+    return Config.useAuth ? _token.isNotEmpty : true;
   }
 
   Future<void> logIn(String username, String password) async {

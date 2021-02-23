@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:doku_maker/models/project/entries/project_image_entry.dart';
 import 'package:doku_maker/models/project/entries/project_video_entry.dart';
 import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
@@ -40,7 +39,7 @@ class _NewVideoEntryModalState extends State<NewVideoEntryModal> {
   }
 
   Future _saveForm() async {
-    if (_form.currentState.validate()) {
+    if (_form.currentState.validate() && _newVideo != null) {
       _form.currentState.save();
       setState(() {
         _isLoading = true;
@@ -106,7 +105,7 @@ class _NewVideoEntryModalState extends State<NewVideoEntryModal> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'New Image Entry',
+                                  'New Video Entry',
                                   style: TextStyle(fontSize: 26),
                                   textAlign: TextAlign.center,
                                 ),
@@ -124,7 +123,7 @@ class _NewVideoEntryModalState extends State<NewVideoEntryModal> {
                             textInputAction: TextInputAction.next,
                             initialValue: _data['title'],
                             validator: (value) {
-                              return null;
+                              return value.isEmpty ? 'Provide a title' : null;
                             },
                             onSaved: (newValue) {
                               _data['title'] = newValue;

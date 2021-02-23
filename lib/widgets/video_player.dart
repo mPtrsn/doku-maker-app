@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../config.dart';
 
@@ -35,36 +36,52 @@ class _VideoPlayerState extends State<VideoPlayer> {
   @override
   void initState() {
     super.initState();
-    _betterPlayerController = BetterPlayerController(
-      BetterPlayerConfiguration(
-        aspectRatio: 9 / 16,
-        allowedScreenSleep: false,
-        fullScreenAspectRatio: 9 / 16,
-        autoDetectFullscreenDeviceOrientation: true,
-        controlsConfiguration: BetterPlayerControlsConfiguration(
-          enableOverflowMenu: false,
-          enableSkips: false,
+    if (!kIsWeb) {
+      _betterPlayerController = BetterPlayerController(
+        BetterPlayerConfiguration(
+          aspectRatio: 9 / 16,
+          allowedScreenSleep: false,
+          fullScreenAspectRatio: 9 / 16,
+          autoDetectFullscreenDeviceOrientation: true,
+          controlsConfiguration: BetterPlayerControlsConfiguration(
+            enableOverflowMenu: false,
+            enableSkips: false,
+          ),
         ),
-      ),
-      betterPlayerDataSource: widget.isNetwork
-          ? BetterPlayerDataSource.network(Config.couchdbURL + widget.videoUrl)
-          : BetterPlayerDataSource.file(widget.videoFile.uri.toFilePath()),
-    );
+        betterPlayerDataSource: widget.isNetwork
+            ? BetterPlayerDataSource.network(
+                Config.couchdbURL + widget.videoUrl,
+                notificationConfiguration:
+                    BetterPlayerNotificationConfiguration(
+                  showNotification: false,
+                ),
+              )
+            : BetterPlayerDataSource.file(
+                widget.videoFile.uri.toFilePath(),
+                notificationConfiguration:
+                    BetterPlayerNotificationConfiguration(
+                  showNotification: false,
+                ),
+              ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.5,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: AspectRatio(
-          aspectRatio: 9 / 16,
-          child: BetterPlayer(
-            controller: _betterPlayerController,
-          ),
-        ),
-      ),
-    );
+    return kIsWeb
+        ? Container(child: Text("No Video Player in Web"))
+        : Container(
+            height: MediaQuery.of(context).size.height * 0.5,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: AspectRatio(
+                aspectRatio: 9 / 16,
+                child: BetterPlayer(
+                  controller: _betterPlayerController,
+                ),
+              ),
+            ),
+          );
   }
 }

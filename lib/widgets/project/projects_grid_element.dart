@@ -31,25 +31,26 @@ class ProjectsGridElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: GridTile(
-        child: GestureDetector(
-          onTap: () {
-            Navigator.of(context).pushNamed(ProjectDetailScreen.routeName,
-                arguments: project.id);
-          },
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          ProjectDetailScreen.routeName,
+          arguments: project.id,
+        );
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: GridTile(
           child: Image.network(
             Config.couchdbURL + project.imageUrl,
-            headers: {'Authorization': 'Basic cmVhZGVyOnJlYWRlcg=='},
             fit: BoxFit.cover,
           ),
-        ),
-        footer: GridTileBar(
-          backgroundColor: Colors.black45,
-          leading: createIcon(context),
-          title: Text(
-            project.title,
+          footer: GridTileBar(
+            backgroundColor: Colors.black45,
+            leading: createIcon(context),
+            title: Text(
+              project.title,
+            ),
           ),
         ),
       ),

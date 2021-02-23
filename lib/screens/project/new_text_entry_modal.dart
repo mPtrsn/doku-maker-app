@@ -116,7 +116,7 @@ class _NewTextEntryModalState extends State<NewTextEntryModal> {
                         textInputAction: TextInputAction.next,
                         initialValue: _data['title'],
                         validator: (value) {
-                          return null;
+                          return value.isEmpty ? 'Provide a title' : null;
                         },
                         onSaved: (newValue) {
                           _data['title'] = newValue;
@@ -128,7 +128,7 @@ class _NewTextEntryModalState extends State<NewTextEntryModal> {
                         maxLines: 2,
                         keyboardType: TextInputType.multiline,
                         validator: (value) {
-                          return null;
+                          return value.isEmpty ? 'Provide a text' : null;
                         },
                         onSaved: (newValue) {
                           _data['text'] = newValue;

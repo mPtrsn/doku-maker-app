@@ -38,7 +38,7 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
   }
 
   Future _saveForm() async {
-    if (_form.currentState.validate()) {
+    if (_form.currentState.validate() && _newImage != null) {
       _form.currentState.save();
       setState(() {
         _isLoading = true;
@@ -122,7 +122,7 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
                             textInputAction: TextInputAction.next,
                             initialValue: _data['title'],
                             validator: (value) {
-                              return null;
+                              return value.isEmpty ? 'Provide a title' : null;
                             },
                             onSaved: (newValue) {
                               _data['title'] = newValue;

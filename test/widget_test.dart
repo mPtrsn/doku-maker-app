@@ -14,5 +14,9 @@ void main() {
       Config.backendURL.contains("twistways"),
       true,
     );
+    expect(
+      Config.useAuth,
+      true,
+    );
   });
 }
