@@ -8,8 +8,10 @@ class EditableChipList extends StatefulWidget {
   final Function(List<String> newChips) onDone;
   final List<String> chips;
   final List<String> inputs;
+  final bool canEdit;
 
-  const EditableChipList({this.chips, this.onDone, this.title, this.inputs});
+  const EditableChipList(
+      {this.chips, this.onDone, this.title, this.inputs, this.canEdit = true});
 
   @override
   _EditableChipListState createState() => _EditableChipListState();
@@ -44,6 +46,7 @@ class _EditableChipListState extends State<EditableChipList> {
   }
 
   void _toggleEdit() {
+    //widget.inputs == null means this widget is on the settings page
     if (widget.inputs == null) {
       setState(() {
         isEditMode = !isEditMode;
@@ -120,10 +123,11 @@ class _EditableChipListState extends State<EditableChipList> {
             ),
           ),
         ),
-        IconButton(
-          icon: Icon(isEditMode ? Icons.save : Icons.edit),
-          onPressed: _toggleEdit,
-        )
+        if (widget.canEdit || widget.inputs != null)
+          IconButton(
+            icon: Icon(isEditMode ? Icons.save : Icons.edit),
+            onPressed: _toggleEdit,
+          )
       ],
     );
   }

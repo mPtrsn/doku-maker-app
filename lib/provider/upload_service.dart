@@ -38,7 +38,8 @@ class UploadService {
       var res = await request.send();
       var response = await http.Response.fromStream(res);
       var id = response.body.substring(1, response.body.length - 2);
-      return '/videos/$id/v.$ending';
+      // return '/videos/$id/v.$ending';
+      return '/videos/$id/v.mp4';
     } catch (error) {
       print('Error While Uploading Image with title: $title');
       print(error.toString());

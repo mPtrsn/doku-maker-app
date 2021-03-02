@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../config.dart';
+import '../doku_image.dart';
 
 class RoomAttachmentElement extends StatelessWidget {
   final RoomEntry entry;
@@ -21,7 +22,7 @@ class RoomAttachmentElement extends StatelessWidget {
     switch (attachment.type) {
       case 'IMAGE':
         return GestureDetector(
-          child: Image.network(
+          child: DokuImage.network(
             Config.couchdbURL + attachment.content,
             fit: BoxFit.cover,
           ),

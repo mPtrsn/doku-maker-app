@@ -1,11 +1,9 @@
-import 'dart:io';
-
+import 'package:doku_maker/config.dart';
 import 'package:doku_maker/models/project/entries/project_video_entry.dart';
 import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
-import 'package:doku_maker/provider/upload_service.dart';
 import 'package:doku_maker/widgets/adaptive/adaptive_progress_indicator.dart';
-import 'package:doku_maker/widgets/doku_video_picker.dart';
+import 'package:doku_maker/widgets/doku_document_picker.dart';
 import 'package:doku_maker/widgets/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +21,7 @@ class _NewVideoEntryModalState extends State<NewVideoEntryModal> {
   final _form = GlobalKey<FormState>();
 
   var _data = {'title': ''};
-  File _newVideo;
+  String _newVideoPath;
   var _isLoading = false;
   bool _isInit = true;
 
@@ -39,14 +37,14 @@ class _NewVideoEntryModalState extends State<NewVideoEntryModal> {
   }
 
   Future _saveForm() async {
-    if (_form.currentState.validate() && _newVideo != null) {
+    if (_form.currentState.validate() &&
+        _newVideoPath != null &&
+        _newVideoPath.isNotEmpty) {
       _form.currentState.save();
       setState(() {
         _isLoading = true;
       });
       try {
-        String videoUrl =
-            await UploadService.uploadVideo(_data['title'], _newVideo.path);
         if (widget.entry != null) {
           await Provider.of<ProjectsProvider>(context, listen: false)
               .updateEntry(
@@ -56,7 +54,7 @@ class _NewVideoEntryModalState extends State<NewVideoEntryModal> {
               title: _data['title'],
               tags: widget.entry.tags,
               creationDate: widget.entry.creationDate,
-              videoUrl: videoUrl,
+              videoUrl: _newVideoPath,
               author: Provider.of<AuthProvider>(context, listen: false).userId,
             ),
           );
@@ -68,7 +66,7 @@ class _NewVideoEntryModalState extends State<NewVideoEntryModal> {
               title: _data['title'],
               tags: [],
               creationDate: DateTime.now(),
-              videoUrl: videoUrl,
+              videoUrl: _newVideoPath,
               author: Provider.of<AuthProvider>(context, listen: false).userId,
             ),
           );
@@ -133,20 +131,23 @@ class _NewVideoEntryModalState extends State<NewVideoEntryModal> {
                               margin: EdgeInsets.only(top: 15),
                               width: double.infinity,
                               height: 50,
-                              child: DokuVideoPicker(
-                                onSelected: (File image) {
+                              child: DocumentPicker(
+                                type: PickerType.Video,
+                                onUploaded: (String path) {
                                   setState(() {
-                                    _newVideo = File(image.path);
+                                    _newVideoPath = path;
                                   });
                                 },
                                 showPreview: false,
                               )),
                         ],
                       ),
-                      if (_newVideo != null)
-                        Container(
-                          child: VideoPlayer.file(
-                            _newVideo,
+                      if (_newVideoPath != null && _newVideoPath.isNotEmpty)
+                        Expanded(
+                          child: Container(
+                            child: VideoPlayer.network(
+                              Config.couchdbURL + _newVideoPath,
+                            ),
                           ),
                         ),
                     ],

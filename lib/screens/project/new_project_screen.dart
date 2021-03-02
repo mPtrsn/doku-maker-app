@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:doku_maker/provider/projects_provider.dart';
-import 'package:doku_maker/provider/upload_service.dart';
-import 'package:doku_maker/widgets/doku_image_picker.dart';
+import 'package:doku_maker/widgets/doku_document_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,33 +21,14 @@ class _NewProjectScreenState extends State<NewProjectScreen> {
 
   String _imagePath = '';
 
-  void onImageSelected(File image) {
-    setState(() {
-      _imagePath = image.path;
-    });
-  }
-
   Future<void> _createNewProject() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      // make rest call
-      String imageUrl = '';
-      if (_imagePath.isNotEmpty) {
-        try {
-          imageUrl = await UploadService.uploadImage(
-              _projectData['title'], _imagePath);
-        } catch (error) {
-          print('Error Uploading Projectimage');
-          print(error.toString());
-          return;
-        }
-      }
-
       try {
         await Provider.of<ProjectsProvider>(context, listen: false)
             .createProject(_projectData['title'], _projectData['description'],
-                imageUrl.isNotEmpty ? imageUrl : Config.defaultImagePath);
+                _imagePath.isNotEmpty ? _imagePath : Config.defaultImagePath);
         Navigator.of(context).pop();
       } catch (error) {
         print('Error Creating Project');
@@ -78,8 +56,11 @@ class _NewProjectScreenState extends State<NewProjectScreen> {
           padding: const EdgeInsets.all(8),
           child: Column(
             children: <Widget>[
-              DokuImagePicker(
-                onSelected: onImageSelected,
+              DocumentPicker(
+                type: PickerType.Image,
+                onUploaded: (path) => setState(() {
+                  _imagePath = path;
+                }),
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Title'),

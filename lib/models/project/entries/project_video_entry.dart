@@ -1,3 +1,4 @@
+import 'package:doku_maker/config.dart';
 import 'package:doku_maker/widgets/video_player.dart';
 
 import 'project_entry.dart';
@@ -17,7 +18,7 @@ class ProjectVideoEntry extends ProjectEntry {
 
   @override
   Widget get displayWidget {
-    return VideoPlayer.network(videoUrl);
+    return VideoPlayer.network(Config.couchdbURL + videoUrl);
   }
 
   @override

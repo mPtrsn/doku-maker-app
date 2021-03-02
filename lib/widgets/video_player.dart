@@ -4,8 +4,6 @@ import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-import '../config.dart';
-
 class VideoPlayer extends StatefulWidget {
   final String videoUrl;
   final File videoFile;
@@ -50,7 +48,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
         ),
         betterPlayerDataSource: widget.isNetwork
             ? BetterPlayerDataSource.network(
-                Config.couchdbURL + widget.videoUrl,
+                widget.videoUrl,
                 notificationConfiguration:
                     BetterPlayerNotificationConfiguration(
                   showNotification: false,

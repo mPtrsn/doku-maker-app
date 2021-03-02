@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:doku_maker/models/room/RoomEntry.dart';
 import 'package:doku_maker/models/room/RoomEntryAttachment.dart';
 import 'package:doku_maker/provider/room_provider.dart';
-import 'package:doku_maker/provider/upload_service.dart';
-import 'package:doku_maker/widgets/doku_image_picker.dart';
+import 'package:doku_maker/widgets/doku_document_picker.dart';
 import 'package:doku_maker/widgets/room/room_attachment_element.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -50,11 +47,10 @@ class RoomEntriesEntry extends StatelessWidget {
     return DateFormat.MMMd().add_Hm().format(entry.creationDate);
   }
 
-  void onImageSelected(File image, BuildContext context) async {
-    var imageUrl = await UploadService.uploadImage("", image.path);
+  void onImageSelected(String path, BuildContext context) async {
     RoomEntryAttachment attachment = RoomEntryAttachment(
       type: 'IMAGE',
-      content: imageUrl,
+      content: path,
     );
     Provider.of<RoomProvider>(context, listen: false)
         .updateEntry("roomID TODO", entry..attachments.add(attachment));
@@ -84,8 +80,9 @@ class RoomEntriesEntry extends StatelessWidget {
         ListTile(leading: Text(entry.text)),
         Padding(
           padding: const EdgeInsets.all(10.0),
-          child: DokuImagePicker(
-            onSelected: (image) => onImageSelected(image, context),
+          child: DocumentPicker(
+            type: PickerType.Image,
+            onUploaded: (path) => onImageSelected(path, context),
             showPreview: false,
           ),
         ),

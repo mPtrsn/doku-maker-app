@@ -1,5 +1,4 @@
 import 'package:doku_maker/models/project/project.dart';
-import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:doku_maker/screens/project/project_settings_screen.dart';
 import 'package:doku_maker/widgets/project/entry_element.dart';
@@ -21,21 +20,19 @@ class ProjectDetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(project.title),
         actions: [
-          if (project.owners.contains(
-              Provider.of<AuthProvider>(context, listen: false).userId))
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-              child: GestureDetector(
-                child: Icon(Icons.settings),
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    ProjectSettingsScreen.routeName,
-                    arguments: project,
-                  );
-                },
-              ),
-            )
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            child: GestureDetector(
+              child: Icon(Icons.settings),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  ProjectSettingsScreen.routeName,
+                  arguments: project,
+                );
+              },
+            ),
+          )
         ],
       ),
       body: LayoutBuilder(builder: (context, constraints) {

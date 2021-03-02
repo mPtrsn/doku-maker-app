@@ -1,7 +1,11 @@
+import 'package:doku_maker/config.dart';
 import 'package:doku_maker/models/project/project.dart';
+import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:doku_maker/screens/project/delete_project_modal.dart';
 import 'package:doku_maker/widgets/chip_list.dart';
+import 'package:doku_maker/widgets/doku_document_picker.dart';
+import 'package:doku_maker/widgets/doku_image.dart';
 import 'package:doku_maker/widgets/editable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +58,9 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
   Widget build(BuildContext context) {
     _project = ModalRoute.of(context).settings.arguments as Project;
     _init();
-
+    bool isOwner = _newProject.owners
+        .contains(Provider.of<AuthProvider>(context, listen: false).userId);
+    var device = MediaQuery.of(context).size;
     return WillPopScope(
         child: Scaffold(
           appBar: AppBar(
@@ -75,28 +81,54 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          isOwner
+                              ? DocumentPicker(
+                                  type: PickerType.Image,
+                                  onUploaded: (path) {
+                                    _newProject.imageUrl = path;
+                                  },
+                                  currentImagePath: _project.imageUrl,
+                                )
+                              : DokuImage.network(
+                                  Config.couchdbURL + _newProject.imageUrl,
+                                  width: device.width * 0.35,
+                                  height: device.width * 0.35,
+                                  fit: BoxFit.fill,
+                                ),
+                          Divider(thickness: 2),
                           Text(
                             'project name',
                             style:
                                 TextStyle(decoration: TextDecoration.underline),
                           ),
-                          EditAbleText(
-                            _newProject.title,
-                            onChange: (text) => _newProject.title = text,
-                            onSave: _onSave,
-                            style: TextStyle(fontSize: 26),
-                          ),
+                          isOwner
+                              ? EditAbleText(
+                                  _newProject.title,
+                                  onChange: (text) => _newProject.title = text,
+                                  onSave: _onSave,
+                                  style: TextStyle(fontSize: 26),
+                                )
+                              : Text(
+                                  _newProject.title,
+                                  style: TextStyle(fontSize: 26),
+                                ),
                           Divider(thickness: 2),
                           Text(
                             'description',
                             style:
                                 TextStyle(decoration: TextDecoration.underline),
                           ),
-                          EditAbleText(
-                            _newProject.description,
-                            onChange: (text) => _newProject.description = text,
-                            onSave: _onSave,
-                          ),
+                          isOwner
+                              ? EditAbleText(
+                                  _newProject.description,
+                                  onChange: (text) =>
+                                      _newProject.description = text,
+                                  onSave: _onSave,
+                                )
+                              : Text(
+                                  _newProject.description,
+                                  style: TextStyle(fontSize: 26),
+                                ),
 
                           Divider(thickness: 2),
                           // OWNERS
@@ -104,6 +136,7 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
                             chips: _newProject.owners,
                             onDone: (newChips) => _newProject.owners = newChips,
                             title: 'Owners',
+                            canEdit: isOwner,
                           ),
 
                           Divider(thickness: 2),
@@ -112,6 +145,7 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
                             onDone: (newChips) =>
                                 _newProject.collaborators = newChips,
                             title: 'Collaborators',
+                            canEdit: isOwner,
                           ),
 
                           Divider(thickness: 2),
@@ -121,6 +155,7 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
                             chips: _newProject.tags,
                             onDone: (newChips) => _newProject.tags = newChips,
                             title: 'Project Tags',
+                            canEdit: isOwner,
                           ),
 
                           // custom tags
@@ -130,16 +165,18 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
                             onDone: (newChips) =>
                                 _newProject.customTags = newChips,
                             title: 'Custom Tags',
+                            canEdit: isOwner,
                           ),
 
                           Divider(thickness: 2),
-                          OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              primary: Colors.red,
-                            ),
-                            onPressed: openDeleteModal,
-                            child: Text('Delete Project'),
-                          )
+                          if (isOwner)
+                            OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                primary: Colors.red,
+                              ),
+                              onPressed: openDeleteModal,
+                              child: Text('Delete Project'),
+                            )
                         ],
                       ),
                     ),

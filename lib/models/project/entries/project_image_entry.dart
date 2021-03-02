@@ -1,4 +1,5 @@
 import 'package:doku_maker/screens/project/new_image_entry_modal.dart';
+import 'package:doku_maker/widgets/doku_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../config.dart';
@@ -20,7 +21,7 @@ class ProjectImageEntry extends ProjectEntry {
   Widget get displayWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Image.network(
+      child: DokuImage.network(
         Config.couchdbURL + this.imageUrl,
         fit: BoxFit.contain,
       ),

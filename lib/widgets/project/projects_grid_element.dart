@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../config.dart';
+import '../doku_image.dart';
 
 class ProjectsGridElement extends StatelessWidget {
   final Project project;
@@ -41,7 +42,7 @@ class ProjectsGridElement extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: GridTile(
-          child: Image.network(
+          child: DokuImage.network(
             Config.couchdbURL + project.imageUrl,
             fit: BoxFit.cover,
           ),

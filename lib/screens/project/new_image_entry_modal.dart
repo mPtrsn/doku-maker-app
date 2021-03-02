@@ -1,13 +1,13 @@
-import 'dart:io';
-
 import 'package:doku_maker/models/project/entries/project_image_entry.dart';
 import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
-import 'package:doku_maker/provider/upload_service.dart';
 import 'package:doku_maker/widgets/adaptive/adaptive_progress_indicator.dart';
-import 'package:doku_maker/widgets/doku_image_picker.dart';
+import 'package:doku_maker/widgets/doku_document_picker.dart';
+import 'package:doku_maker/widgets/doku_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../config.dart';
 
 class NewImageEntryModal extends StatefulWidget {
   final String projectId;
@@ -22,7 +22,7 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
   final _form = GlobalKey<FormState>();
 
   var _data = {'title': ''};
-  File _newImage;
+  String _newImagePath;
   var _isLoading = false;
   bool _isInit = true;
 
@@ -38,14 +38,14 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
   }
 
   Future _saveForm() async {
-    if (_form.currentState.validate() && _newImage != null) {
+    if (_form.currentState.validate() &&
+        _newImagePath != null &&
+        _newImagePath.isNotEmpty) {
       _form.currentState.save();
       setState(() {
         _isLoading = true;
       });
       try {
-        String imageUrl =
-            await UploadService.uploadImage(_data['title'], _newImage.path);
         if (widget.entry != null) {
           await Provider.of<ProjectsProvider>(context, listen: false)
               .updateEntry(
@@ -55,7 +55,7 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
               title: _data['title'],
               tags: widget.entry.tags,
               creationDate: widget.entry.creationDate,
-              imageUrl: imageUrl,
+              imageUrl: _newImagePath,
               author: Provider.of<AuthProvider>(context, listen: false).userId,
             ),
           );
@@ -67,7 +67,7 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
               title: _data['title'],
               tags: [],
               creationDate: DateTime.now(),
-              imageUrl: imageUrl,
+              imageUrl: _newImagePath,
               author: Provider.of<AuthProvider>(context, listen: false).userId,
             ),
           );
@@ -132,22 +132,25 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
                               margin: EdgeInsets.only(top: 15),
                               width: double.infinity,
                               height: 50,
-                              child: DokuImagePicker(
-                                onSelected: (File image) {
+                              child: DocumentPicker(
+                                type: PickerType.Image,
+                                onUploaded: (String path) {
                                   setState(() {
-                                    _newImage = File(image.path);
+                                    _newImagePath = path;
                                   });
                                 },
                                 showPreview: false,
                               )),
                         ],
                       ),
-                      if (_newImage != null)
-                        Container(
-                          child: Image.file(
-                            _newImage,
-                            width: 250,
-                            fit: BoxFit.cover,
+                      if (_newImagePath != null && _newImagePath.isNotEmpty)
+                        Expanded(
+                          child: Container(
+                            child: DokuImage.network(
+                              Config.couchdbURL + _newImagePath,
+                              width: 250,
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
                     ],
