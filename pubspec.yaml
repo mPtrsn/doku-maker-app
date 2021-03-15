@@ -33,15 +33,21 @@ dependencies:
   multi_select_flutter: ^3.1.6
   video_player: ^1.0.1
   better_player: ^0.0.55
+  
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner: ^1.10.12
   json_serializable: ^3.5.1
+  flutter_launcher_icons: ^0.9.0
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/img/logg_er-logo.png"
+  remove_alpha_ios: true
+
 
 # The following section is specific to Flutter.
 flutter:
