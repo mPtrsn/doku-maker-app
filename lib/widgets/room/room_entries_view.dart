@@ -1,5 +1,6 @@
 import 'package:doku_maker/models/room/RoomEntry.dart';
 import 'package:doku_maker/models/room/RoomEntryAttachment.dart';
+import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/room_provider.dart';
 import 'package:doku_maker/widgets/doku_document_picker.dart';
 import 'package:doku_maker/widgets/room/room_attachment_element.dart';
@@ -59,6 +60,8 @@ class RoomEntriesEntry extends StatelessWidget {
   const RoomEntriesEntry(this.entry);
   @override
   Widget build(BuildContext context) {
+    bool isOwner = entry.author ==
+        Provider.of<AuthProvider>(context, listen: false).userId;
     return ExpansionTile(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -78,14 +81,15 @@ class RoomEntriesEntry extends StatelessWidget {
       ),
       children: [
         ListTile(leading: Text(entry.text)),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: DocumentPicker(
-            type: PickerType.Image,
-            onUploaded: (path) => onImageSelected(path, context),
-            showPreview: false,
+        if (isOwner)
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: DocumentPicker(
+              type: PickerType.Image,
+              onUploaded: (path) => onImageSelected(path, context),
+              showPreview: false,
+            ),
           ),
-        ),
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: Container(

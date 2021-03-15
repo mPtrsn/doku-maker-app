@@ -4,6 +4,8 @@ import 'package:doku_maker/widgets/project/projects_grid.dart';
 import 'package:flutter/material.dart';
 
 class ProjectsOverviewScreen extends StatelessWidget {
+  static final String routeName = '/';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

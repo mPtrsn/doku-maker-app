@@ -1,5 +1,6 @@
 import 'package:doku_maker/models/room/RoomEntry.dart';
 import 'package:doku_maker/models/room/RoomEntryAttachment.dart';
+import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/room_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +33,8 @@ class RoomAttachmentElement extends StatelessWidget {
               builder: (_) => ImageDialog(
                 url: Config.couchdbURL + attachment.content,
                 onDelete: () => onDelete(context),
+                isOwner: entry.author ==
+                    Provider.of<AuthProvider>(context, listen: false).userId,
               ),
             );
           },
@@ -54,8 +57,9 @@ class RoomAttachmentElement extends StatelessWidget {
 class ImageDialog extends StatelessWidget {
   final String url;
   final Function onDelete;
+  final bool isOwner;
 
-  const ImageDialog({Key key, @required this.url, this.onDelete})
+  const ImageDialog({Key key, @required this.url, this.onDelete, this.isOwner})
       : super(key: key);
 
   @override
@@ -81,32 +85,33 @@ class ImageDialog extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ElevatedButton.icon(
-                  onPressed: () async {
-                    await showDialog(
-                      context: context,
-                      builder: (ctx) => AlertDialog(
-                        title: Text('Remove this Image?'),
-                        content: Text('Do you want to remove this image?'),
-                        actions: [
-                          TextButton(
-                              child: Text('Yes'),
-                              onPressed: () async {
-                                onDelete();
-                                Navigator.of(context).pop();
-                                Navigator.of(context).pop();
-                              }),
-                          TextButton(
-                            child: Text('No'),
-                            onPressed: () => Navigator.of(context).pop(),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  icon: Icon(Icons.delete),
-                  label: Text('Delete'),
-                ),
+                if (isOwner)
+                  ElevatedButton.icon(
+                    onPressed: () async {
+                      await showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: Text('Remove this Image?'),
+                          content: Text('Do you want to remove this image?'),
+                          actions: [
+                            TextButton(
+                                child: Text('Yes'),
+                                onPressed: () async {
+                                  onDelete();
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                }),
+                            TextButton(
+                              child: Text('No'),
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.delete),
+                    label: Text('Delete'),
+                  ),
                 ElevatedButton.icon(
                   onPressed: () {
                     Navigator.of(context).pop();

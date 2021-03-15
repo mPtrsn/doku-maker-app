@@ -1,4 +1,3 @@
-import 'package:doku_maker/widgets/adaptive/adaptive_progress_indicator.dart';
 import 'package:flutter/material.dart';
 
 class DokuImage extends StatelessWidget {

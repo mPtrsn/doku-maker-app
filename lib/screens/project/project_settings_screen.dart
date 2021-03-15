@@ -3,6 +3,7 @@ import 'package:doku_maker/models/project/project.dart';
 import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:doku_maker/screens/project/delete_project_modal.dart';
+import 'package:doku_maker/screens/project/projects_overview_screen.dart';
 import 'package:doku_maker/widgets/chip_list.dart';
 import 'package:doku_maker/widgets/doku_document_picker.dart';
 import 'package:doku_maker/widgets/doku_image.dart';
@@ -52,6 +53,15 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
         projectName: _project.title,
       ),
     );
+  }
+
+  Future _leaveProject() async {
+    _newProject.collaborators
+        .remove(Provider.of<AuthProvider>(context, listen: false).userId);
+    await _onSaveProject();
+    _onSave();
+    Navigator.of(context)
+        .pushReplacementNamed(ProjectsOverviewScreen.routeName);
   }
 
   @override
@@ -176,6 +186,14 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
                               ),
                               onPressed: openDeleteModal,
                               child: Text('Delete Project'),
+                            )
+                          else
+                            OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                primary: Colors.red,
+                              ),
+                              onPressed: _leaveProject,
+                              child: Text('Leave Project'),
                             )
                         ],
                       ),
