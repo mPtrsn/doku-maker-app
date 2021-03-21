@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:doku_maker/config.dart';
 import 'package:doku_maker/exceptions/html_exception.dart';
 import 'package:doku_maker/models/project/entries/project_entry.dart';
+import 'package:doku_maker/models/project/entries/project_text_entry.dart';
 import 'package:doku_maker/models/project/project.dart';
 import 'package:doku_maker/services/json_converter.dart';
 import 'package:http/http.dart' as http;
@@ -14,6 +15,9 @@ class ProjectsProvider with ChangeNotifier {
   final String userId;
 
   ProjectsProvider(this.userId, this._projects);
+
+  List<ProjectEntry> _currentEntries;
+  String _searchString;
 
   List<Project> get projects {
     return [..._projects];
@@ -38,6 +42,36 @@ class ProjectsProvider with ChangeNotifier {
   Project findByEntryId(String entryId) {
     return _projects.firstWhere((element) =>
         element.entries.where((entry) => entry.id == entryId).isNotEmpty);
+  }
+
+  Project findByIdAndSetCurrent(String projectId) {
+    var project = findById(projectId);
+    _currentEntries = project.entries;
+    return project;
+  }
+
+  void setSearchString(String value) {
+    _searchString = value;
+    notifyListeners();
+  }
+
+  List<ProjectEntry> get currentEntries {
+    if (_searchString == null || _searchString.isEmpty) {
+      return _currentEntries;
+    }
+    List<ProjectEntry> result = [];
+    for (var entry in _currentEntries) {
+      if (entry.title.toLowerCase().contains(_searchString.toLowerCase()) ||
+          entry.tags
+              .map((e) => e.toLowerCase())
+              .contains(_searchString..toLowerCase()) ||
+          entry.author.toLowerCase().contains(_searchString.toLowerCase()) ||
+          (entry is ProjectTextEntry &&
+              entry.text.toLowerCase().contains(_searchString.toLowerCase()))) {
+        result.add(entry);
+      }
+    }
+    return result;
   }
 
   Future createProject(

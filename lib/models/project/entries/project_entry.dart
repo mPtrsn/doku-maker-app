@@ -19,6 +19,8 @@ class ProjectEntry {
     return null;
   }
 
+  get text => null;
+
   Widget bottomSheet(String projectId) {
     return null;
   }

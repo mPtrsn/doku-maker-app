@@ -1,3 +1,5 @@
+import 'package:doku_maker/models/project/entries/project_text_entry.dart';
+
 import 'entries/project_entry.dart';
 
 class Project {
@@ -57,5 +59,20 @@ class Project {
         this.creationDate == other.creationDate &&
         this.lastUpdated == other.lastUpdated &&
         this.disabled == other.disabled;
+  }
+
+  List<ProjectEntry> filteredEntries(String searchString) {
+    if (searchString == null || searchString.isEmpty) {
+      return entries;
+    }
+    List result;
+    for (var entry in entries) {
+      if (entry.title.contains(searchString) ||
+          entry.tags.contains(searchString) ||
+          (entry is ProjectTextEntry && entry.text.contains(searchString))) {
+        result.add(entry);
+      }
+    }
+    return result;
   }
 }

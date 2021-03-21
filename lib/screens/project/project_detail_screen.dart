@@ -14,57 +14,69 @@ class ProjectDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ProjectsProvider projectProvider = Provider.of<ProjectsProvider>(context);
     String id = ModalRoute.of(context).settings.arguments as String;
-    Project project = projectProvider.findById(id);
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text(project.title),
-        actions: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-            child: GestureDetector(
-              child: Icon(Icons.settings),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  ProjectSettingsScreen.routeName,
-                  arguments: project,
-                );
-              },
-            ),
-          )
-        ],
-      ),
-      body: LayoutBuilder(builder: (context, constraints) {
-        return Column(
-          children: <Widget>[
-            Container(
-                child: ProjectDetailEntryButtons(project: project)),
-            Divider(
-              thickness: 3,
-            ),
-            (project.entries == null || project.entries.isEmpty)
-                ? Container(
-                    child: Text(
-                      'No Entries',
-                      style: TextStyle(fontSize: 26),
-                    ),
-                  )
-                : Expanded(
-                    child: Container(
-                      height: constraints.maxHeight * 0.85,
-                      child: ListView.builder(
-                        itemBuilder: (ctx, idx) => EntryElement(
-                          entry: project.entries[idx],
-                          projectId: project.id,
+    Project project = projectProvider.findByIdAndSetCurrent(id);
+    return WillPopScope(
+      child: Consumer<ProjectsProvider>(
+        builder: (context, provider, child) => Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(
+            title: Text(project.title),
+            actions: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                child: GestureDetector(
+                  child: Icon(Icons.settings),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      ProjectSettingsScreen.routeName,
+                      arguments: project,
+                    );
+                  },
+                ),
+              )
+            ],
+          ),
+          body: LayoutBuilder(builder: (context, constraints) {
+            return Column(
+              children: <Widget>[
+                Container(
+                  child: ProjectDetailEntryButtons(
+                    project: project,
+                  ),
+                ),
+                Divider(
+                  thickness: 3,
+                ),
+                (project.entries == null || project.entries.isEmpty)
+                    ? Container(
+                        child: Text(
+                          'No Entries',
+                          style: TextStyle(fontSize: 26),
                         ),
-                        itemCount: project.entries.length,
-                      ),
-                    ),
-                  )
-          ],
-        );
-      }),
+                      )
+                    : Expanded(
+                        child: Container(
+                          height: constraints.maxHeight * 0.85,
+                          child: ListView.builder(
+                            itemBuilder: (ctx, idx) => EntryElement(
+                              entry: provider.currentEntries[idx],
+                              projectId: project.id,
+                            ),
+                            itemCount: provider.currentEntries.length,
+                          ),
+                        ),
+                      )
+              ],
+            );
+          }),
+        ),
+      ),
+      onWillPop: () {
+        Provider.of<ProjectsProvider>(context, listen: false)
+            .setSearchString('');
+        return Future.value(true);
+      },
     );
   }
 }
