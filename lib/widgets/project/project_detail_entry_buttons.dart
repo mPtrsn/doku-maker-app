@@ -101,7 +101,7 @@ class _ProjectDetailEntryButtonsState extends State<ProjectDetailEntryButtons> {
               });
             } else if (searchMode == SearchMode.Searching) {
               setState(() {
-                searchMode = _searchString.isNotEmpty
+                searchMode = (_searchString != null && _searchString.isNotEmpty)
                     ? SearchMode.Results
                     : SearchMode.None;
               });
