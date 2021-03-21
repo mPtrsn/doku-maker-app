@@ -39,7 +39,6 @@ class ProjectDetailScreen extends StatelessWidget {
         return Column(
           children: <Widget>[
             Container(
-                //height: constraints.maxHeight * 0.12,
                 child: ProjectDetailEntryButtons(project: project)),
             Divider(
               thickness: 3,

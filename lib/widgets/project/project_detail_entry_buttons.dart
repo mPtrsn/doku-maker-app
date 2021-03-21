@@ -4,14 +4,24 @@ import 'package:doku_maker/screens/project/new_text_entry_modal.dart';
 import 'package:doku_maker/screens/project/new_video_entry_modal.dart';
 import 'package:flutter/material.dart';
 
-class ProjectDetailEntryButtons extends StatelessWidget {
+class ProjectDetailEntryButtons extends StatefulWidget {
+  final Project project;
+
   const ProjectDetailEntryButtons({
     Key key,
     @required this.project,
   }) : super(key: key);
 
-  final Project project;
+  @override
+  _ProjectDetailEntryButtonsState createState() =>
+      _ProjectDetailEntryButtonsState();
+}
 
+class _ProjectDetailEntryButtonsState extends State<ProjectDetailEntryButtons> {
+  SearchMode searchMode = SearchMode.None;
+  final GlobalKey<FormState> _formKey = GlobalKey();
+
+  String _searchString;
   Widget _buildEntryButton(BuildContext ctx, IconData icon, Function onTab,
       [Color color]) {
     return Ink(
@@ -34,33 +44,56 @@ class ProjectDetailEntryButtons extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildEntryButton(context, Icons.title, () {
-            showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                backgroundColor: Colors.transparent,
-                builder: (ctx) => NewTextEntryModal(project.id));
-          }),
-          _buildEntryButton(context, Icons.image, () {
-            showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                backgroundColor: Colors.transparent,
-                builder: (ctx) => NewImageEntryModal(project.id));
-          }),
-          _buildEntryButton(context, Icons.play_arrow, () {
-            showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                backgroundColor: Colors.transparent,
-                builder: (ctx) => NewVideoEntryModal(project.id));
-          }),
-          _buildEntryButton(context, Icons.mic, null),
-          _buildEntryButton(context, Icons.gesture, null),
-          _buildEntryButton(
-              context, Icons.search, null, Theme.of(context).buttonColor),
+          if (searchMode == SearchMode.None)
+            _buildEntryButton(context, Icons.title, () {
+              showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (ctx) => NewTextEntryModal(widget.project.id));
+            }),
+          if (searchMode == SearchMode.None)
+            _buildEntryButton(context, Icons.image, () {
+              showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (ctx) => NewImageEntryModal(widget.project.id));
+            }),
+          if (searchMode == SearchMode.None)
+            _buildEntryButton(context, Icons.play_arrow, () {
+              showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (ctx) => NewVideoEntryModal(widget.project.id));
+            }),
+          if (searchMode == SearchMode.Searching)
+            Expanded(
+              child: Form(
+                key: _formKey,
+                child: TextFormField (
+                  decoration: InputDecoration(labelText: 'Search'),
+                  textInputAction: TextInputAction.search,
+                  onChanged: (value) => print(value),
+                ),
+              ),
+            ),
+          _buildEntryButton(context, searchMode == SearchMode.Results ? Icons.close : Icons.search, () {
+            if (searchMode == SearchMode.None) {
+              setState(() {
+                searchMode = SearchMode.Searching;
+              });
+            } else if (searchMode == SearchMode.Searching) {
+              setState(() {
+                searchMode = SearchMode.None;
+              });
+            }
+          }, Theme.of(context).buttonColor),
         ],
       ),
     );
   }
 }
+
+enum SearchMode { None, Searching, Results }
