@@ -119,7 +119,10 @@ class _EntryElementState extends State<EntryElement> {
               onDone: onTagsChanged,
             ),
           ),
-          widget.entry.displayWidget,
+          Align(
+            alignment: Alignment.topLeft,
+            child: widget.entry.displayWidget,
+          )
         ],
       ),
     );

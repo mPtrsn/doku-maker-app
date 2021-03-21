@@ -16,9 +16,9 @@ class ProjectTextEntry extends ProjectEntry {
 
   @override
   Widget get displayWidget {
-    return ListTile(
-      leading: Padding(
-        padding: const EdgeInsets.all(8.0),
+    return Container(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Text(
           this.text,
           style: TextStyle(fontSize: 18),

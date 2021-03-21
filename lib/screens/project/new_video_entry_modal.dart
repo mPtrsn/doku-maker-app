@@ -4,6 +4,7 @@ import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:doku_maker/widgets/adaptive/adaptive_progress_indicator.dart';
 import 'package:doku_maker/widgets/doku_document_picker.dart';
+import 'package:doku_maker/widgets/project/new_entry_header.dart';
 import 'package:doku_maker/widgets/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -98,23 +99,9 @@ class _NewVideoEntryModalState extends State<NewVideoEntryModal> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'New Video Entry',
-                                  style: TextStyle(fontSize: 26),
-                                  textAlign: TextAlign.center,
-                                ),
-                                ElevatedButton(
-                                  onPressed: () => _saveForm(),
-                                  child: Text('Save'),
-                                  style: TextButton.styleFrom(
-                                      primary: Theme.of(context).accentColor),
-                                ),
-                              ],
-                            ),
+                          NewEntryModalHeader(
+                            title: 'New Video Entry',
+                            saveForm: _saveForm,
                           ),
                           TextFormField(
                             decoration: InputDecoration(labelText: 'Title'),

@@ -2,6 +2,7 @@ import 'package:doku_maker/models/project/entries/project_text_entry.dart';
 import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:doku_maker/widgets/adaptive/adaptive_progress_indicator.dart';
+import 'package:doku_maker/widgets/project/new_entry_header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -93,23 +94,9 @@ class _NewTextEntryModalState extends State<NewTextEntryModal> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'New Text Entry',
-                              style: TextStyle(fontSize: 26),
-                              textAlign: TextAlign.center,
-                            ),
-                            ElevatedButton(
-                              onPressed: () => _saveForm(),
-                              child: Text('Save'),
-                              style: TextButton.styleFrom(
-                                  primary: Theme.of(context).accentColor),
-                            ),
-                          ],
-                        ),
+                      NewEntryModalHeader(
+                        title: 'New Text Entry',
+                        saveForm: _saveForm,
                       ),
                       TextFormField(
                         decoration: InputDecoration(labelText: 'Title'),
@@ -122,18 +109,25 @@ class _NewTextEntryModalState extends State<NewTextEntryModal> {
                           _data['title'] = newValue;
                         },
                       ),
-                      TextFormField(
-                        decoration: InputDecoration(labelText: 'Text'),
-                        initialValue: _data['text'],
-                        maxLines: 2,
-                        keyboardType: TextInputType.multiline,
-                        validator: (value) {
-                          return value.isEmpty ? 'Provide a text' : null;
-                        },
-                        onSaved: (newValue) {
-                          _data['text'] = newValue;
-                        },
-                        onFieldSubmitted: (value) => _saveForm(),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: TextFormField(
+                            decoration: InputDecoration(labelText: 'Text'),
+                            initialValue: _data['text'],
+                            maxLines: null,
+                            minLines: null,
+                            expands: true,
+                            keyboardType: TextInputType.multiline,
+                            validator: (value) {
+                              return value.isEmpty ? 'Provide a text' : null;
+                            },
+                            onSaved: (newValue) {
+                              _data['text'] = newValue;
+                            },
+                            onFieldSubmitted: (value) => _saveForm(),
+                          ),
+                        ),
                       ),
                     ],
                   ),
