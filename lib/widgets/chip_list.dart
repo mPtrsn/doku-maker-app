@@ -55,24 +55,32 @@ class _EditableChipListState extends State<EditableChipList> {
         widget.onDone(newChips);
       }
     } else {
-      var selectIn =
-          widget.inputs.map((e) => MultiSelectItem<String>(e, e)).toList();
+      if (widget.inputs.isNotEmpty) {
+        var selectIn =
+            widget.inputs.map((e) => MultiSelectItem<String>(e, e)).toList();
 
-      showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        //backgroundColor: Colors.transparent,
-        builder: (ctx) => MultiSelectBottomSheet(
-            items: selectIn,
-            title: Text("Tags"),
-            initialValue: widget.chips,
-            onConfirm: (values) {
-              setState(() {
-                newChips = values.map((e) => e.toString()).toList();
-              });
-              widget.onDone(newChips);
-            }),
-      );
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          //backgroundColor: Colors.transparent,
+          builder: (ctx) => MultiSelectBottomSheet(
+              items: selectIn,
+              title: Text("Tags"),
+              initialValue: widget.chips,
+              onConfirm: (values) {
+                setState(() {
+                  newChips = values.map((e) => e.toString()).toList();
+                });
+                widget.onDone(newChips);
+              }),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+              'There are no Custom Tags to add!\nAdd Custom Tags in Project Settings!'),
+          backgroundColor: Colors.red,
+        ));
+      }
     }
   }
 

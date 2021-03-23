@@ -64,6 +64,17 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
         .pushReplacementNamed(ProjectsOverviewScreen.routeName);
   }
 
+  void _onOwnerChanged(List<String> newOwners) {
+    print('OwnerChanged');
+    if (newOwners
+        .contains(Provider.of<AuthProvider>(context, listen: false).userId)) {
+      _newProject.owners = newOwners;
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('You can\'t delete yourself as an owner!')));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     _project = ModalRoute.of(context).settings.arguments as Project;
@@ -143,8 +154,8 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
                           Divider(thickness: 2),
                           // OWNERS
                           EditableChipList(
-                            chips: _newProject.owners,
-                            onDone: (newChips) => _newProject.owners = newChips,
+                            chips: [..._newProject.owners],
+                            onDone: _onOwnerChanged,
                             title: 'Owners',
                             canEdit: isOwner,
                           ),

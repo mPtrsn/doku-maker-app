@@ -24,7 +24,7 @@ class _NewChipModalState extends State<NewChipModal> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height * 0.75,
+        height: MediaQuery.of(context).size.height * 0.6,
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(8),
