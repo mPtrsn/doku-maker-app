@@ -70,7 +70,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
     return kIsWeb
         ? Container(child: Text("No Video Player in Web"))
         : Container(
-            height: MediaQuery.of(context).size.height * 0.5,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: AspectRatio(

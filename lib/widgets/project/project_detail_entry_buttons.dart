@@ -57,25 +57,31 @@ class _ProjectDetailEntryButtonsState extends State<ProjectDetailEntryButtons> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildEntryButton(context, Icons.title, () {
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Colors.transparent,
-                      builder: (ctx) => NewTextEntryModal(widget.project.id));
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (context) =>
+                          NewTextEntryModal(widget.project.id),
+                      fullscreenDialog: true,
+                    ),
+                  );
                 }),
                 _buildEntryButton(context, Icons.image, () {
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Colors.transparent,
-                      builder: (ctx) => NewImageEntryModal(widget.project.id));
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (context) =>
+                          NewImageEntryModal(widget.project.id),
+                      fullscreenDialog: true,
+                    ),
+                  );
                 }),
                 _buildEntryButton(context, Icons.play_arrow, () {
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Colors.transparent,
-                      builder: (ctx) => NewVideoEntryModal(widget.project.id));
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (context) =>
+                          NewVideoEntryModal(widget.project.id),
+                      fullscreenDialog: true,
+                    ),
+                  );
                 }),
                 _buildEntryButton(context, Icons.search, () {
                   setState(() {

@@ -86,13 +86,22 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.6,
-      child: Card(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('New Image Entry'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.save),
+            onPressed: _saveForm,
+          )
+        ],
+      ),
+      body: Container(
         child: _isLoading
             ? Center(child: AdaptiveProgressIndicator())
-            : Padding(
+            : Container(
                 padding: const EdgeInsets.all(8.0),
+                height: MediaQuery.of(context).size.height,
                 child: Form(
                   key: _form,
                   child: Column(
@@ -100,10 +109,6 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          NewEntryModalHeader(
-                            title: 'New Image Entry',
-                            saveForm: _saveForm,
-                          ),
                           TextFormField(
                             decoration: InputDecoration(labelText: 'Title'),
                             textInputAction: TextInputAction.next,

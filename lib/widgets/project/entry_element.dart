@@ -119,9 +119,14 @@ class _EntryElementState extends State<EntryElement> {
               onDone: onTagsChanged,
             ),
           ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: widget.entry.displayWidget,
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.6,
+            ),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: widget.entry.displayWidget,
+            ),
           )
         ],
       ),
