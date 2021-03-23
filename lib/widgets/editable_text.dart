@@ -59,12 +59,16 @@ class _EditAbleTextState extends State<EditAbleText> {
           : Row(
               children: [
                 widget.style == null
-                    ? Text(
-                        widget.text,
+                    ? Expanded(
+                        child: Text(
+                          widget.text,
+                        ),
                       )
-                    : Text(
-                        widget.text,
-                        style: widget.style,
+                    : Expanded(
+                        child: Text(
+                          widget.text,
+                          style: widget.style,
+                        ),
                       ),
                 IconButton(
                   icon: Icon(Icons.edit),
