@@ -32,22 +32,6 @@ class RoomDetailScreen extends StatelessWidget {
                           Tab(text: 'Entries'),
                         ],
                       ),
-                      actions: [
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                          child: GestureDetector(
-                            child: Icon(Icons.settings),
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                '',
-                                arguments: null,
-                              );
-                            },
-                          ),
-                        ),
-                      ],
                     ),
                     drawer: MainDrawer(),
                     body: Consumer<RoomProvider>(

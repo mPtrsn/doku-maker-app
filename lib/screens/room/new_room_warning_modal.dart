@@ -102,40 +102,26 @@ class _NewRoomWarningModalState extends State<NewRoomWarningModal> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.75,
-      child: Card(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('New Warning'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.save),
+            onPressed: _saveForm,
+          )
+        ],
+      ),
+      body: Container(
         child: _isLoading
             ? Center(child: AdaptiveProgressIndicator())
-            : Padding(
+            : Container(
                 padding: const EdgeInsets.all(8.0),
+                height: MediaQuery.of(context).size.height,
                 child: Form(
                   key: _form,
                   child: Column(
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'New Warning',
-                                  style: TextStyle(fontSize: 26),
-                                  textAlign: TextAlign.center,
-                                ),
-                                ElevatedButton(
-                                  onPressed: () => _saveForm(),
-                                  child: Text('Save'),
-                                  style: TextButton.styleFrom(
-                                      primary: Theme.of(context).accentColor),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

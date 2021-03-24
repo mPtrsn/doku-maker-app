@@ -16,11 +16,12 @@ class RoomEntriesView extends StatelessWidget {
   const RoomEntriesView(this.entries);
 
   void _openAddEntryModal(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (ctx) => NewRoomEntryModal());
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (context) => NewRoomEntryModal(),
+        fullscreenDialog: true,
+      ),
+    );
   }
 
   @override

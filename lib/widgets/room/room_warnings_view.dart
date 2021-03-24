@@ -18,11 +18,12 @@ class RoomWarningsView extends StatelessWidget {
   }
 
   void _openNewWarningModal(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (ctx) => NewRoomWarningModal());
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (context) => NewRoomWarningModal(),
+        fullscreenDialog: true,
+      ),
+    );
   }
 
   @override
