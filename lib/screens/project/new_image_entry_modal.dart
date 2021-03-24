@@ -4,7 +4,6 @@ import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:doku_maker/widgets/adaptive/adaptive_progress_indicator.dart';
 import 'package:doku_maker/widgets/doku_document_picker.dart';
 import 'package:doku_maker/widgets/doku_image.dart';
-import 'package:doku_maker/widgets/project/new_entry_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

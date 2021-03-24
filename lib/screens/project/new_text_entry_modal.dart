@@ -2,7 +2,6 @@ import 'package:doku_maker/models/project/entries/project_text_entry.dart';
 import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:doku_maker/widgets/adaptive/adaptive_progress_indicator.dart';
-import 'package:doku_maker/widgets/project/new_entry_header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
