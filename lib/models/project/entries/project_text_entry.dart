@@ -1,5 +1,5 @@
 import 'project_entry.dart';
-import 'package:doku_maker/screens/project/new_text_entry_modal.dart';
+import 'package:doku_maker/screens/project/new_text_entry_dialog.dart';
 import 'package:flutter/material.dart';
 
 class ProjectTextEntry extends ProjectEntry {
@@ -29,7 +29,7 @@ class ProjectTextEntry extends ProjectEntry {
 
   @override
   Widget bottomSheet(String projectId) {
-    return NewTextEntryModal(projectId, this);
+    return NewTextEntryDialog(projectId, this);
   }
 
   @override

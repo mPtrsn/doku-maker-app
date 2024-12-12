@@ -1,28 +1,27 @@
-import 'package:doku_maker/models/project/entries/project_image_entry.dart';
+import 'package:doku_maker/config.dart';
+import 'package:doku_maker/models/project/entries/project_video_entry.dart';
 import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:doku_maker/widgets/adaptive/adaptive_progress_indicator.dart';
 import 'package:doku_maker/widgets/doku_document_picker.dart';
-import 'package:doku_maker/widgets/doku_image.dart';
+import 'package:doku_maker/widgets/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../config.dart';
-
-class NewImageEntryModal extends StatefulWidget {
+class NewVideoEntryDialog extends StatefulWidget {
   final String projectId;
-  final ProjectImageEntry entry;
-  const NewImageEntryModal(this.projectId, [this.entry]);
+  final ProjectVideoEntry entry;
+  const NewVideoEntryDialog(this.projectId, [this.entry]);
 
   @override
-  _NewImageEntryModalState createState() => _NewImageEntryModalState();
+  _NewVideoEntryDialogState createState() => _NewVideoEntryDialogState();
 }
 
-class _NewImageEntryModalState extends State<NewImageEntryModal> {
+class _NewVideoEntryDialogState extends State<NewVideoEntryDialog> {
   final _form = GlobalKey<FormState>();
 
   var _data = {'title': ''};
-  String _newImagePath;
+  String _newVideoPath;
   var _isLoading = false;
   bool _isInit = true;
 
@@ -39,8 +38,8 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
 
   Future _saveForm() async {
     if (_form.currentState.validate() &&
-        _newImagePath != null &&
-        _newImagePath.isNotEmpty) {
+        _newVideoPath != null &&
+        _newVideoPath.isNotEmpty) {
       _form.currentState.save();
       setState(() {
         _isLoading = true;
@@ -50,24 +49,24 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
           await Provider.of<ProjectsProvider>(context, listen: false)
               .updateEntry(
             widget.projectId,
-            ProjectImageEntry(
+            ProjectVideoEntry(
               id: widget.entry.id,
               title: _data['title'],
               tags: widget.entry.tags,
               creationDate: widget.entry.creationDate,
-              imageUrl: _newImagePath,
+              videoUrl: _newVideoPath,
               author: Provider.of<AuthProvider>(context, listen: false).userId,
             ),
           );
         } else {
           await Provider.of<ProjectsProvider>(context, listen: false).addEntry(
             widget.projectId,
-            ProjectImageEntry(
+            ProjectVideoEntry(
               id: null,
               title: _data['title'],
               tags: [],
               creationDate: DateTime.now(),
-              imageUrl: _newImagePath,
+              videoUrl: _newVideoPath,
               author: Provider.of<AuthProvider>(context, listen: false).userId,
             ),
           );
@@ -87,7 +86,7 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('New Image Entry'),
+        title: Text('New Video Entry'),
         actions: [
           IconButton(
             icon: Icon(Icons.save),
@@ -124,23 +123,21 @@ class _NewImageEntryModalState extends State<NewImageEntryModal> {
                               width: double.infinity,
                               height: 50,
                               child: DocumentPicker(
-                                type: PickerType.Image,
+                                type: PickerType.Video,
                                 onUploaded: (String path) {
                                   setState(() {
-                                    _newImagePath = path;
+                                    _newVideoPath = path;
                                   });
                                 },
                                 showPreview: false,
                               )),
                         ],
                       ),
-                      if (_newImagePath != null && _newImagePath.isNotEmpty)
+                      if (_newVideoPath != null && _newVideoPath.isNotEmpty)
                         Expanded(
                           child: Container(
-                            child: DokuImage.network(
-                              Config.couchdbURL + _newImagePath,
-                              width: 250,
-                              fit: BoxFit.contain,
+                            child: VideoPlayer.network(
+                              Config.couchdbURL + _newVideoPath,
                             ),
                           ),
                         ),

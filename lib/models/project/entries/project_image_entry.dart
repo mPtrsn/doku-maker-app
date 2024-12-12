@@ -1,4 +1,4 @@
-import 'package:doku_maker/screens/project/new_image_entry_modal.dart';
+import 'package:doku_maker/screens/project/new_image_entry_dialog.dart';
 import 'package:doku_maker/widgets/doku_image.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +30,7 @@ class ProjectImageEntry extends ProjectEntry {
 
   @override
   Widget bottomSheet(String projectId) {
-    return NewImageEntryModal(projectId, this);
+    return NewImageEntryDialog(projectId, this);
   }
 
   @override

@@ -9,16 +9,16 @@ import 'package:provider/provider.dart';
 
 import '../../config.dart';
 
-class NewRoomWarningModal extends StatefulWidget {
+class NewRoomWarningDialog extends StatefulWidget {
   final String roomId = Config.smartareaID;
   final RoomWarning warning;
-  NewRoomWarningModal([this.warning]);
+  NewRoomWarningDialog([this.warning]);
 
   @override
-  _NewRoomWarningModalState createState() => _NewRoomWarningModalState();
+  _NewRoomWarningDialogState createState() => _NewRoomWarningDialogState();
 }
 
-class _NewRoomWarningModalState extends State<NewRoomWarningModal> {
+class _NewRoomWarningDialogState extends State<NewRoomWarningDialog> {
   final _form = GlobalKey<FormState>();
 
   var _data = {

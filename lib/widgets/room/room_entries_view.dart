@@ -8,17 +8,17 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../screens/room/new_room_entry_modal.dart';
+import '../../screens/room/new_room_entry_dialog.dart';
 
 class RoomEntriesView extends StatelessWidget {
   final List<RoomEntry> entries;
 
   const RoomEntriesView(this.entries);
 
-  void _openAddEntryModal(BuildContext context) {
+  void _openAddEntryDialog(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (context) => NewRoomEntryModal(),
+        builder: (context) => NewRoomEntryDialog(),
         fullscreenDialog: true,
       ),
     );
@@ -30,7 +30,7 @@ class RoomEntriesView extends StatelessWidget {
       child: ListView.builder(
         itemBuilder: (ctx, idx) => idx == 0
             ? ElevatedButton(
-                onPressed: () => _openAddEntryModal(context),
+                onPressed: () => _openAddEntryDialog(context),
                 child: Text("Add Entry"),
                 style: TextButton.styleFrom(
                     primary: Theme.of(context).accentColor),

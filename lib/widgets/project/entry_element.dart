@@ -29,11 +29,12 @@ class _EntryElementState extends State<EntryElement> {
   }
 
   Future<bool> enterEditMode() async {
-    return showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (ctx) => widget.entry.bottomSheet(widget.projectId));
+    return Navigator.of(context).push(
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (context) => widget.entry.bottomSheet(widget.projectId),
+      ),
+    );
   }
 
   Future onTagsChanged(List<String> newChips) async {

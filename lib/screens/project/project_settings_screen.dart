@@ -2,7 +2,7 @@ import 'package:doku_maker/config.dart';
 import 'package:doku_maker/models/project/project.dart';
 import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
-import 'package:doku_maker/screens/project/delete_project_modal.dart';
+import 'package:doku_maker/screens/project/delete_project_dialog.dart';
 import 'package:doku_maker/screens/project/projects_overview_screen.dart';
 import 'package:doku_maker/widgets/chip_list.dart';
 import 'package:doku_maker/widgets/doku_document_picker.dart';
@@ -43,16 +43,17 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
     });
   }
 
-  Future openDeleteModal() {
-    return showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (ctx) => DeleteProjectModal(
-        id: _project.id,
-        projectName: _project.title,
+  Future openDeleteDialog() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (context) => DeleteProjectDialog(
+          id: _project.id,
+          projectName: _project.title,
+        ),
       ),
     );
+    return Future.value(true);
   }
 
   Future _leaveProject() async {
@@ -195,7 +196,7 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
                               style: OutlinedButton.styleFrom(
                                 primary: Colors.red,
                               ),
-                              onPressed: openDeleteModal,
+                              onPressed: openDeleteDialog,
                               child: Text('Delete Project'),
                             )
                           else

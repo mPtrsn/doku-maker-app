@@ -1,8 +1,8 @@
 import 'package:doku_maker/models/project/project.dart';
 import 'package:doku_maker/provider/projects_provider.dart';
-import 'package:doku_maker/screens/project/new_image_entry_modal.dart';
-import 'package:doku_maker/screens/project/new_text_entry_modal.dart';
-import 'package:doku_maker/screens/project/new_video_entry_modal.dart';
+import 'package:doku_maker/screens/project/new_image_entry_dialog.dart';
+import 'package:doku_maker/screens/project/new_text_entry_dialog.dart';
+import 'package:doku_maker/screens/project/new_video_entry_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -60,7 +60,7 @@ class _ProjectDetailEntryButtonsState extends State<ProjectDetailEntryButtons> {
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
                       builder: (context) =>
-                          NewTextEntryModal(widget.project.id),
+                          NewTextEntryDialog(widget.project.id),
                       fullscreenDialog: true,
                     ),
                   );
@@ -69,7 +69,7 @@ class _ProjectDetailEntryButtonsState extends State<ProjectDetailEntryButtons> {
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
                       builder: (context) =>
-                          NewImageEntryModal(widget.project.id),
+                          NewImageEntryDialog(widget.project.id),
                       fullscreenDialog: true,
                     ),
                   );
@@ -78,7 +78,7 @@ class _ProjectDetailEntryButtonsState extends State<ProjectDetailEntryButtons> {
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
                       builder: (context) =>
-                          NewVideoEntryModal(widget.project.id),
+                          NewVideoEntryDialog(widget.project.id),
                       fullscreenDialog: true,
                     ),
                   );
@@ -105,7 +105,9 @@ class _ProjectDetailEntryButtonsState extends State<ProjectDetailEntryButtons> {
                         onChanged: searchChanged,
                         onFieldSubmitted: (value) {
                           setState(() {
-                            searchMode = SearchMode.Results;
+                            searchMode = value.isEmpty
+                                ? SearchMode.None
+                                : SearchMode.Results;
                           });
                         },
                       ),

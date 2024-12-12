@@ -1,4 +1,4 @@
-import 'package:doku_maker/widgets/new_chip_modal.dart';
+import 'package:doku_maker/screens/dialogs/new_chip_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_select_flutter/bottom_sheet/multi_select_bottom_sheet.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
@@ -30,19 +30,18 @@ class _EditableChipListState extends State<EditableChipList> {
     super.initState();
   }
 
-  Future<bool> addChipModal() async {
-    return showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (ctx) => NewChipModal(
+  Future<bool> addChipDialog() async {
+    Navigator.of(context).push(MaterialPageRoute(
+      fullscreenDialog: true,
+      builder: (context) => NewChipDialog(
           title: widget.title,
           onSave: (String newValue) {
             setState(() {
               newChips.add(newValue);
             });
           }),
-    );
+    ));
+    return Future.value(true);
   }
 
   void _toggleEdit() {
@@ -106,7 +105,7 @@ class _EditableChipListState extends State<EditableChipList> {
         label: Text("Add"),
         backgroundColor: Theme.of(context).accentColor,
         avatar: Icon(Icons.add),
-        onPressed: addChipModal,
+        onPressed: addChipDialog,
       ));
     }
     return res;

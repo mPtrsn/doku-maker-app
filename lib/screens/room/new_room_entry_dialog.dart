@@ -8,16 +8,16 @@ import 'package:provider/provider.dart';
 
 import '../../config.dart';
 
-class NewRoomEntryModal extends StatefulWidget {
+class NewRoomEntryDialog extends StatefulWidget {
   final String roomId = Config.smartareaID;
 
-  NewRoomEntryModal();
+  NewRoomEntryDialog();
 
   @override
-  _NewRoomEntryModalState createState() => _NewRoomEntryModalState();
+  _NewRoomEntryDialogState createState() => _NewRoomEntryDialogState();
 }
 
-class _NewRoomEntryModalState extends State<NewRoomEntryModal> {
+class _NewRoomEntryDialogState extends State<NewRoomEntryDialog> {
   final _form = GlobalKey<FormState>();
 
   var _data = {'title': '', 'text': ''};

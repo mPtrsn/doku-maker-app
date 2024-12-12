@@ -6,16 +6,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class NewTextEntryModal extends StatefulWidget {
+class NewTextEntryDialog extends StatefulWidget {
   final String projectId;
   final ProjectTextEntry entry;
-  const NewTextEntryModal(this.projectId, [this.entry]);
+  const NewTextEntryDialog(this.projectId, [this.entry]);
 
   @override
-  _NewTextEntryModalState createState() => _NewTextEntryModalState();
+  _NewTextEntryDialogState createState() => _NewTextEntryDialogState();
 }
 
-class _NewTextEntryModalState extends State<NewTextEntryModal> {
+class _NewTextEntryDialogState extends State<NewTextEntryDialog> {
   final _form = GlobalKey<FormState>();
 
   var _data = {'title': '', 'text': ''};

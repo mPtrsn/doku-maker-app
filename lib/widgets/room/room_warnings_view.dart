@@ -1,7 +1,7 @@
 import 'package:doku_maker/models/room/RoomWarning.dart';
 import 'package:doku_maker/provider/auth_provider.dart';
 import 'package:doku_maker/provider/room_provider.dart';
-import 'package:doku_maker/screens/room/new_room_warning_modal.dart';
+import 'package:doku_maker/screens/room/new_room_warning_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -17,10 +17,10 @@ class RoomWarningsView extends StatelessWidget {
         Provider.of<AuthProvider>(context, listen: false).userId);
   }
 
-  void _openNewWarningModal(BuildContext context) {
+  void _openNewWarningDialog(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (context) => NewRoomWarningModal(),
+        builder: (context) => NewRoomWarningDialog(),
         fullscreenDialog: true,
       ),
     );
@@ -34,7 +34,7 @@ class RoomWarningsView extends StatelessWidget {
             ? Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: ElevatedButton(
-                  onPressed: () => _openNewWarningModal(context),
+                  onPressed: () => _openNewWarningDialog(context),
                   child: Text("Create Warning"),
                   style: TextButton.styleFrom(
                       primary: Theme.of(context).accentColor),
@@ -155,11 +155,12 @@ class AdminRoomWarningEntry extends RoomWarningEntry {
   AdminRoomWarningEntry(RoomWarning warning) : super(warning);
 
   Future<bool> enterEditMode(BuildContext context) async {
-    return showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (ctx) => NewRoomWarningModal(warning));
+    return Navigator.of(context).push(
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (context) => NewRoomWarningDialog(warning),
+      ),
+    );
   }
 
   @override

@@ -2,17 +2,17 @@ import 'package:doku_maker/provider/projects_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class DeleteProjectModal extends StatefulWidget {
+class DeleteProjectDialog extends StatefulWidget {
   final String id;
   final String projectName;
 
-  const DeleteProjectModal({this.id, this.projectName});
+  const DeleteProjectDialog({this.id, this.projectName});
 
   @override
-  _DeleteProjectModalState createState() => _DeleteProjectModalState();
+  _DeleteProjectDialogState createState() => _DeleteProjectDialogState();
 }
 
-class _DeleteProjectModalState extends State<DeleteProjectModal> {
+class _DeleteProjectDialogState extends State<DeleteProjectDialog> {
   final _form = GlobalKey<FormState>();
 
   Future _saveForm() async {
@@ -25,11 +25,14 @@ class _DeleteProjectModalState extends State<DeleteProjectModal> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.75,
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Delete this project?'),
+      ),
+      body: Container(
+        child: Container(
+          padding: const EdgeInsets.all(8.0),
+          height: MediaQuery.of(context).size.height,
           child: Form(
             key: _form,
             child: Column(children: [
